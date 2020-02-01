@@ -14,7 +14,17 @@ public class MultiArr {
     Columns: 4
     */
     public static void printRowAndCol(int[][] arr) {
-        //TODO: Your code here!
+        int rows = arr.length;
+        int cols = 0;
+
+        for (int[] row : arr) {
+            if (row.length > cols) {
+                cols = row.length;
+            }
+        }
+
+        System.out.println("Rows: " + rows);
+        System.out.println("Columns: " + cols);
     } 
 
     /**
@@ -22,14 +32,26 @@ public class MultiArr {
     @return maximal value present anywhere in the 2d array
     */
     public static int maxValue(int[][] arr) {
-        //TODO: Your code here!
-        return 0;
+        int max = 0;
+        for (int[] row : arr) {
+            for (int value : row) {
+                if (value > max) {
+                    max = value;
+                }
+            }
+        }
+        return max;
     }
 
     /**Return an array where each element is the sum of the 
     corresponding row of the 2d array*/
     public static int[] allRowSums(int[][] arr) {
-        //TODO: Your code here!!
-        return null;
+        int[] sum = new int[arr.length];
+        for (int i = 0; i < arr.length; i++) {
+            for (int n : arr[i]) {
+                sum[i] += n;
+            }
+        }
+        return sum;
     }
 }

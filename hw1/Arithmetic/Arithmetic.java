@@ -9,7 +9,5 @@ public class Arithmetic {
     }
 
     /** Returns the sum of A and B. */
-    public static double sum(double a, double b) {
-        return a * b; // WRONG
-    }
+    public static double sum(double a, double b) { return a + b; }
 }
