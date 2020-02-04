@@ -1,12 +1,13 @@
 /** Collection of compound-interest and related financial
  *  computations.
- *  @author
+ *  @author P. N. Hilfinger, Zoe Plaxco
  */
 public class CompoundInterest {
     /** Current year. */
-    static final int THIS_YEAR = 2019;
+    static final int THIS_YEAR = 2020;
+
     /** Return the number of years between TARGETYEAR and THIS_YEAR,
-     *  e.g. if THIS_YEAR is 2019 and TARGETYEAR is 2020, the result
+     *  e.g. if THIS_YEAR is 2020 and TARGETYEAR is 2021, the result
      *  should be 1. Throughout the assignment it is OK to assume that
      *  TARGETYEAR is >= THIS_YEAR. */
     static int numYears(int targetYear) {
@@ -18,7 +19,7 @@ public class CompoundInterest {
      *  asset in the year given by TARGETYEAR.
      *
      *  RATE is given as a percentage return. For example, if
-     *  PRESENTVALUE is 10, the rate is 12, and the TARGETYEAR is 2021,
+     *  PRESENTVALUE is 10, the rate is 12, and the TARGETYEAR is 2022,
      *  then the futureValue will be 10*1.12*1.12 = 12.544. */
     static double futureValue(double presentValue, double rate,
                               int targetYear) {
@@ -32,9 +33,9 @@ public class CompoundInterest {
      *  compounds annually at a constant rate of INFLATIONRATE.
      *
      *  For example, suppose PRESENTVALUE is 10, RATE is 12,
-     *  TARGETYEAR is 2021, and INFLATIONRATE is 3.
+     *  TARGETYEAR is 2022, and INFLATIONRATE is 3.
      *  In this case, the nominal value is 12.544. If we convert this into
-     *  2019 dollars, we get 12.544 * 0.97 * 0.97 = 11.8026496 dollars. */
+     *  2020 dollars, we get 12.544 * 0.97 * 0.97 = 11.8026496 dollars. */
     static double futureValueReal(double presentValue, double rate,
                                   int targetYear, double inflationRate) {
         double multiplier = 1.00 - (inflationRate / 100);
@@ -45,7 +46,7 @@ public class CompoundInterest {
      *  TARGETYEAR, with growth compounded annually at RATE. This method
      *  returns the total value of your savings in TARGETYEAR.
      *
-     *  For example, if PERYEAR is 5000, TARGETYEAR is 2021, and RATE is 10,
+     *  For example, if PERYEAR is 5000, TARGETYEAR is 2022, and RATE is 10,
      *  then the result will be 5000*1.1*1.1 + 5000*1.1 + 5000 =
      *  16550. */
     static double totalSavings(double perYear, int targetYear, double rate) {
@@ -78,11 +79,11 @@ public class CompoundInterest {
 
         // Do not change anything in this method below this line
         String dollarSummary =
-            String.format("Assuming a %.2f%% rate of return,"
-                          + " a dollar saved today would be worth"
-                          + " %.2f dollars in the year %d, or %.2f dollars"
-                          + " adjusted for inflation.", returnRate,
-                          nominalDollarValue, targetYear, realDollarValue);
+                String.format("Assuming a %.2f%% rate of return,"
+                                + " a dollar saved today would be worth"
+                                + " %.2f dollars in the year %d, or %.2f dollars"
+                                + " adjusted for inflation.", returnRate,
+                        nominalDollarValue, targetYear, realDollarValue);
 
         System.out.println(dollarSummary);
     }
@@ -98,12 +99,12 @@ public class CompoundInterest {
         // Do not change anything in this method below this line
 
         String savingsSummary =
-            String.format("Assuming a %.2f%% rate of return,"
-                          + " in the year %d, after saving %.2f"
-                          + " dollars per year, you'll have %.2f dollars or"
-                          + " %.2f dollars adjusted for inflation.",
-                          returnRate, targetYear, perYear,
-                          nominalSavings, realSavings);
+                String.format("Assuming a %.2f%% rate of return,"
+                                + " in the year %d, after saving %.2f"
+                                + " dollars per year, you'll have %.2f dollars or"
+                                + " %.2f dollars adjusted for inflation.",
+                        returnRate, targetYear, perYear,
+                        nominalSavings, realSavings);
 
         System.out.println(savingsSummary);
     }
@@ -118,8 +119,8 @@ public class CompoundInterest {
      *  PER_YEAR is how much money you will save per year until targetYear */
 
     static final double RETURN_RATE = 10,
-        INFLATION_RATE = 3,
-        PER_YEAR = 10000;
+            INFLATION_RATE = 3,
+            PER_YEAR = 10000;
 
     /** Print out future values for given parameters. */
     public static void main(String[] ignored) {
