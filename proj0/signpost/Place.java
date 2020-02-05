@@ -93,7 +93,23 @@ class Place {
     static PlaceList[][][] successorCells(int width, int height) {
         PlaceList[][][] M = new PlaceList[width][height][9];
 
-        // FIXME
+        for (int x = 0; x < width; x += 1) {
+            for (int y = 0; y < height; y += 1) {
+                PlaceList[] places = M[x][y];
+                for(int dir = 0; dir <= 8; dir += 1) {
+                    places[dir] = new PlaceList();
+                }
+                for (int x1 = 0; x1 < width; x1 += 1) {
+                    for (int y1 = 0; y1 < height; y1 += 1) {
+                        int dir = dirOf(x, y, x1, y1);
+                        if (dir != 0) {
+                            places[dir].add(pl(x1, y1));
+                            places[0].add(pl(x1, y1));
+                        }
+                    }
+                }
+            }
+        }
         return M;
     }
 

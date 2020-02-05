@@ -184,6 +184,11 @@ public class ModelTests {
         Sq s5 = model.new Sq(0, 2, 8, true, 4, 0);
         Sq s6 = model.new Sq(0, 1, 1, true, 4, 0);
 
+        Sq s7 = model.new Sq(1, 1, 0, false, 8, -1);
+        Sq s8 = model.new Sq(1, 3, 0, false, 1, -1);
+        Sq s9 = model.new Sq(4, 4, 0, false, 1, -1);
+        Sq s10 = model.new Sq(5, 5, 0, false, 1, -1);
+
         assertFalse("A square is not connectable to itself.", s1.connect(s1));
         checkSquare(s1, s1, null, null, 0, -1);
 
@@ -210,7 +215,7 @@ public class ModelTests {
                     s1.connect(s4));
         checkSquare(s1, s1, null, s3, 0, 1);
         checkSquare(s4, s4, null, null, 4, 0);
-
+    // Comment up until STOP when using my tests
         assertTrue("These squares should be connectable.", s3.connect(s4));
         checkSquare(s3, s1, s1, s4, 3, 0);
         checkSquare(s4, s1, s3, null, 4, 0);
@@ -224,6 +229,23 @@ public class ModelTests {
         assertTrue("These squares should be connectable.", s6.connect(s1));
         checkSquare(s1, s6, s6, s3, 2, 0);
         checkSquare(s6, s6, null, s1, 1, 0);
+    //STOP
+        /*My tests!
+        Uncomment when using them :)
+
+        assertTrue("These squares should be connectable.", s7.connect(s8));
+        checkSquare(s8, s7, s7, null, 0, 2);
+        checkSquare(s7, s7, null, s8, 0, 2);
+
+        assertTrue("These squares should be connectable.", s3.connect(s7));
+        checkSquare(s7, s1, s3, s8, 0,1);
+        checkSquare(s3, s1, s1, s7, 0,1);
+        */
+
+        /*Groups are being numbered incorrectly?*/
+//        assertTrue("These squares should be connectable.", s9.connect(s10));
+//        checkSquare(s10, s9, s9, null, 0, 2);
+//        checkSquare(s9, s9, null, s10, 0, 2);
     }
 
     /* We disregard the solution board passed into Model and instead

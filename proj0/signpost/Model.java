@@ -95,21 +95,13 @@ class Model implements Iterable<Model.Sq> {
         // puzzle-generation software is complete.
         // FIXME: Remove everything down to and including
         // "// END DUMMY SETUP".
-        _board = new Sq[][] {
-            { new Sq(0, 0, 0, false, 2, -1), new Sq(0, 1, 0, false, 2, -1),
-              new Sq(0, 2, 0, false, 4, -1), new Sq(0, 3, 1, true, 2, 0) },
-            { new Sq(1, 0, 0, false, 2, -1), new Sq(1, 1, 0, false, 2, -1),
-              new Sq(1, 2, 0, false, 6, -1), new Sq(1, 3, 0, false, 2, -1) },
-            { new Sq(2, 0, 0, false, 6, -1), new Sq(2, 1, 0, false, 2, -1),
-              new Sq(2, 2, 0, false, 6, -1), new Sq(2, 3, 0, false, 2, -1) },
-            { new Sq(3, 0, 16, true, 0, 0), new Sq(3, 1, 0, false, 5, -1),
-              new Sq(3, 2, 0, false, 6, -1), new Sq(3, 3, 0, false, 4, -1) }
-        };
-        for (Sq[] col: _board) {
-            for (Sq sq : col) {
-                _allSquares.add(sq);
-            }
-        }
+//        _board = new Sq[][];
+//        for (int x = 0; x < _width; x += 1) {
+//            for (int y = 0; y < _height; y += 1) {
+//                square = new Sq[]
+//                _board[x][y] =
+//            }
+//        }
         // END DUMMY SETUP
 
         // FIXME: Initialize _board so that _board[x][y] contains the Sq object
@@ -520,8 +512,21 @@ class Model implements Iterable<Model.Sq> {
          *    they are not part of the same connected sequence.
          */
         boolean connectable(Sq s1) {
-            // FIXME
-            return true;
+            if (this.direction() == s1.pl.dirOf(this.x, this.y, s1.pl.x, s1.pl.y)
+            && s1.predecessor() == null && this.successor() == null) {
+                if (this.sequenceNum() != 0 && s1.sequenceNum() != 0) {
+                    return this.sequenceNum() == s1.sequenceNum() - 1;
+                }
+                if (this.sequenceNum() == 0 || s1.sequenceNum() == 0) {
+                    if (this.group() == -1 && s1.group() == -1) {
+                        return true;
+                    }
+                    else {
+                        return this.group() != s1.group();
+                    }
+                }
+            }
+            return false;
         }
 
         /** Connect this square to S1, if both are connectable; otherwise do
@@ -535,19 +540,70 @@ class Model implements Iterable<Model.Sq> {
 
             _unconnected -= 1;
 
+            this._successor = s1;
+            s1._predecessor = this;
+
+
+            int successor_num = this.sequenceNum();
+            int predecessor_num = s1.sequenceNum();
+            boolean this_had_num = false;
+            boolean s1_had_num = false;
+
+
+            if (successor_num != 0) {
+                this_had_num = true;
+                Sq temp_sq = this;
+                while (temp_sq.successor() != null) {
+                    temp_sq._successor._sequenceNum = successor_num + 1;
+                    successor_num += 1;
+                    temp_sq = temp_sq.successor();
+                }
+            }
+            if (predecessor_num != 0) {
+                s1_had_num = true;
+                Sq temp_sq = s1;
+                while (temp_sq.predecessor() != null && predecessor_num > 1) {
+                    temp_sq._predecessor._sequenceNum = predecessor_num - 1;
+                    predecessor_num -= 1;
+                    temp_sq = temp_sq.predecessor();
+                }
+            }
+
+
+            Sq temp_sq = this;
+            while (temp_sq.successor() != null) {
+                temp_sq._successor._head = this.head();
+                temp_sq = temp_sq.successor();
+            }
+
+
+            if (this_had_num != s1_had_num) {
+                if (!this_had_num) {
+                    releaseGroup(this.group());
+                }
+                else {
+                    releaseGroup(s1.group());
+                }
+            }
+
+
+            if (this.sequenceNum() == 0 && s1.sequenceNum() == 0) {
+                this._head._group = joinGroups(this.group(), sgroup);
+            }
+
             // FIXME: Connect this square to its successor:
-            //        + Set this square's _successor field and S1's
+            //        Set this square's _successor field and S1's
             //          _predecessor field.
-            //        + If this square has a number, number all its successors
+            //        If this square has a number, number all its successors
             //          accordingly (if needed).
-            //        + If S1 is numbered, number this square and its
+            //        If S1 is numbered, number this square and its
             //          predecessors accordingly (if needed).
-            //        + Set the _head fields of this square's successors this
+            //        Set the _head fields of this square's successors this
             //          square's _head.
-            //        + If either of this square or S1 used to be unnumbered
+            //        If either of this square or S1 used to be unnumbered
             //          and is now numbered, release its group of whichever
             //          was unnumbered, so that it can be reused.
-            //        + If both this square and S1 are unnumbered, set the
+            //        If both this square and S1 are unnumbered, set the
             //          group of this square's head to the result of joining
             //          the two groups.
 
