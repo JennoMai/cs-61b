@@ -582,7 +582,7 @@ class Model implements Iterable<Model.Sq> {
                     releaseGroup(this.group());
                 }
                 else {
-                    releaseGroup(s1.group());
+                    releaseGroup(sgroup);
                 }
             }
 
@@ -619,6 +619,18 @@ class Model implements Iterable<Model.Sq> {
             _unconnected += 1;
             next._predecessor = _successor = null;
             if (_sequenceNum == 0) {
+                if (this.predecessor() == null && next.successor() == null) {
+                    releaseGroup(this.group());
+                    this._group = next._group = -1;
+                }
+                else if (this.predecessor() == null) {
+                    this._group = -1;
+                }
+                else if (next.successor() == null) {
+                    next._group = -1;
+                } else {
+                     next.head()._group = newGroup();
+                }
                 // FIXME: If both this and next are now one-element groups,
                 //        release their former group and set both group
                 //        numbers to -1.
@@ -628,6 +640,43 @@ class Model implements Iterable<Model.Sq> {
                 //        Otherwise, the group has been split into two multi-
                 //        element groups.  Create a new group for next.
             } else {
+                boolean has_fixed = false;
+                for (Sq temp = this; temp != null; temp = temp._predecessor) {
+                    if (temp.hasFixedNum()) {
+                        has_fixed = true;
+                        break;
+                    }
+                }
+                if (!has_fixed) {
+                    for (Sq temp = this; temp != null; temp = temp._predecessor) {
+                        temp._sequenceNum = 0;
+                    }
+                    if (this.predecessor() != null) {
+                        this.head()._group = newGroup();
+                    }
+                    else {
+                        this.head()._group = -1;
+                    }
+                }
+
+                has_fixed = false;
+                for (Sq temp = next; temp != null; temp = temp._successor) {
+                    if (temp.hasFixedNum()) {
+                        has_fixed = true;
+                        break;
+                    }
+                }
+                if (!has_fixed) {
+                    for (Sq temp = next; temp != null; temp = temp._successor) {
+                        temp._sequenceNum = 0;
+                    }
+                    if (next.successor() != null) {
+                        next._group = newGroup();
+                    }
+                    else {
+                        next._group = -1;
+                    }
+                }
                 // FIXME: If neither this nor any square in its group that
                 //        precedes it has a fixed sequence number, set all
                 //        their sequence numbers to 0 and create a new group
@@ -638,6 +687,9 @@ class Model implements Iterable<Model.Sq> {
                 //        their sequence numbers to 0 and create a new
                 //        group for them if next has a current successor
                 //        (otherwise set next's group to -1.)
+            }
+            for (Sq temp = next; temp != null; temp = temp._successor) {
+                temp._head = next;
             }
             // FIXME: Set the _head of next and all squares in its group to
             //        next.
