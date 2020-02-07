@@ -173,7 +173,14 @@ public class IntDList {
      */
     public int deleteFront() {
         // FIXME: Implement this method and return correct value
-        return 0;
+        int value = this._front._val;
+        this._front = this._front._next;
+        if (this._front != null) {
+            this._front._prev = null;
+        } else {
+            this._back = null;
+        }
+        return value;
     }
 
     /**
@@ -183,7 +190,14 @@ public class IntDList {
      */
     public int deleteBack() {
         // FIXME: Implement this method and return correct value
-        return 0;
+        int value = this._back._val;
+        this._back = this._back._prev;
+        if (this._back != null) {
+            this._back._next = null;
+        } else {
+            this._front = null;
+        }
+        return value;
     }
 
     /**
@@ -199,7 +213,34 @@ public class IntDList {
      */
     public int deleteAtIndex(int index) {
         // FIXME: Implement this method and return correct value
-        return 0;
+        if (index == 0 || index == -this.size()) {
+            return deleteFront();
+        }
+        else if (index == this.size() - 1 || index == -1) {
+            return deleteBack();
+        }
+        else {
+            int value;
+            DNode current;
+            if (index > 0) {
+                current = _front;
+                while (index > 0) {
+                    current = current._next;
+                    index -= 1;
+                }
+            }
+            else {
+                current = _back;
+                while (index < -1) {
+                    current = current._prev;
+                    index += 1;
+                }
+            }
+            value = current._val;
+            current._prev._next = current._next;
+            current._next._prev = current._prev;
+            return value;
+        }
     }
 
     /**
@@ -212,7 +253,18 @@ public class IntDList {
      */
     public String toString() {
         // FIXME: Implement this method to return correct value
-        return null;
+        DNode current = _front;
+        String listString = "[";
+        while (current != null) {
+            if (current._next != null) {
+                listString += current._val + ", ";
+            }
+            else {
+                listString += current._val;
+            }
+            current = current._next;
+        }
+        return listString + "]";
     }
 
     /**
