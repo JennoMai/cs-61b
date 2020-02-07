@@ -92,17 +92,19 @@ class Model implements Iterable<Model.Sq> {
         // DUMMY SETUP
         // This is a particular puzzle provided as a filler until the
         // puzzle-generation software is complete.
-        // FIXME: Remove everything down to and including
-        // "// END DUMMY SETUP".
-//        _board = new Sq[][];
-//        for (int x = 0; x < _width; x += 1) {
-//            for (int y = 0; y < _height; y += 1) {
-//                square = new Sq[]
-//                _board[x][y] =
-//            }
-//        }
-        // END DUMMY SETUP
+        for (int n = 1; n <= last; n += 1) {
+            Sq currentSq = solnNumToSq(n);
+            _board[currentSq.x][currentSq.y] = currentSq;
 
+            _allSquares.add(currentSq);
+
+            _solnNumToPlace[n] = solnNumToPlace(n);
+        }
+        if (_solnNumToPlace.length != last) {
+            throw badArgs("not enough sequence numbers");
+        }
+
+        // END DUMMY SETUP
         // FIXME: Initialize _board so that _board[x][y] contains the Sq object
         //        representing the contents at cell (x, y), _allSquares
         //        contains the list of all Sq objects on the board, and
@@ -110,6 +112,15 @@ class Model implements Iterable<Model.Sq> {
         //        contains sequence number k.  Check that all numbers from
         //        1 - last appear; else throw IllegalArgumentException (see
         //        badArgs utility).
+
+        for (Sq[] row : _board) {
+            for (Sq square : row) {
+                square._successors = _allSuccessors[square.x][square.y][dir];
+                for (Place pl : _allSuccessors[square.x][square.y][0]) {
+                    _board[pl.x][pl.y]._predecessors.add()
+                }
+            }
+        }
 
         // FIXME: For each Sq object on the board, set its _successors list
         //        to the list of locations of all cells that it might
