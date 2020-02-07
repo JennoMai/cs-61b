@@ -129,43 +129,40 @@ public class IntDList {
      */
     public void insertAtIndex(int d, int index) {
         // FIXME: Implement this method
-        DNode current;
-        DNode new_node = new DNode(d);
-        if (index >= 0) {
-            current = this._front;
-            while (index > 0) {
-                current = current._next;
-                index -= 1;
-            }
-            if (current != null) {
+        if (index == 0 || index == -(1 + this.size())) {
+            insertFront(d);
+        }
+        else if (index == this.size() || index == -1) {
+            insertBack(d);
+        }
+        else {
+            DNode current;
+            DNode new_node = new DNode(d);
+            if (index >= 0) {
+                current = this._front;
+                while (index > 0) {
+                    current = current._next;
+                    index -= 1;
+                }
                 if (current._prev != null) {
                     current._prev._next = new_node;
                     new_node._prev = current._prev;
                 }
                 current._prev = new_node;
-            }
-            new_node._next = current;
-        }
-        else {
-            current = this._back;
-            while (index < -1) {
-                current = current._prev;
-                index += 1;
-            }
-            if (current != null) {
+                new_node._next = current;
+            } else {
+                current = this._back;
+                while (index < -1) {
+                    current = current._prev;
+                    index += 1;
+                }
                 if (current._next != null) {
                     current._next._prev = new_node;
                     new_node._next = current._next;
                 }
                 current._next = new_node;
+                new_node._prev = current;
             }
-            new_node._prev = current;
-        }
-        if (new_node._prev == null) {
-            this._front = new_node;
-        }
-        if (new_node._next == null) {
-            this._back = new_node;
         }
     }
 
