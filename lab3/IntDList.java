@@ -47,8 +47,13 @@ public class IntDList {
      * @return The number of elements in this list.
      */
     public int size() {
-        // FIXME: Implement this method and return correct value
-        return 0;
+        int size = 0;
+        DNode current = this._front;
+        while (current != null) {
+            size += 1;
+            current = current._next;
+        }
+        return size;
     }
 
     /**
@@ -63,7 +68,22 @@ public class IntDList {
      */
     public int get(int i) {
         // FIXME: Implement this method and return correct value
-        return 0;
+        DNode current;
+        if (i >= 0) {
+            current = _front;
+            while (i > 0) {
+                current = current._next;
+                i -= 1;
+            }
+        }
+        else {
+            current = _back;
+            while (i < -1) {
+                current = current._prev;
+                i += 1;
+            }
+        }
+        return current._val;
     }
 
     /**
@@ -71,6 +91,14 @@ public class IntDList {
      */
     public void insertFront(int d) {
         // FIXME: Implement this method
+        DNode new_node = new DNode(null, d, this._front);
+        if (this._front != null) {
+            this._front._prev = new_node;
+        }
+        if (this._back == null) {
+            this._back = new_node;
+        }
+        this._front = new_node;
     }
 
     /**
@@ -78,6 +106,14 @@ public class IntDList {
      */
     public void insertBack(int d) {
         // FIXME: Implement this method
+        DNode new_node = new DNode(this._back, d, null);
+        if (this._back != null) {
+            this._back._next = new_node;
+        }
+        if (this._front == null) {
+            this._front = new_node;
+        }
+        this._back = new_node;
     }
 
     /**
@@ -93,6 +129,44 @@ public class IntDList {
      */
     public void insertAtIndex(int d, int index) {
         // FIXME: Implement this method
+        DNode current;
+        DNode new_node = new DNode(d);
+        if (index >= 0) {
+            current = this._front;
+            while (index > 0) {
+                current = current._next;
+                index -= 1;
+            }
+            if (current != null) {
+                if (current._prev != null) {
+                    current._prev._next = new_node;
+                    new_node._prev = current._prev;
+                }
+                current._prev = new_node;
+            }
+            new_node._next = current;
+        }
+        else {
+            current = this._back;
+            while (index < -1) {
+                current = current._prev;
+                index += 1;
+            }
+            if (current != null) {
+                if (current._next != null) {
+                    current._next._prev = new_node;
+                    new_node._next = current._next;
+                }
+                current._next = new_node;
+            }
+            new_node._prev = current;
+        }
+        if (new_node._prev == null) {
+            this._front = new_node;
+        }
+        if (new_node._next == null) {
+            this._back = new_node;
+        }
     }
 
     /**
