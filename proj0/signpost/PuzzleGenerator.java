@@ -128,8 +128,32 @@ class PuzzleGenerator implements PuzzleSource {
      *  numbered square in the proper direction from START (with the next
      *  number in sequence). */
     static Sq findUniqueSuccessor(Model model, Sq start) {
-        // FIXME: Fill in to satisfy the comment.
-        return null;
+        if (start.successors() == null) {
+            return null;
+        }
+        int seqNum = start.sequenceNum();
+        if (seqNum != 0) {
+            for (Place pl : start.successors()) {
+                Sq square = model.get(pl);
+                if (square.sequenceNum() == seqNum + 1) {
+                    return square;
+                }
+            }
+        }
+        int connectables = 0;
+        Sq uniqueSq = null;
+
+        for (Place pl : start.successors()) {
+            Sq square = model.get(pl);
+            if (start.connectable(square)) {
+                uniqueSq = square;
+                connectables += 1;
+            }
+            if (connectables > 1) {
+                return null;
+            }
+        }
+        return uniqueSq;
     }
 
     /** Make all unique backward connections in MODEL (those in which there is
@@ -157,8 +181,31 @@ class PuzzleGenerator implements PuzzleSource {
      *  the only unconnected predecessor.  This is because findUniqueSuccessor
      *  already finds the other cases of numbered, unconnected cells. */
     static Sq findUniquePredecessor(Model model, Sq end) {
-        // FIXME: Replace the following to satisfy the comment.
-        return null;
+        if (end.predecessors() == null) {
+            return null;
+        }
+        int seqNum = end.sequenceNum();
+        if (seqNum != 0) {
+            for (Place pl : end.predecessors()) {
+                Sq square = model.get(pl);
+                if (square.sequenceNum() == seqNum - 1) {
+                    return square;
+                }
+            }
+        }
+        int connectables = 0;
+        Sq uniqueSq = null;
+        for (Place pl : end.predecessors()) {
+            Sq square = model.get(pl);
+            if (square.connectable(end)) {
+                uniqueSq = square;
+                connectables += 1;
+            }
+            if (connectables > 1) {
+                return null;
+            }
+        }
+        return uniqueSq;
     }
 
     /** Remove all links in MODEL and unfix numbers (other than the first and
