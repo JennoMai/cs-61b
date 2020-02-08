@@ -92,18 +92,45 @@ class Model implements Iterable<Model.Sq> {
         // DUMMY SETUP
         // This is a particular puzzle provided as a filler until the
         // puzzle-generation software is complete.
-        for (int n = 1; n <= last; n += 1) {
-            Sq currentSq = solnNumToSq(n);
-            _board[currentSq.x][currentSq.y] = currentSq;
-
-            _allSquares.add(currentSq);
-
-            _solnNumToPlace[n] = solnNumToPlace(n);
+        _board = new Sq[_width][_height];
+        _solnNumToPlace = new Place[last+1];
+        for (int x = 0; x < _width; x++) {
+            for (int y = 0; y < _height; y++) {
+                int sol_number = _solution[x][y];
+                int seqNum = 0;
+                boolean isFixed = false;
+                int groupNo = -1;
+                int dir = 0;
+                if (sol_number == 1) {
+                    isFixed = true;
+                    groupNo = 0;
+                    seqNum = 1;
+                }
+                else if (sol_number == last) {
+                    isFixed = true;
+                    groupNo = 0;
+                    seqNum = last;
+                }
+                for (int x1 = 0; x1 < _width; x1++) {
+                    for (int y1 = 0; y1 < _height; y1++) {
+                        if (_solution[x1][y1] == sol_number + 1) {
+                            dir = dirOf(x, y, x1, y1);
+                            break;
+                        }
+                    }
+                    if (dir != 0) {
+                        break;
+                    }
+                }
+                Sq newSq = new Sq(x, y, seqNum, isFixed, dir, groupNo);
+                _board[x][y] = newSq;
+                _solnNumToPlace[sol_number] = newSq.pl;
+                _allSquares.add(newSq);
+            }
         }
-        if (_solnNumToPlace.length != last) {
-            throw badArgs("not enough sequence numbers");
+        if (_solnNumToPlace.length != last + 1) {
+            throw badArgs("Not enough numbers");
         }
-
         // END DUMMY SETUP
         // FIXME: Initialize _board so that _board[x][y] contains the Sq object
         //        representing the contents at cell (x, y), _allSquares
@@ -113,12 +140,18 @@ class Model implements Iterable<Model.Sq> {
         //        1 - last appear; else throw IllegalArgumentException (see
         //        badArgs utility).
 
-        for (Sq[] row : _board) {
-            for (Sq square : row) {
-                square._successors = _allSuccessors[square.x][square.y][dir];
-                for (Place pl : _allSuccessors[square.x][square.y][0]) {
-                    _board[pl.x][pl.y]._predecessors.add()
-                }
+        for (int x = 0; x < _width; x++) {
+            for (int y = 0; y < _height; y++) {
+                Sq current = _board[x][y];
+                PlaceList[][][] M = successorCells(_width, _height);
+                current._successors = M[x][y][current.direction()];
+                    for (Place pl : current._successors) {
+                        Sq successor = get(pl);
+                        if (successor._predecessors == null) {
+                            successor._predecessors = new PlaceList();
+                        }
+                        successor._predecessors.add(current.pl);
+                    }
             }
         }
 
@@ -145,6 +178,15 @@ class Model implements Iterable<Model.Sq> {
         //        the Sq objects in MODEL other than their _successor,
         //        _predecessor, and _head fields (which can't necessarily be
         //        set until all the Sq objects are first created.)
+        _board = new Sq[_width][_height];
+        for (int x = 0; x < _width; x++) {
+            for (int y = 0; y < _height; y++) {
+                Sq modelSq = model._board[x][y];
+                Sq newSq = new Sq(modelSq.x, modelSq.y, modelSq.sequenceNum(), modelSq.hasFixedNum(), modelSq.direction(), modelSq.group());
+                _board[x][y] = newSq;
+                _allSquares.add(newSq);
+            }
+        }
 
         // FIXME: Once all the new Sq objects are in place, fill in their
         //        _successor, _predecessor, and _head fields.  For example,
@@ -155,6 +197,23 @@ class Model implements Iterable<Model.Sq> {
         //        position (4, 1) in this copy.  Be careful NOT to have
         //        any of these fields in the copy pointing at the old Sqs in
         //        MODEL.
+        for (int x = 0; x < _width; x++) {
+            for (int y = 0; y < _height; y++) {
+                Sq modelSq = model._board[x][y];
+                Sq mSuccessor = modelSq.successor();
+                Sq mPredecessor = modelSq.predecessor();
+                Sq mHead = modelSq.head();
+
+                Sq current = _board[x][y];
+                if (mSuccessor != null) {
+                    current._successor = _board[mSuccessor.x][mSuccessor.y];
+                }
+                if (mPredecessor != null) {
+                    current._predecessor = _board[mPredecessor.x][mPredecessor.y];
+                }
+                current._head = _board[mHead.x][mHead.y];
+            }
+        }
     }
 
     /** Returns the width (number of columns of cells) of the board. */
