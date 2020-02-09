@@ -705,7 +705,11 @@ class Model implements Iterable<Model.Sq> {
             }
 
             if (this_num == 0 && s1_num == 0) {
-                this._head._group = joinGroups(this._group, sgroup);
+                int newGroup = joinGroups(this._group, sgroup);
+                this._head._group = newGroup;
+                for (Sq temp = this._head; temp != null; temp = temp.successor()) {
+                    temp._group = newGroup;
+                }
             }
 
 
