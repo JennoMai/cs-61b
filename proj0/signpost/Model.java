@@ -687,7 +687,10 @@ class Model implements Iterable<Model.Sq> {
 
             if (this_had_num != s1_had_num) {
                 if (!this_had_num) {
-                    releaseGroup(this.group());
+                    releaseGroup(this._group);
+                    for (Sq temp = this; temp != null; temp = temp._predecessor) {
+                        temp._group = 0;
+                    }
                 }
                 else {
                     releaseGroup(sgroup);
@@ -698,11 +701,9 @@ class Model implements Iterable<Model.Sq> {
                 this._head._group = joinGroups(this.group(), sgroup);
             }
 
-            Sq temp_sq = this;
-            while (temp_sq.successor() != null) {
-                temp_sq._successor._head = this.head();
-                temp_sq._successor._group = this.head().group();
-                temp_sq = temp_sq.successor();
+            for (Sq temp_sq = this; temp_sq != null; temp_sq = temp_sq.successor()) {
+                temp_sq._head = this.head();
+                temp_sq._group = this.head().group();
             }
 
 
