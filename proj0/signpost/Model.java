@@ -745,7 +745,7 @@ class Model implements Iterable<Model.Sq> {
                 else if (next.successor() == null) {
                     next._group = -1;
                 } else {
-                     next.head()._group = newGroup();
+                     next._group = newGroup();
                 }
                 // FIXME: If both this and next are now one-element groups,
                 //        release their former group and set both group
@@ -806,6 +806,7 @@ class Model implements Iterable<Model.Sq> {
             }
             for (Sq temp = next; temp != null; temp = temp._successor) {
                 temp._head = next;
+                temp._group = next._group;
             }
             // FIXME: Set the _head of next and all squares in its group to
             //        next.
