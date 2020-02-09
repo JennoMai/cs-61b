@@ -701,6 +701,7 @@ class Model implements Iterable<Model.Sq> {
             Sq temp_sq = this;
             while (temp_sq.successor() != null) {
                 temp_sq._successor._head = this.head();
+                temp_sq._successor._group = this.head().group();
                 temp_sq = temp_sq.successor();
             }
 
