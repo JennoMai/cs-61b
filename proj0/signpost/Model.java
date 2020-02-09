@@ -392,6 +392,7 @@ class Model implements Iterable<Model.Sq> {
     /** Combine the groups G1 and G2, returning the resulting group. Assumes
      *  G1 != 0 != G2 and G1 != G2. */
     private int joinGroups(int g1, int g2) {
+        System.out.println(g1 + " " + g2);
         assert (g1 != 0 && g2 != 0);
         if (g1 == -1 && g2 == -1) {
             return newGroup();
@@ -652,13 +653,13 @@ class Model implements Iterable<Model.Sq> {
             if (!connectable(s1)) {
                 return false;
             }
+
             int sgroup = s1.group();
 
             _unconnected -= 1;
 
             this._successor = s1;
             s1._predecessor = this;
-
 
             int this_num = this.sequenceNum();
             int s1_num = s1.sequenceNum();
@@ -685,25 +686,27 @@ class Model implements Iterable<Model.Sq> {
                 }
             }
 
+            for (Sq temp_sq = this; temp_sq != null; temp_sq = temp_sq.successor()) {
+                temp_sq._head = this.head();
+            }
+
             if (this_had_num != s1_had_num) {
                 if (!this_had_num) {
                     releaseGroup(this._group);
                     for (Sq temp = this; temp != null; temp = temp._predecessor) {
-                        temp._group = 0;
+                        temp._group = s1._group;
                     }
                 }
                 else {
                     releaseGroup(sgroup);
+                    for (Sq temp = s1; temp != null; temp = temp._successor) {
+                        temp._group = this._group;
+                    }
                 }
             }
 
-            for (Sq temp_sq = this; temp_sq != null; temp_sq = temp_sq.successor()) {
-                temp_sq._head = this.head();
-                temp_sq._group = this.head().group();
-            }
-
-            if (this.sequenceNum() == 0 && s1.sequenceNum() == 0) {
-                this._head._group = joinGroups(this.group(), sgroup);
+            if (this_num == 0 && s1_num == 0) {
+                this._head._group = joinGroups(this._group, sgroup);
             }
 
 
@@ -734,7 +737,7 @@ class Model implements Iterable<Model.Sq> {
                 return;
             }
             _unconnected += 1;
-            next._predecessor = _successor = null;
+            next._predecessor = this._successor = null;
             if (_sequenceNum == 0) {
                 if (this.predecessor() == null && next.successor() == null) {
                     releaseGroup(this.group());
@@ -770,8 +773,7 @@ class Model implements Iterable<Model.Sq> {
                     }
                     if (this.predecessor() != null) {
                         this.head()._group = newGroup();
-                    }
-                    else {
+                    } else {
                         this.head()._group = -1;
                     }
                 }
@@ -789,8 +791,7 @@ class Model implements Iterable<Model.Sq> {
                     }
                     if (next.successor() != null) {
                         next._group = newGroup();
-                    }
-                    else {
+                    } else {
                         next._group = -1;
                     }
                 }
@@ -807,7 +808,6 @@ class Model implements Iterable<Model.Sq> {
             }
             for (Sq temp = next; temp != null; temp = temp._successor) {
                 temp._head = next;
-                temp._group = next._group;
             }
             // FIXME: Set the _head of next and all squares in its group to
             //        next.
