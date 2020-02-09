@@ -392,7 +392,6 @@ class Model implements Iterable<Model.Sq> {
     /** Combine the groups G1 and G2, returning the resulting group. Assumes
      *  G1 != 0 != G2 and G1 != G2. */
     private int joinGroups(int g1, int g2) {
-        System.out.println(g1 + " " + g2);
         assert (g1 != 0 && g2 != 0);
         if (g1 == -1 && g2 == -1) {
             return newGroup();
@@ -698,14 +697,15 @@ class Model implements Iterable<Model.Sq> {
                 }
             }
 
-            if (this.sequenceNum() == 0 && s1.sequenceNum() == 0) {
-                this._head._group = joinGroups(this.group(), sgroup);
-            }
-
             for (Sq temp_sq = this; temp_sq != null; temp_sq = temp_sq.successor()) {
                 temp_sq._head = this.head();
                 temp_sq._group = this.head().group();
             }
+
+            if (this.sequenceNum() == 0 && s1.sequenceNum() == 0) {
+                this._head._group = joinGroups(this.group(), sgroup);
+            }
+
 
 
             // FIXME: Connect this square to its successor:
@@ -715,7 +715,7 @@ class Model implements Iterable<Model.Sq> {
             //          accordingly (if needed).
             //        If S1 is numbered, number this square and its
             //          predecessors accordingly (if needed).
-            //        Set the _head fields of this square's successors this
+            //        Set the _head fields of this square's successors to this
             //          square's _head.
             //        If either of this square or S1 used to be unnumbered
             //          and is now numbered, release its group of whichever
