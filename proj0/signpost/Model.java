@@ -392,7 +392,7 @@ class Model implements Iterable<Model.Sq> {
     /** Combine the groups G1 and G2, returning the resulting group. Assumes
      *  G1 != 0 != G2 and G1 != G2. */
     private int joinGroups(int g1, int g2) {
-        assert (g1 != 0 && g2 != 0);
+//        assert (g1 != 0 && g2 != 0);
         if (g1 == -1 && g2 == -1) {
             return newGroup();
         } else if (g1 == -1) {
