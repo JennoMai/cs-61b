@@ -660,27 +660,27 @@ class Model implements Iterable<Model.Sq> {
             s1._predecessor = this;
 
 
-            int successor_num = this.sequenceNum();
-            int predecessor_num = s1.sequenceNum();
+            int this_num = this.sequenceNum();
+            int s1_num = s1.sequenceNum();
             boolean this_had_num = false;
             boolean s1_had_num = false;
 
 
-            if (successor_num != 0) {
+            if (this_num != 0) {
                 this_had_num = true;
                 Sq temp_sq = this;
                 while (temp_sq.successor() != null) {
-                    temp_sq._successor._sequenceNum = successor_num + 1;
-                    successor_num += 1;
+                    temp_sq._successor._sequenceNum = this_num + 1;
+                    this_num += 1;
                     temp_sq = temp_sq.successor();
                 }
             }
-            if (predecessor_num != 0) {
+            if (s1_num != 0) {
                 s1_had_num = true;
                 Sq temp_sq = s1;
-                while (temp_sq.predecessor() != null && predecessor_num > 1) {
-                    temp_sq._predecessor._sequenceNum = predecessor_num - 1;
-                    predecessor_num -= 1;
+                while (temp_sq.predecessor() != null && s1_num > 1) {
+                    temp_sq._predecessor._sequenceNum = s1_num - 1;
+                    s1_num -= 1;
                     temp_sq = temp_sq.predecessor();
                 }
             }
@@ -694,15 +694,16 @@ class Model implements Iterable<Model.Sq> {
                 }
             }
 
+            if (this.sequenceNum() == 0 && s1.sequenceNum() == 0) {
+                this._head._group = joinGroups(this.group(), sgroup);
+            }
+
             Sq temp_sq = this;
             while (temp_sq.successor() != null) {
                 temp_sq._successor._head = this.head();
                 temp_sq = temp_sq.successor();
             }
 
-            if (this.sequenceNum() == 0 && s1.sequenceNum() == 0) {
-                this._head._group = joinGroups(this.group(), sgroup);
-            }
 
             // FIXME: Connect this square to its successor:
             //        Set this square's _successor field and S1's
