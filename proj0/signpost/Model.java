@@ -344,7 +344,7 @@ class Model implements Iterable<Model.Sq> {
     /** Sets the numbers in this board's squares to the solution from which
      *  this board was last initialized by the constructor. */
     void solve() {
-        for (int n = 1; n < this.size(); n++) {
+        for (int n = 1; n < this.size() + 1; n++) {
             Sq current = solnNumToSq(n);
             current._sequenceNum = n;
             if (n != 1) {
