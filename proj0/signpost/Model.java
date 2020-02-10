@@ -616,17 +616,22 @@ class Model implements Iterable<Model.Sq> {
          *    they are not part of the same connected sequence.
          */
         boolean connectable(Sq s1) {
-            if (this.direction() == s1.pl.dirOf(this.x, this.y, s1.pl.x, s1.pl.y)
-            && s1.predecessor() == null && this.successor() == null) {
+            if (this.direction()
+                == s1.pl.dirOf(this.x, this.y, s1.pl.x, s1.pl.y)
+                && s1.predecessor() == null
+                && this.successor() == null) {
                 if (this.sequenceNum() != 0 && s1.sequenceNum() != 0) {
                     return this.sequenceNum() == s1.sequenceNum() - 1;
                 }
                 if (this.sequenceNum() == 0 || s1.sequenceNum() == 0) {
-                    if (this.group() == -1 && s1.group() == -1 && s1.sequenceNum() != 1) {
+                    if (this.group() == -1
+                        && s1.group() == -1
+                        && s1.sequenceNum() != 1) {
                         return true;
                     }
                     else {
-                        return (this.head() != s1.head()) && s1.sequenceNum() != 1;
+                        return (this.head() != s1.head())
+                                && s1.sequenceNum() != 1;
                     }
                 }
             }
