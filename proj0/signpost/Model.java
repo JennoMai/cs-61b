@@ -753,7 +753,7 @@ class Model implements Iterable<Model.Sq> {
                 } else if (next.successor() == null) {
                     next._group = -1;
                 } else {
-                     next._group = newGroup();
+                    next._group = newGroup();
                 }
             } else {
                 boolean hasFixed = false;
