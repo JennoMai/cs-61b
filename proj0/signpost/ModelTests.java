@@ -301,8 +301,8 @@ public class ModelTests {
         Model model = new Model(tr(SOLN1));
         assertEquals(8, model.arrowDirection(0, 0));
         assertEquals(0, model.arrowDirection(3, 0));
-        assertEquals(2, model.arrowDirection(0,3));
-        assertEquals(1, model.arrowDirection(1,0));
+        assertEquals(2, model.arrowDirection(0, 3));
+        assertEquals(1, model.arrowDirection(1, 0));
     }
 
     /* The following array data is written to look on the page like
