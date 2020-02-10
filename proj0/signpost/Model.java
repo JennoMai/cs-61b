@@ -63,7 +63,7 @@ import static signpost.Utils.*;
  *  0) and all cells with fixed sequence numbers appear at the
  *  corresponding position in that sequence.
  *
- *  @author
+ *  @author Jenny Mei
  */
 class Model implements Iterable<Model.Sq> {
 
@@ -659,7 +659,7 @@ class Model implements Iterable<Model.Sq> {
             if (!connectable(s1)) {
                 return false;
             }
-
+            int sgroup = s1.group();
             _unconnected -= 1;
 
             this._successor = s1;
@@ -694,7 +694,8 @@ class Model implements Iterable<Model.Sq> {
             if (thisHadNum != s1HadNum) {
                 if (!thisHadNum) {
                     releaseGroup(this._group);
-                    for (Sq temp = this; temp != null; temp = temp._predecessor) {
+                    for (Sq temp = this; temp != null;
+                         temp = temp._predecessor) {
                         temp._group = s1._group;
                     }
                 } else {
@@ -707,7 +708,8 @@ class Model implements Iterable<Model.Sq> {
             if (thisNum == 0 && s1Num == 0) {
                 int newGroup = joinGroups(this._group, sgroup);
                 this._head._group = newGroup;
-                for (Sq temp = this._head; temp != null; temp = temp.successor()) {
+                for (Sq temp = this._head; temp != null;
+                     temp = temp.successor()) {
                     temp._group = newGroup;
                 }
             }
@@ -746,11 +748,9 @@ class Model implements Iterable<Model.Sq> {
                 if (this.predecessor() == null && next.successor() == null) {
                     releaseGroup(this.group());
                     this._group = next._group = -1;
-                }
-                else if (this.predecessor() == null) {
+                } else if (this.predecessor() == null) {
                     this._group = -1;
-                }
-                else if (next.successor() == null) {
+                } else if (next.successor() == null) {
                     next._group = -1;
                 } else {
                      next._group = newGroup();
@@ -764,7 +764,8 @@ class Model implements Iterable<Model.Sq> {
                     }
                 }
                 if (!hasFixed) {
-                    for (Sq temp = this; temp != null; temp = temp._predecessor) {
+                    for (Sq temp = this; temp != null;
+                         temp = temp._predecessor) {
                         temp._sequenceNum = 0;
                     }
                     if (this.predecessor() != null) {
