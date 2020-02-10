@@ -107,7 +107,7 @@ class Model implements Iterable<Model.Sq> {
         deepCopy(solution, _solution);
 
         _board = new Sq[_width][_height];
-        _solnNumToPlace = new Place[last+1];
+        _solnNumToPlace = new Place[last + 1];
         for (int x = 0; x < _width; x++) {
             for (int y = 0; y < _height; y++) {
                 int seqNum = 0;
@@ -121,12 +121,13 @@ class Model implements Iterable<Model.Sq> {
                 }
                 for (int x1 = 0; x1 < _width; x1++) {
                     for (int y1 = 0; y1 < _height; y1++) {
-                        if (_solution[x1][y1] == solution[x][y]+1) {
+                        if (_solution[x1][y1] == solution[x][y] + 1) {
                             dir = dirOf(x, y, x1, y1);
                             break;
                         }
                     }
-                    if (dir != 0) { break; }
+                    if (dir != 0) {
+                        break; }
                 }
                 Sq newSq = new Sq(x, y, seqNum, isFixed, dir, groupNo);
                 _board[x][y] = newSq;
@@ -135,7 +136,7 @@ class Model implements Iterable<Model.Sq> {
                 _allSquares.add(newSq);
             }
         }
-        if (allNums.length() != last+1) {
+        if (allNums.length() != last + 1) {
             throw badArgs("Not enough numbers");
         }
         for (int x = 0; x < _width; x++) {
@@ -156,6 +157,19 @@ class Model implements Iterable<Model.Sq> {
     }
 
     /** Initializes a copy of MODEL. */
+    /* FIXME: Initialize _board and _allSquares to contain copies of the
+        the Sq objects in MODEL other than their _successor,
+        _predecessor, and _head fields (which can't necessarily be
+        set until all the Sq objects are first created.) */
+    /* FIXME: Once all the new Sq objects are in place, fill in their
+        _successor, _predecessor, and _head fields.  For example,
+        if in MODEL, the _successor field of the Sq at
+        position (2, 3) pointed to the Sq in MODEL at position
+        (4, 1), then the Sq at position (2, 3) in this copy
+        will have a _successor field pointing to the Sq at
+        position (4, 1) in this copy.  Be careful NOT to have
+        any of these fields in the copy pointing at the old Sqs in
+        MODEL. */
     Model(Model model) {
         _width = model.width(); _height = model.height();
         _unconnected = model._unconnected;
@@ -164,10 +178,6 @@ class Model implements Iterable<Model.Sq> {
         _usedGroups.addAll(model._usedGroups);
         _allSuccessors = model._allSuccessors;
 
-        /* FIXME: Initialize _board and _allSquares to contain copies of the
-                the Sq objects in MODEL other than their _successor,
-                _predecessor, and _head fields (which can't necessarily be
-                set until all the Sq objects are first created.) */
         _board = new Sq[_width][_height];
         for (int x = 0; x < _width; x++) {
             for (int y = 0; y < _height; y++) {
@@ -178,15 +188,6 @@ class Model implements Iterable<Model.Sq> {
             }
         }
 
-        /* FIXME: Once all the new Sq objects are in place, fill in their
-                _successor, _predecessor, and _head fields.  For example,
-                if in MODEL, the _successor field of the Sq at
-                position (2, 3) pointed to the Sq in MODEL at position
-                (4, 1), then the Sq at position (2, 3) in this copy
-                will have a _successor field pointing to the Sq at
-                position (4, 1) in this copy.  Be careful NOT to have
-                any of these fields in the copy pointing at the old Sqs in
-                MODEL. */
         for (int x = 0; x < _width; x++) {
             for (int y = 0; y < _height; y++) {
                 Sq modelSq = model._board[x][y];
