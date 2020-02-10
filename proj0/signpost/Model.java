@@ -85,7 +85,6 @@ class Model implements Iterable<Model.Sq> {
      *       contains sequence number k.  Check that all numbers from
      *       1 - last appear; else throw IllegalArgumentException (see
      *       badArgs utility).
-     *       @author
      *
      *                 For each Sq object on the board, set its _successors list
      *                 to the list of locations of all cells that it might
@@ -93,6 +92,8 @@ class Model implements Iterable<Model.Sq> {
      *                 in the direction of its arrow).
      *                 Likewise, set its _predecessors list to the list of
      *                 all cells that might connect to it.
+     *
+     *      @author
      */
     Model(int[][] solution) {
         if (solution.length == 0 || solution.length * solution[0].length < 2) {
@@ -123,11 +124,8 @@ class Model implements Iterable<Model.Sq> {
                     for (int y1 = 0; y1 < _height; y1++) {
                         if (_solution[x1][y1] == solution[x][y] + 1) {
                             dir = dirOf(x, y, x1, y1);
-                            break;
                         }
                     }
-                    if (dir != 0) {
-                        break; }
                 }
                 Sq newSq = new Sq(x, y, seqNum, isFixed, dir, groupNo);
                 _board[x][y] = newSq;
@@ -156,12 +154,12 @@ class Model implements Iterable<Model.Sq> {
         _unconnected = last - 1;
     }
 
-    /** Initializes a copy of MODEL. */
-    /* FIXME: Initialize _board and _allSquares to contain copies of the
+    /** Initializes a copy of MODEL.
+     FIXME: Initialize _board and _allSquares to contain copies of the
         the Sq objects in MODEL other than their _successor,
         _predecessor, and _head fields (which can't necessarily be
-        set until all the Sq objects are first created.) */
-    /* FIXME: Once all the new Sq objects are in place, fill in their
+        set until all the Sq objects are first created.)
+    FIXME: Once all the new Sq objects are in place, fill in their
         _successor, _predecessor, and _head fields.  For example,
         if in MODEL, the _successor field of the Sq at
         position (2, 3) pointed to the Sq in MODEL at position
@@ -192,15 +190,15 @@ class Model implements Iterable<Model.Sq> {
             for (int y = 0; y < _height; y++) {
                 Sq modelSq = model._board[x][y];
                 Sq mSuccessor = modelSq.successor();
-                Sq mPredecessor = modelSq.predecessor();
+                Sq mPred = modelSq.predecessor();
                 Sq mHead = modelSq.head();
 
                 Sq current = _board[x][y];
                 if (mSuccessor != null) {
                     current._successor = _board[mSuccessor.x][mSuccessor.y];
                 }
-                if (mPredecessor != null) {
-                    current._predecessor = _board[mPredecessor.x][mPredecessor.y];
+                if (mPred != null) {
+                    current._predecessor = _board[mPred.x][mPred.y];
                 }
                 current._head = _board[mHead.x][mHead.y];
             }
@@ -353,7 +351,6 @@ class Model implements Iterable<Model.Sq> {
      *  successor, or 0 if it has none. */
     public int arrowDirection(int x, int y) {
         int seq0 = _solution[x][y];
-        // FIXME
         int seq1 = seq0 + 1;
         for (int row = 0; row < _solution.length; row += 1) {
             for (int col = 0; col < _solution[0].length; col += 1) {
