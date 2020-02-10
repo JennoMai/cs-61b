@@ -110,31 +110,28 @@ class Model implements Iterable<Model.Sq> {
         _solnNumToPlace = new Place[last+1];
         for (int x = 0; x < _width; x++) {
             for (int y = 0; y < _height; y++) {
-                int sol_number = _solution[x][y];
                 int seqNum = 0;
                 boolean isFixed = false;
                 int groupNo = -1;
                 int dir = 0;
-                if (sol_number == 1 || sol_number == last) {
+                if (solution[x][y] == 1 || solution[x][y] == last) {
                     isFixed = true;
                     groupNo = 0;
-                    seqNum = sol_number;
+                    seqNum = solution[x][y];
                 }
                 for (int x1 = 0; x1 < _width; x1++) {
                     for (int y1 = 0; y1 < _height; y1++) {
-                        if (_solution[x1][y1] == sol_number + 1) {
+                        if (_solution[x1][y1] == solution[x][y]+1) {
                             dir = dirOf(x, y, x1, y1);
                             break;
                         }
                     }
-                    if (dir != 0) {
-                        break;
-                    }
+                    if (dir != 0) { break; }
                 }
                 Sq newSq = new Sq(x, y, seqNum, isFixed, dir, groupNo);
                 _board[x][y] = newSq;
-                _solnNumToPlace[sol_number] = newSq.pl;
-                allNums.set(sol_number);
+                _solnNumToPlace[solution[x][y]] = newSq.pl;
+                allNums.set(solution[x][y]);
                 _allSquares.add(newSq);
             }
         }
@@ -146,13 +143,13 @@ class Model implements Iterable<Model.Sq> {
                 Sq current = _board[x][y];
                 PlaceList[][][] M = successorCells(_width, _height);
                 current._successors = M[x][y][current.direction()];
-                    for (Place pl : current._successors) {
-                        Sq successor = get(pl);
-                        if (successor._predecessors == null) {
-                            successor._predecessors = new PlaceList();
-                        }
-                        successor._predecessors.add(current.pl);
+                for (Place pl : current._successors) {
+                    Sq successor = get(pl);
+                    if (successor._predecessors == null) {
+                        successor._predecessors = new PlaceList();
                     }
+                    successor._predecessors.add(current.pl);
+                }
             }
         }
         _unconnected = last - 1;
