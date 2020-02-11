@@ -24,7 +24,7 @@ class Lists {
 
         while (L != null) {
             int currentNum = L.head;
-            if (L.tail != null && currentNum > L.tail.head) {
+            if (L.tail != null && currentNum >= L.tail.head) {
                 IntList temp = L;
                 L = L.tail;
                 temp.tail = null;

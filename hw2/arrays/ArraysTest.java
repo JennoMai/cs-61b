@@ -33,15 +33,17 @@ public class ArraysTest {
 
     @Test
     public void naturalRunsTest() {
-        int[] l1 = {3, 4, 6, 1, 5, 2, 7, 8, 9};
+        int[] l1 = {3, 4, 6, 1, 5, 5, 2, 7, 8, 9};
         int[] l2 = {};
         int[] l3 = {5, 4, 3, 2, 1};
 
-        int[][] ll1 = {{3, 4, 6}, {1, 5}, {2, 7, 8, 9}};
+        int[][] ll1 = {{3, 4, 6}, {1, 5}, {5}, {2, 7, 8, 9}};
         int[][] ll2 = {{}};
         int[][] ll3 = {{5}, {4}, {3}, {2}, {1}};
 
         assertTrue(Utils.equals(ll1, Arrays.naturalRuns(l1)));
+        assertTrue(Utils.equals(ll2, Arrays.naturalRuns(l2)));
+        assertTrue(Utils.equals(ll3, Arrays.naturalRuns(l3)));
     }
 
     public static void main(String[] args) {

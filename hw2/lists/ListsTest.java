@@ -17,10 +17,10 @@ public class ListsTest {
     @Test
     public void naturalRunsTest() {
         IntList l1 = IntList.list(1, 5, 3, 2, 6, 12, 11, 3, 6);
-        IntList l2 = IntList.list(2, 3, 4, 5, 6, 7, 1);
+        IntList l2 = IntList.list(2, 3, 4, 4, 5, 6, 7, 1);
         IntList l3 = new IntList();
         IntListList ll1 = IntListList.list(new int[][] {{1, 5}, {3}, {2, 6, 12}, {11}, {3, 6}});
-        IntListList ll2 = IntListList.list(new int[][] {{2, 3, 4, 5, 6, 7}, {1}});
+        IntListList ll2 = IntListList.list(new int[][] {{2, 3, 4}, {4, 5, 6, 7}, {1}});
         IntListList ll3 = new IntListList(new IntList(0, null), null);
 
         assertTrue(ll1.equals(Lists.naturalRuns(l1)));

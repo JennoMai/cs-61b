@@ -55,9 +55,13 @@ class Arrays {
      *  returns the three-element array
      *  {{1, 3, 7}, {5}, {4, 6, 9, 10}}. */
     static int[][] naturalRuns(int[] A) {
+        if (A.length == 0) {
+            return new int[][] {{}};
+        }
+
         int increases = 1;
         for (int i = 0; i < A.length - 1; i += 1) {
-            if (A[i] > A[i + 1]) {
+            if (A[i] >= A[i + 1]) {
                 increases += 1;
             }
         }
@@ -70,7 +74,7 @@ class Arrays {
                 entry = new int[] {A[0]};
             } else if (i == A.length) {
                 result[current] = entry;
-            } else if (A[i] < A[i - 1]) {
+            } else if (A[i] <= A[i - 1]) {
                 result[current] = entry;
                 current += 1;
                 entry = new int[] {A[i]};
