@@ -38,7 +38,7 @@ public class ArraysTest {
         int[] l3 = {5, 4, 3, 2, 1};
 
         int[][] ll1 = {{3, 4, 6}, {1, 5}, {5}, {2, 7, 8, 9}};
-        int[][] ll2 = {{}};
+        int[][] ll2 = {};
         int[][] ll3 = {{5}, {4}, {3}, {2}, {1}};
 
         assertTrue(Utils.equals(ll1, Arrays.naturalRuns(l1)));
