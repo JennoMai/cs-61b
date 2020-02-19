@@ -27,7 +27,7 @@ public class TrReaderTest {
      * */
     @Test
     public void testSource() throws IOException {
-        Reader r = makeStringReader(new FileReader("TrReader/TrReaderTest.java"), 4096);
+        Reader r = makeStringReader(new FileReader("TrReaderTest.java"), 4096);
 
         TrReader trR = new TrReader(r, "import jav.", "josh hug___");
         char[] cbuf = new char[250];
@@ -39,7 +39,7 @@ public class TrReaderTest {
 
     @Test
     public void testTranslate() throws IOException {
-        Reader r = makeStringReader(new FileReader("TrReader/TrReaderTest.java"), 4096);
+        Reader r = makeStringReader(new FileReader("TrReaderTest.java"), 4096);
         char[] buf = new char[250];
         r.read(buf);
         String result = new String(buf);
