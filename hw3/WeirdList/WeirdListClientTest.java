@@ -17,6 +17,9 @@ public class WeirdListClientTest {
         assertEquals(10 + 6 + 5, WeirdListClient.sum(wl3));
         assertEquals(5, WeirdListClient.sum(wl1));
         assertEquals(21, WeirdListClient.sum(wl3));
+
+        WeirdList wl4 = new WeirdList(12, WeirdList.EMPTY);
+        assertEquals(12, WeirdListClient.sum(wl4));
     }
 
     @Test

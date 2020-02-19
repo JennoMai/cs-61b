@@ -1,12 +1,10 @@
-import net.sf.saxon.functions.Empty;
-
 /** A WeirdList holds a sequence of integers.
  * @author Jenny Mei
  */
 public class WeirdList {
     /** The empty sequence of integers. */
     public static final WeirdList EMPTY =
-        new EmptyList();  // TODO: REPLACE THIS LINE
+        new EmptyList();
 
     /** A new WeirdList whose head is HEAD and tail is TAIL. */
     public WeirdList(int head, WeirdList tail) { 
