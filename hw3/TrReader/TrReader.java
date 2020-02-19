@@ -26,7 +26,7 @@ public class TrReader extends Reader {
         if (r == -1) {
             return -1;
         }
-        for (int n = off; n < len - off; n += 1) {
+        for (int n = off; n < len + off; n += 1) {
             for (int i = 0; i < f.length(); i += 1) {
                 if (f.charAt(i) == cbuf[n]) {
                     cbuf[n] = t.charAt(i);
