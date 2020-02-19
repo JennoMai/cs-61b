@@ -35,6 +35,12 @@ public class TrReaderTest {
         assertEquals(250, trR.read(cbuf));
         String result = new String(cbuf);
         assertEquals(TRANSLATION.substring(0, 250), result);
+
+        TrReader t = new TrReader(new StringReader("azbzczdz"), "edcab", "EDCAB");
+        assertEquals(-1, t.read(cbuf));
+
+        t = new TrReader(new StringReader("azbzczdz"), "edcab", "EDCAB");
+        assertEquals(2, t.read(cbuf, 3, 2));
     }
 
     @Test

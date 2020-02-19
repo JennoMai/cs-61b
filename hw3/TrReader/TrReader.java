@@ -21,9 +21,10 @@ public class TrReader extends Reader {
         t = to;
     }
     public int read (char[] cbuf, int off, int len) throws IOException {
-        reader.read(cbuf, off, len);
+        int r = reader.read(cbuf, off, len);
+        System.out.println(r);
         int c = 0;
-        for (int n = off; n < len; n += 1) {
+        for (int n = off; n < off + len; n += 1) {
             for (int i = 0; i < f.length(); i += 1) {
                 if (f.charAt(i) == cbuf[n]) {
                     cbuf[n] = t.charAt(i);
@@ -32,7 +33,7 @@ public class TrReader extends Reader {
             }
             c += 1;
         }
-        if (len > c + off) {
+        if (c > r) {
             return -1;
         } else {
             return c;
