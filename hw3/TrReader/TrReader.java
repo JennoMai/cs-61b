@@ -22,15 +22,21 @@ public class TrReader extends Reader {
     }
     public int read (char[] cbuf, int off, int len) throws IOException {
         reader.read(cbuf, off, len);
-        for (int n = 0; n < cbuf.length; n += 1) {
+        int c = 0;
+        for (int n = off; n < len; n += 1) {
             for (int i = 0; i < f.length(); i += 1) {
                 if (f.charAt(i) == cbuf[n]) {
                     cbuf[n] = t.charAt(i);
                     break;
                 }
             }
+            c += 1;
         }
-        return cbuf.length;
+        if (len > c + off) {
+            return -1;
+        } else {
+            return c;
+        }
     }
     public void close() {}
     /* TODO: IMPLEMENT ANY MISSING ABSTRACT METHODS HERE

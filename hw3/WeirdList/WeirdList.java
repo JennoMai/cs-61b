@@ -1,3 +1,5 @@
+import net.sf.saxon.functions.Empty;
+
 /** A WeirdList holds a sequence of integers.
  * @author Jenny Mei
  */
@@ -60,35 +62,4 @@ public class WeirdList {
             return this;
         }
     }
-    /*
-     * You should not add any methods to WeirdList, but you will need
-     * to add private fields (e.g. head).
-
-     * But that's not all!
-
-     * You will need to create at least one additional class for WeirdList
-     * to work. This is because you are forbidden to use any of the
-     * following in ANY of the code for HW3:
-     *       if, switch, while, for, do, try, or the ?: operator.
-
-     * If you'd like an obtuse hint, scroll to the very bottom of this
-     * file.
-
-     * You can create this hypothetical class (or classes) in separate
-     * files like you usually do, or if you're feeling bold you can
-     * actually stick them INSIDE of this class. Yes, nested classes
-     * are a thing in Java.
-
-     * As an example:
-     * class Garden {
-     *     private static class Potato {
-     *        int n;
-     *        public Potato(int nval) {
-     *           n = nval;
-     *        }
-     *     }
-     * }
-     * You are NOT required to do this, just an extra thing you can
-     * do if you want to avoid making a separate .java file. */
-
 }
