@@ -37,6 +37,16 @@ public class TrReaderTest {
         assertEquals(TRANSLATION.substring(0, 250), result);
     }
 
+    @Test
+    public void testTranslate() throws IOException {
+        Reader r = makeStringReader(new FileReader("TrReader/TrReaderTest.java"), 4096);
+        char[] buf = new char[250];
+        r.read(buf);
+        String result = new String(buf);
+        String trans = Translate.translate(result, "import jav.", "josh hug___");
+        assertEquals(trans, TRANSLATION.substring(0, 250));
+    }
+
     /** Return a StringReader that contains the contents delivered by R,
      *  up to MAXSIZE characters.  All end-of-line sequences in the
      *  characters read are canonicalized to '\n' (this has an effect only
