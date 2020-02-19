@@ -37,9 +37,4 @@ public class TrReader extends Reader {
         return r;
     }
     public void close() {}
-    /* TODO: IMPLEMENT ANY MISSING ABSTRACT METHODS HERE
-     * NOTE: Until you fill in the necessary methods, the compiler will
-     *       reject this file, saying that you must declare TrReader
-     *       abstract. Don't do that; define the right methods instead!
-     */
 }

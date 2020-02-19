@@ -31,9 +31,9 @@ public class WeirdList {
     /** Part 3b: Apply FUNC.apply to every element of THIS WeirdList in
      *  sequence, and return a WeirdList of the resulting values. */
     public WeirdList map(IntUnaryFunction func) {
-        this._head = func.apply(this._head);
-        _tail.map(func);
-        return this;
+        WeirdList newList = new WeirdList(func.apply(this._head), null);
+        newList._tail = _tail.map(func);
+        return newList;
     }
 
     private int _head;
@@ -59,7 +59,7 @@ public class WeirdList {
 
         @Override
         public WeirdList map(IntUnaryFunction func) {
-            return this;
+            return new EmptyList();
         }
     }
 }
