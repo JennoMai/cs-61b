@@ -8,7 +8,7 @@ import static org.junit.Assert.*;
 import static enigma.TestUtils.*;
 
 /** The suite of all JUnit tests for the Permutation class.
- *  @author
+ *  @author Jenny Mei
  */
 public class PermutationTest {
 
@@ -49,6 +49,38 @@ public class PermutationTest {
     public void checkIdTransform() {
         perm = new Permutation("", UPPER);
         checkPerm("identity", UPPER_STRING, UPPER_STRING);
+    }
+
+    @Test
+    public void permutationTest() {
+        perm = new Permutation("ACDE BKF ZROTGHNM", UPPER);
+        checkPerm("test1", UPPER_STRING, "CKDEABHNIJFLZMTPQOSGUVWXYR");
+
+        perm = new Permutation("A B C D E F G H I J K L M N O P Q R S T U V W X Y Z", UPPER);
+        checkPerm("expIdentity", UPPER_STRING, UPPER_STRING);
+    }
+
+    @Test
+    public void errorTestRepeat() {
+        boolean thrown = false;
+        try {
+            perm = new Permutation("ABCDBE", UPPER);
+        } catch (Exception e) {
+            thrown = true;
+        }
+        assertTrue(thrown);
+    }
+
+    @Test
+    public void errorTestNotContains() {
+        boolean thrown = false;
+        Alphabet a = new Alphabet("A");
+        try {
+            perm = new Permutation("ABCD", a);
+        } catch (Exception e) {
+            thrown = true;
+        }
+        assertTrue(thrown);
     }
 
 }

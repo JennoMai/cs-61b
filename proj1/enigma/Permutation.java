@@ -1,10 +1,13 @@
 package enigma;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import static enigma.EnigmaException.*;
 
 /** Represents a permutation of a range of integers starting at 0 corresponding
  *  to the characters of an alphabet.
- *  @author
+ *  @author Jenny Mei
  */
 class Permutation {
 
@@ -15,13 +18,48 @@ class Permutation {
      *  Whitespace is ignored. */
     Permutation(String cycles, Alphabet alphabet) {
         _alphabet = alphabet;
-        // FIXME
+        _usedChars = new boolean[_alphabet.size()];
+        for (int i = 0; i < _alphabet.size(); i += 1) {
+            _map.add(i, _alphabet.toChar(i));
+        }
+
+        int last = 0;
+        for (int i = 0; i < cycles.length(); i += 1) {
+            char currentChar = cycles.charAt(i);
+            if (currentChar == ' ') {
+                addCycle(cycles.substring(last, i));
+                last = i + 1;
+            } else if (i == cycles.length() - 1) {
+                addCycle(cycles.substring(last));
+            }
+        }
     }
 
     /** Add the cycle c0->c1->...->cm->c0 to the permutation, where CYCLE is
-     *  c0c1...cm. */
+     *  c0c1...cm.
+     *
+     *  _alphabet containing [A, B, C, D, E, F, G] maps to [C, D, E, F, G, B, A]*/
     private void addCycle(String cycle) {
-        // FIXME
+        int length = cycle.length();
+        for (int i = 0; i < length; i += 1) {
+            char currentChar = cycle.charAt(i);
+            if (!_alphabet.contains(currentChar)) {
+                throw error("Alphabet does not contain %c", currentChar);
+            }
+
+            int aIndex = _alphabet.toInt(currentChar);
+            if (_usedChars[aIndex]) {
+                throw error("%c is duplicated.", currentChar);
+            } else {
+                _usedChars[aIndex] = true;
+            }
+
+            if (i == length - 1) {
+                _map.set(aIndex, cycle.charAt(0));
+            } else {
+                _map.set(aIndex, cycle.charAt(i+1));
+            }
+        }
     }
 
     /** Return the value of P modulo the size of this permutation. */
@@ -35,30 +73,32 @@ class Permutation {
 
     /** Returns the size of the alphabet I permute. */
     int size() {
-        return 0; // FIXME
+        return _alphabet.size();
     }
 
     /** Return the result of applying this permutation to P modulo the
      *  alphabet size. */
     int permute(int p) {
-        return 0;  // FIXME
+        int r = wrap(p);
+        return _alphabet.toInt(permute(_alphabet.toChar(r)));  // FIXME
     }
 
     /** Return the result of applying the inverse of this permutation
      *  to  C modulo the alphabet size. */
     int invert(int c) {
-        return 0;  // FIXME
+        int r = wrap(c);
+        return _alphabet.toInt(invert(_alphabet.toChar(r)));  // FIXME
     }
 
     /** Return the result of applying this permutation to the index of P
      *  in ALPHABET, and converting the result to a character of ALPHABET. */
     char permute(char p) {
-        return 0;  // FIXME
+        return _map.get(_alphabet.toInt(p));
     }
 
     /** Return the result of applying the inverse of this permutation to C. */
     char invert(char c) {
-        return 0;  // FIXME
+        return _alphabet.toChar(_map.indexOf(c));
     }
 
     /** Return the alphabet used to initialize this Permutation. */
@@ -69,11 +109,19 @@ class Permutation {
     /** Return true iff this permutation is a derangement (i.e., a
      *  permutation for which no value maps to itself). */
     boolean derangement() {
-        return true;  // FIXME
+        for (int i = 0; i < _alphabet.size(); i += 1) {
+            if (_alphabet.toChar(i) == _map.get(i)) {
+                return false;
+            }
+        }
+        return true;
     }
 
     /** Alphabet of this permutation. */
     private Alphabet _alphabet;
 
     // FIXME: ADDITIONAL FIELDS HERE, AS NEEDED
+    /** For each letter in _alphabet at index i, _map contains its permutation at the same index i. */
+    private ArrayList<Character> _map = new ArrayList<>();
+    private boolean[] _usedChars;
 }

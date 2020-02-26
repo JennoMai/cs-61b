@@ -110,7 +110,15 @@ public final class Main {
     /** Print MSG in groups of five (except that the last group may
      *  have fewer letters). */
     private void printMessageLine(String msg) {
-        // FIXME
+        int count = 0;
+        for (int i = 0; i < msg.length(); i += 1) {
+            if (count == 5) {
+                System.out.print(" ");
+                count = 0;
+            }
+            System.out.print(msg.charAt(i));
+            count += 1;
+        }
     }
 
     /** Alphabet used in this machine. */

@@ -1,9 +1,10 @@
 package enigma;
 
+import org.junit.Test;
 import ucb.junit.textui;
 
 /** The suite of all JUnit tests for the enigma package.
- *  @author
+ *  @author Jenny Mei
  */
 public class UnitTest {
 
@@ -12,6 +13,11 @@ public class UnitTest {
     public static void main(String[] ignored) {
         System.exit(textui.runClasses(PermutationTest.class,
                                       MovingRotorTest.class));
+    }
+
+    @Test
+    public static void printMessageLineTest() {
+
     }
 
 }
