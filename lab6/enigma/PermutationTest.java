@@ -123,5 +123,13 @@ public abstract class PermutationTest {
 
         perm = getNewPermutation("(A) (B) (C) (D) (E) (F) (G) (H) (I) (J) (K) (L) (M) (N) (O) (P) (Q) (R) (S) (T) (U) (V) (W) (X) (Y) (Z)", getNewAlphabet());
         checkPerm("expIdentity", UPPER_STRING, UPPER_STRING, perm, getNewAlphabet());
+
+        perm = getNewPermutation("(BCE)", getNewAlphabet("BCE"));
+        checkPerm("test2", "B", "C", perm, getNewAlphabet("B"));
+    }
+
+    @Test(expected = EnigmaException.class)
+    public void badAlphabet() {
+        Permutation perm = getNewPermutation("ABC", getNewAlphabet("A"));
     }
 }
