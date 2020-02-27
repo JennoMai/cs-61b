@@ -12,6 +12,7 @@ class Rotor {
         _name = name;
         _permutation = perm;
         // FIXME
+        _setting = 0;
     }
 
     /** Return my name. */
@@ -46,29 +47,36 @@ class Rotor {
 
     /** Return my current setting. */
     int setting() {
-        return 0; // FIXME
+        return _setting;
     }
 
     /** Set setting() to POSN.  */
     void set(int posn) {
-        // FIXME
+        _setting = posn;
     }
 
     /** Set setting() to character CPOSN. */
     void set(char cposn) {
         // FIXME
+        _setting = _permutation.alphabet().toInt(cposn);
     }
 
     /** Return the conversion of P (an integer in the range 0..size()-1)
-     *  according to my permutation. */
+     *  according to my permutation. Where P is the signal entering the rotor. */
     int convertForward(int p) {
-        return _permutation.permute(p);  // FIXME
+        int contact = p + _setting;
+        int translation = _permutation.permute(contact);
+        int exit = translation - _setting;
+        return _permutation.wrap(exit);  // FIXME
     }
 
     /** Return the conversion of E (an integer in the range 0..size()-1)
      *  according to the inverse of my permutation. */
     int convertBackward(int e) {
-        return _permutation.invert(e);  // FIXME
+        int contact = e + _setting;
+        int translation = _permutation.invert(contact);
+        int exit = translation - _setting;
+        return _permutation.wrap(exit);  // FIXME
     }
 
     /** Returns true iff I am positioned to allow the rotor to my left
@@ -93,5 +101,6 @@ class Rotor {
     private Permutation _permutation;
 
     // FIXME: ADDITIONAL FIELDS HERE, AS NEEDED
+    private int _setting;
 
 }

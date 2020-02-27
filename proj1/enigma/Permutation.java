@@ -23,14 +23,14 @@ class Permutation {
             _map.add(i, _alphabet.toChar(i));
         }
 
-        int last = 0;
+        int last = 1;
         for (int i = 0; i < cycles.length(); i += 1) {
             char currentChar = cycles.charAt(i);
-            if (currentChar == ' ') {
+            if (currentChar == ')') {
                 addCycle(cycles.substring(last, i));
-                last = i + 1;
+                last = i + 3;
             } else if (i == cycles.length() - 1) {
-                addCycle(cycles.substring(last));
+                addCycle(cycles.substring(last, i));
             }
         }
     }
@@ -124,4 +124,8 @@ class Permutation {
     /** For each letter in _alphabet at index i, _map contains its permutation at the same index i. */
     private ArrayList<Character> _map = new ArrayList<>();
     private boolean[] _usedChars;
+
+    ArrayList<Character> map() {
+        return _map;
+    }
 }
