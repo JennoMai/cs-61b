@@ -125,11 +125,6 @@ public abstract class PermutationTest {
         checkPerm("expIdentity", UPPER_STRING, UPPER_STRING, perm, getNewAlphabet());
 
         perm = getNewPermutation("(BCE)", getNewAlphabet("BCE"));
-        checkPerm("test2", "B", "C", perm, getNewAlphabet("B"));
-    }
-
-    @Test(expected = EnigmaException.class)
-    public void badAlphabet() {
-        Permutation perm = getNewPermutation("ABC", getNewAlphabet("A"));
+        checkPerm("test2", "B", "C", perm, getNewAlphabet("BCE"));
     }
 }
