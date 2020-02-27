@@ -1,7 +1,6 @@
 package enigma;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import static enigma.EnigmaException.*;
 
@@ -117,6 +116,10 @@ class Permutation {
         return true;
     }
 
+    ArrayList<Character> map() {
+        return _map;
+    }
+
     /** Alphabet of this permutation. */
     private Alphabet _alphabet;
 
@@ -124,8 +127,4 @@ class Permutation {
     /** For each letter in _alphabet at index i, _map contains its permutation at the same index i. */
     private ArrayList<Character> _map = new ArrayList<>();
     private boolean[] _usedChars;
-
-    ArrayList<Character> map() {
-        return _map;
-    }
 }
