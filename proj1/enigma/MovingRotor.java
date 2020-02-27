@@ -21,12 +21,29 @@ class MovingRotor extends Rotor {
     // FIXME?
 
     @Override
+    /** Return true iff I have a ratchet and can move. */
+    boolean rotates() { return true; }
+
+    @Override
+    /** Advance me one position, if possible. By default, does nothing. */
     void advance() {
         if (setting() == size() - 1) {
             set(0);
         } else {
             set(setting() + 1);
         }
+    }
+
+    @Override
+    /** Returns true iff I am positioned to allow the rotor to my left
+     *  to advance. */
+    boolean atNotch() {
+        for (int i = 0; i < _notches.length(); i += 1) {
+            if (setting() == alphabet().toInt(_notches.charAt(i))) {
+                return true;
+            }
+        }
+        return false;
     }
 
     // FIXME: ADDITIONAL FIELDS HERE, AS NEEDED
