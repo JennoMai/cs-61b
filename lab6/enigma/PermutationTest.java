@@ -3,9 +3,9 @@ package enigma;
 import org.junit.Test;
 import org.junit.Rule;
 import org.junit.rules.Timeout;
-import static org.junit.Assert.*;
 
 import static enigma.TestUtils.*;
+import static org.junit.Assert.*;
 
 /**
  * The suite of all JUnit tests for the Permutation class. For the purposes of
@@ -85,7 +85,7 @@ public abstract class PermutationTest {
     // FIXME: Add tests here that pass on a correct Permutation and fail on buggy Permutations.
     @Test
     public void testInvertChar() {
-        Permutation p = getNewPermutation("(BACD)", getNewAlphabet("ABCD"));
+        Permutation p = getNewPermutation("(BACD)", getNewAlphabet("ABCD"));;
         assertEquals('B', p.invert('A'));
         assertEquals('D', p.invert('B'));
         assertEquals('C', p.invert('D'));
@@ -114,5 +114,14 @@ public abstract class PermutationTest {
     public void testPermuteException() {
         Permutation p = getNewPermutation("(BACD)", getNewAlphabet("ABCD"));
         p.permute('P');
+    }
+
+    @Test
+    public void permutationTest() {
+        Permutation perm = getNewPermutation("(ACDE) (BKF) (ZROTGHNM)", getNewAlphabet());
+        checkPerm("test1", UPPER_STRING, "CKDEABHNIJFLZMTPQOSGUVWXYR", perm, getNewAlphabet());
+
+        perm = getNewPermutation("(A) (B) (C) (D) (E) (F) (G) (H) (I) (J) (K) (L) (M) (N) (O) (P) (Q) (R) (S) (T) (U) (V) (W) (X) (Y) (Z)", getNewAlphabet());
+        checkPerm("expIdentity", UPPER_STRING, UPPER_STRING, perm, getNewAlphabet());
     }
 }
