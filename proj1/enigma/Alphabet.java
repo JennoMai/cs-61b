@@ -13,7 +13,7 @@ class Alphabet {
      *  K (numbering from 0). No character may be duplicated. */
     Alphabet(String chars) {
         if (chars.contains("(") || chars.contains(")") || chars.contains(" ") || chars.contains("*")) {
-            throw error("Blanks, parentheses, and asterisks not permitted.");
+            throw error("Blanks, parentheses, and asterisks not permitted in alphabet.");
         }
         Map<Character, Integer> map = new HashMap<>();
         char[] string2chars = chars.toCharArray();
