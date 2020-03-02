@@ -6,6 +6,7 @@ import java.io.PrintStream;
 
 import java.io.StringReader;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.NoSuchElementException;
 import java.util.Scanner;
 import java.util.regex.Pattern;
@@ -115,8 +116,15 @@ public final class Main {
             int pawls = _config.nextInt();
 
             ArrayList<Rotor> allRotors = new ArrayList<>();
+            HashMap<String, Boolean> rotorNames = new HashMap<>();
             while (_config.hasNext()) {
-                allRotors.add(readRotor());
+                Rotor newRotor = readRotor();
+                if (rotorNames.containsKey(newRotor.name())) {
+                    throw error("Two rotors cannot have the same name.");
+                } else {
+                    rotorNames.put(newRotor.name(), true);
+                }
+                allRotors.add(newRotor);
             }
             return new Machine(_alphabet, numRotors, pawls, allRotors);
         } catch (NoSuchElementException excp) {
@@ -159,7 +167,8 @@ public final class Main {
 
         String[] rotors = new String[M.numRotors()];
         for (int i = 0; i < M.numRotors(); i += 1) {
-            rotors[i] = sScanner.next();
+            String rotorName = sScanner.next();
+            rotors[i] = rotorName;
         }
         M.insertRotors(rotors);
 

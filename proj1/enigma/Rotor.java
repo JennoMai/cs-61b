@@ -9,6 +9,9 @@ class Rotor {
 
     /** A rotor named NAME whose permutation is given by PERM. */
     Rotor(String name, Permutation perm) {
+        if (name.contains("(") || name.contains(")") || name.contains("*")) {
+            throw error("No parentheses or asterisks allowed in rotor names.");
+        }
         _name = name;
         _permutation = perm;
         _setting = 0;

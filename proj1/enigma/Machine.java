@@ -36,9 +36,28 @@ class Machine {
      *  available rotors (ROTORS[0] names the reflector).
      *  Initially, all rotors are set at their 0 setting. */
     void insertRotors(String[] rotors) {
+        HashMap<Rotor, Integer> usedRotors = new HashMap<>();
         for (int i = 0; i < rotors.length; i += 1) {
             for (Rotor rotor : _availableRotors) {
                 if (rotor.name().equals(rotors[i])) {
+                    if (i == 0 && !rotor.reflecting()) {
+                        throw error("Last rotor must be a reflector!");
+                    } else if (i != 0 && rotor.reflecting()) {
+                        throw error("Only the last rotor can be a reflector!");
+                    } else if (i < _rotorSlots.length - _movingRotors &&
+                                rotor.rotates()) {
+                        throw error("Moving rotor placed in non-moving slot.");
+                    } else if (i >= _rotorSlots.length - _movingRotors &&
+                                !rotor.rotates()) {
+                        throw error("Non-moving rotor placed in moving slot.");
+                    }
+
+                    if (!usedRotors.containsKey(rotor)) {
+                        usedRotors.put(rotor, 1);
+                    } else {
+                        throw error("Rotors may not be repeated in one machine.");
+                    }
+
                     _rotorSlots[i] = rotor;
                 }
             }
@@ -49,6 +68,9 @@ class Machine {
      *  numRotors()-1 characters in my alphabet. The first letter refers
      *  to the leftmost rotor setting (not counting the reflector).  */
     void setRotors(String setting) {
+        if (setting.length() >= _rotorSlots.length || setting.length() < _rotorSlots.length - 1) {
+            throw error("Misformatted rotor settings.");
+        }
         for (int i = 0; i < setting.length(); i += 1) {
             _rotorSlots[i + 1].set(setting.charAt(i));
         }
@@ -88,6 +110,11 @@ class Machine {
      *  the rotors accordingly. */
     String convert(String msg) {
         char[] newMsg = msg.toCharArray();
+        for (char letter : newMsg) {
+            if (!_alphabet.contains(letter)) {
+                throw error("Alphabet does not contain this letter.");
+            }
+        }
         for (int i = 0; i < msg.length(); i += 1) {
             int newI = convert(_alphabet.toInt(msg.charAt(i)));
             char newChar = _alphabet.toChar(newI);
