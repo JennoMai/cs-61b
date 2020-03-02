@@ -166,7 +166,7 @@ public final class Main {
         while (sScanner.hasNext()) {
             String next = sScanner.next();
             if (next.charAt(0) == '(') {
-                cycles.concat(next);
+                cycles = cycles.concat(next);
                 setRotors = true;
             } else if (next.charAt(0) != '(' && !setRotors) {
                 M.setRotors(next);
