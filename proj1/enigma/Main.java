@@ -82,6 +82,8 @@ public final class Main {
         // FIXME
         Machine machine = readConfig();
         System.setOut(_output);
+        boolean hasSetting = false;
+
         while (_input.hasNext()) {
             String outmsg = "";
             if (_input.hasNext("\\*")) {
@@ -89,7 +91,11 @@ public final class Main {
                 if (setUpLine.isEmpty()) {
                     setUpLine = _input.nextLine();
                 }
+                hasSetting = true;
                 setUp(machine, setUpLine);
+            }
+            if (!hasSetting) {
+                throw error("No configuration line found.");
             }
             while (_input.hasNext() && !_input.hasNext("\\*")) {
                 outmsg = outmsg.concat(machine.convert(_input.next()));
