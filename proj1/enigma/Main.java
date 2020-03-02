@@ -79,7 +79,6 @@ public final class Main {
      *  file _config and apply it to the messages in _input, sending the
      *  results to _output. */
     private void process() {
-        // FIXME
         Machine machine = readConfig();
         System.setOut(_output);
         boolean hasSetting = false;
