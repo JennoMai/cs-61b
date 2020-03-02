@@ -62,6 +62,15 @@ class Rotor {
         _setting = _permutation.alphabet().toInt(cposn);
     }
 
+    void setRing(char crposn) {
+        Alphabet original = _permutation.alphabet();
+        int rposn = original.toInt(crposn);
+        String origAlphabet = original.allChars();
+        String cycles = _permutation.cycles();
+        Alphabet ringAlphabet = new Alphabet(origAlphabet.substring(rposn) + origAlphabet.substring(0, rposn));
+        _permutation = new Permutation(cycles, ringAlphabet);
+    }
+
     /** Return the conversion of P (an integer in the range 0..size()-1)
      *  according to my permutation. Where P is the signal entering the rotor. */
     int convertForward(int p) {
