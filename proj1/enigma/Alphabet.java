@@ -1,4 +1,7 @@
 package enigma;
+import java.util.HashMap;
+import java.util.Map;
+import static enigma.EnigmaException.*;
 
 /** An alphabet of encodable characters.  Provides a mapping from characters
  *  to and from indices into the alphabet.
@@ -9,6 +12,19 @@ class Alphabet {
     /** A new alphabet containing CHARS.  Character number #k has index
      *  K (numbering from 0). No character may be duplicated. */
     Alphabet(String chars) {
+        if (chars.contains("(") || chars.contains(")") || chars.contains(" ") || chars.contains("*")) {
+            throw error("Blanks, parentheses, and asterisks not permitted.");
+        }
+        Map<Character, Integer> map = new HashMap<>();
+        char[] string2chars = chars.toCharArray();
+        for (char c : string2chars) {
+            if (map.containsKey(c)) {
+                throw error("Repeated character found: %c", c);
+            } else {
+                map.put(c, 1);
+            }
+        }
+
         _chars = chars;
     }
 

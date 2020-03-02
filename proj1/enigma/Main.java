@@ -4,9 +4,11 @@ import java.io.File;
 import java.io.IOException;
 import java.io.PrintStream;
 
+import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.NoSuchElementException;
 import java.util.Scanner;
+import java.util.regex.Pattern;
 
 import static enigma.EnigmaException.*;
 
@@ -78,15 +80,35 @@ public final class Main {
      *  results to _output. */
     private void process() {
         // FIXME
+        Machine machine = readConfig();
+        System.setOut(_output);
+        String outmsg = "";
+        while (_input.hasNext()) {
+            if (_input.hasNext("\\*")) {
+                setUp(machine, _input.nextLine());
+            }
+            while (_input.hasNext() && !_input.hasNext("\\*")) {
+                outmsg.concat(machine.convert(_input.next()));
+            }
+            printMessageLine(outmsg);
+            System.out.println();
+        }
     }
 
     /** Return an Enigma machine configured from the contents of configuration
      *  file _config. */
     private Machine readConfig() {
         try {
-            // FIXME
-            _alphabet = new Alphabet();
-            return new Machine(_alphabet, 2, 1, null);
+            _alphabet = new Alphabet(_config.next());
+
+            int numRotors = _config.nextInt();
+            int pawls = _config.nextInt();
+
+            ArrayList<Rotor> allRotors = new ArrayList<>();
+            while (_config.hasNext()) {
+                allRotors.add(readRotor());
+            }
+            return new Machine(_alphabet, numRotors, pawls, allRotors);
         } catch (NoSuchElementException excp) {
             throw error("configuration file truncated");
         }
@@ -95,7 +117,26 @@ public final class Main {
     /** Return a rotor, reading its description from _config. */
     private Rotor readRotor() {
         try {
-            return null; // FIXME
+            String name = _config.next();
+
+            String settings = _config.next();
+
+            String cycles = "";
+            if (_config.hasNext("\\(.*\\)")) {
+                cycles.concat(_config.next());
+            }
+            Permutation perm = new Permutation(cycles, _alphabet);
+
+            if (settings.charAt(0) == 'M') {
+                String notches = settings.substring(1);
+                return new MovingRotor(name, perm, notches);
+            } else if (settings.charAt(0) == 'N') {
+                return new FixedRotor(name, perm);
+            } else if (settings.charAt(0) == 'R') {
+                return new Reflector(name, perm);
+            } else {
+                throw error("bad rotor type specification");
+            }
         } catch (NoSuchElementException excp) {
             throw error("bad rotor description");
         }
@@ -104,7 +145,33 @@ public final class Main {
     /** Set M according to the specification given on SETTINGS,
      *  which must have the format specified in the assignment. */
     private void setUp(Machine M, String settings) {
-        // FIXME
+        Scanner sScanner = new Scanner(settings);
+
+        if (sScanner.next() != "*") {
+            throw error("Missing settings line or identifier.");
+        }
+
+        String[] rotors = new String[M.numRotors()];
+        for (int i = 0; i <= M.numRotors(); i += 1) {
+            rotors[i] = sScanner.next();
+        }
+        M.insertRotors(rotors);
+
+        boolean setRotors = false;
+        String cycles = "";
+        while (sScanner.hasNext()) {
+            String next = _input.next();
+            if (next.charAt(0) == '(') {
+                cycles.concat(next);
+                setRotors = true;
+            } else if (next.charAt(0) != '(' && !setRotors) {
+                M.setRotors(next);
+            } else {
+                throw error("Incorrect settings format.");
+            }
+        }
+        Permutation plugboard = new Permutation(cycles, _alphabet);
+        M.setPlugboard(plugboard);
     }
 
     /** Print MSG in groups of five (except that the last group may
