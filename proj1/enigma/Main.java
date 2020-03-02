@@ -87,6 +87,7 @@ public final class Main {
         while (_input.hasNext()) {
             String outmsg = "";
             if (_input.hasNext("\\*")) {
+                String asterisk = _input.next();
                 String setUpLine = _input.nextLine();
                 if (setUpLine.isEmpty()) {
                     setUpLine = _input.nextLine();
@@ -156,10 +157,6 @@ public final class Main {
      *  which must have the format specified in the assignment. */
     private void setUp(Machine M, String settings) {
         Scanner sScanner = new Scanner(settings);
-
-        if (sScanner.next().charAt(0) != '*') {
-            throw error("Missing settings line or identifier.");
-        }
 
         String[] rotors = new String[M.numRotors()];
         for (int i = 0; i < M.numRotors(); i += 1) {

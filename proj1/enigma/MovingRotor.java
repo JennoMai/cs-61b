@@ -14,11 +14,9 @@ class MovingRotor extends Rotor {
      */
     MovingRotor(String name, Permutation perm, String notches) {
         super(name, perm);
-        // FIXME
         _notches = notches;
     }
 
-    // FIXME?
 
     @Override
     /** Return true iff I have a ratchet and can move. */
@@ -46,7 +44,6 @@ class MovingRotor extends Rotor {
         return false;
     }
 
-    // FIXME: ADDITIONAL FIELDS HERE, AS NEEDED
     private String _notches;
 
 }

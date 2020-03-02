@@ -78,14 +78,14 @@ class Permutation {
      *  alphabet size. */
     int permute(int p) {
         int r = wrap(p);
-        return _alphabet.toInt(permute(_alphabet.toChar(r)));  // FIXME
+        return _alphabet.toInt(permute(_alphabet.toChar(r)));
     }
 
     /** Return the result of applying the inverse of this permutation
      *  to  C modulo the alphabet size. */
     int invert(int c) {
         int r = wrap(c);
-        return _alphabet.toInt(invert(_alphabet.toChar(r)));  // FIXME
+        return _alphabet.toInt(invert(_alphabet.toChar(r)));
     }
 
     /** Return the result of applying this permutation to the index of P
@@ -107,22 +107,17 @@ class Permutation {
     /** Return true iff this permutation is a derangement (i.e., a
      *  permutation for which no value maps to itself). */
     boolean derangement() {
-        for (int i = 0; i < _alphabet.size(); i += 1) {
-            if (_alphabet.toChar(i) == _map.get(i)) {
+        for (boolean value : _usedChars) {
+            if (!value) {
                 return false;
             }
         }
         return true;
     }
 
-    ArrayList<Character> map() {
-        return _map;
-    }
-
     /** Alphabet of this permutation. */
     private Alphabet _alphabet;
 
-    // FIXME: ADDITIONAL FIELDS HERE, AS NEEDED
     /** For each letter in _alphabet at index i, _map contains its permutation at the same index i. */
     private ArrayList<Character> _map = new ArrayList<>();
     private boolean[] _usedChars;

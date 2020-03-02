@@ -11,10 +11,11 @@ class Reflector extends FixedRotor {
      * is PERM. */
     Reflector(String name, Permutation perm) {
         super(name, perm);
-        // FIXME
+        if (!perm.derangement()) {
+            throw error("Reflectors must be derangements");
+        }
     }
 
-    // FIXME?
     @Override
     /** Return true iff I reflect. */
     boolean reflecting() { return true; }

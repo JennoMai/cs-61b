@@ -11,7 +11,6 @@ class Rotor {
     Rotor(String name, Permutation perm) {
         _name = name;
         _permutation = perm;
-        // FIXME
         _setting = 0;
     }
 
@@ -66,7 +65,7 @@ class Rotor {
         int contact = p + _setting;
         int translation = _permutation.permute(contact);
         int exit = translation - _setting;
-        return _permutation.wrap(exit);  // FIXME
+        return _permutation.wrap(exit);
     }
 
     /** Return the conversion of E (an integer in the range 0..size()-1)
@@ -75,7 +74,7 @@ class Rotor {
         int contact = e + _setting;
         int translation = _permutation.invert(contact);
         int exit = translation - _setting;
-        return _permutation.wrap(exit);  // FIXME
+        return _permutation.wrap(exit);
     }
 
     /** Returns true iff I am positioned to allow the rotor to my left
@@ -99,7 +98,6 @@ class Rotor {
     /** The permutation implemented by this rotor in its 0 position. */
     private Permutation _permutation;
 
-    // FIXME: ADDITIONAL FIELDS HERE, AS NEEDED
     private int _setting;
 
 }

@@ -16,7 +16,7 @@ class Machine {
     Machine(Alphabet alpha, int numRotors, int pawls,
             Collection<Rotor> allRotors) {
         _alphabet = alpha;
-        // FIXME
+
         _availableRotors = allRotors;
         _rotorSlots = new Rotor[numRotors];
         _movingRotors = pawls;
@@ -24,19 +24,18 @@ class Machine {
 
     /** Return the number of rotor slots I have. */
     int numRotors() {
-        return _rotorSlots.length; // FIXME
+        return _rotorSlots.length;
     }
 
     /** Return the number pawls (and thus rotating rotors) I have. */
     int numPawls() {
-        return _movingRotors; // FIXME
+        return _movingRotors;
     }
 
     /** Set my rotor slots to the rotors named ROTORS from my set of
      *  available rotors (ROTORS[0] names the reflector).
      *  Initially, all rotors are set at their 0 setting. */
     void insertRotors(String[] rotors) {
-        // FIXME
         for (int i = 0; i < rotors.length; i += 1) {
             for (Rotor rotor : _availableRotors) {
                 if (rotor.name().equals(rotors[i])) {
@@ -70,6 +69,7 @@ class Machine {
                 _rotorSlots[r].advance();
             } else if (_rotorSlots[r].rotates() && _rotorSlots[r + 1].atNotch()) {
                 _rotorSlots[r].advance();
+                _rotorSlots[r+1].advance();
             }
         }
 
@@ -93,13 +93,12 @@ class Machine {
             char newChar = _alphabet.toChar(newI);
             newMsg[i] = newChar;
         }
-        return new String(newMsg); // FIXME
+        return new String(newMsg);
     }
 
     /** Common alphabet of my rotors. */
     private final Alphabet _alphabet;
 
-    // FIXME: ADDITIONAL FIELDS HERE, IF NEEDED.
     private Collection<Rotor> _availableRotors;
     private Rotor[] _rotorSlots;
     private int _movingRotors;
