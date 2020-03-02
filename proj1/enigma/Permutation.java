@@ -22,13 +22,12 @@ class Permutation {
             _map.add(i, _alphabet.toChar(i));
         }
 
-        int last = 1;
+        int last = 0;
         for (int i = 0; i < cycles.length(); i += 1) {
             char currentChar = cycles.charAt(i);
-            if (currentChar == ')') {
-                addCycle(cycles.substring(last, i));
-                last = i + 3;
-            } else if (i == cycles.length() - 1) {
+            if (currentChar == '(') {
+                last = i + 1;
+            } else if (currentChar == ')') {
                 addCycle(cycles.substring(last, i));
             }
         }

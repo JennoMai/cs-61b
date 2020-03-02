@@ -39,7 +39,7 @@ class Machine {
         // FIXME
         for (int i = 0; i < rotors.length; i += 1) {
             for (Rotor rotor : _availableRotors) {
-                if (rotor.name() == rotors[i]) {
+                if (rotor.name().equals(rotors[i])) {
                     _rotorSlots[i] = rotor;
                 }
             }
@@ -87,13 +87,13 @@ class Machine {
     /** Returns the encoding/decoding of MSG, updating the state of
      *  the rotors accordingly. */
     String convert(String msg) {
-        String newMsg = msg;
+        char[] newMsg = msg.toCharArray();
         for (int i = 0; i < msg.length(); i += 1) {
-            int newI = convert(msg.charAt(i));
+            int newI = convert(_alphabet.toInt(msg.charAt(i)));
             char newChar = _alphabet.toChar(newI);
-            newMsg = newMsg.replace(newMsg.charAt(i), newChar);
+            newMsg[i] = newChar;
         }
-        return newMsg; // FIXME
+        return new String(newMsg); // FIXME
     }
 
     /** Common alphabet of my rotors. */

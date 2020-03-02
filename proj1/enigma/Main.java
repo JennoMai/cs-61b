@@ -82,13 +82,17 @@ public final class Main {
         // FIXME
         Machine machine = readConfig();
         System.setOut(_output);
-        String outmsg = "";
         while (_input.hasNext()) {
+            String outmsg = "";
             if (_input.hasNext("\\*")) {
-                setUp(machine, _input.nextLine());
+                String setUpLine = _input.nextLine();
+                if (setUpLine.isEmpty()) {
+                    setUpLine = _input.nextLine();
+                }
+                setUp(machine, setUpLine);
             }
             while (_input.hasNext() && !_input.hasNext("\\*")) {
-                outmsg.concat(machine.convert(_input.next()));
+                outmsg = outmsg.concat(machine.convert(_input.next()));
             }
             printMessageLine(outmsg);
             System.out.println();
@@ -122,8 +126,8 @@ public final class Main {
             String settings = _config.next();
 
             String cycles = "";
-            if (_config.hasNext("\\(.*\\)")) {
-                cycles.concat(_config.next());
+            while (_config.hasNext("\\(.*\\)")) {
+                cycles = cycles.concat(_config.next() + " ");
             }
             Permutation perm = new Permutation(cycles, _alphabet);
 
@@ -147,12 +151,12 @@ public final class Main {
     private void setUp(Machine M, String settings) {
         Scanner sScanner = new Scanner(settings);
 
-        if (sScanner.next() != "*") {
+        if (sScanner.next().charAt(0) != '*') {
             throw error("Missing settings line or identifier.");
         }
 
         String[] rotors = new String[M.numRotors()];
-        for (int i = 0; i <= M.numRotors(); i += 1) {
+        for (int i = 0; i < M.numRotors(); i += 1) {
             rotors[i] = sScanner.next();
         }
         M.insertRotors(rotors);
@@ -160,7 +164,7 @@ public final class Main {
         boolean setRotors = false;
         String cycles = "";
         while (sScanner.hasNext()) {
-            String next = _input.next();
+            String next = sScanner.next();
             if (next.charAt(0) == '(') {
                 cycles.concat(next);
                 setRotors = true;
