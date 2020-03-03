@@ -85,7 +85,6 @@ public final class Main {
         boolean hasSetting = false;
 
         while (_input.hasNext()) {
-            String outmsg = "";
             if (_input.hasNext("\\*")) {
                 String asterisk = _input.next();
                 String setUpLine = _input.nextLine();
@@ -99,10 +98,17 @@ public final class Main {
                 throw error("No configuration line found.");
             }
             while (_input.hasNext() && !_input.hasNext("\\*")) {
-                outmsg = outmsg.concat(machine.convert(_input.next()));
+                String outmsg = "";
+                String line = _input.nextLine();
+                Scanner lineScanner = new Scanner(line);
+                while (lineScanner.hasNext()) {
+                    outmsg = outmsg.concat(machine.convert(lineScanner.next()));
+                }
+                printMessageLine(outmsg);
+                System.out.println();
             }
-            printMessageLine(outmsg);
-            System.out.println();
+//            printMessageLine(outmsg);
+//            System.out.println();
         }
     }
 
