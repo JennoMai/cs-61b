@@ -86,14 +86,28 @@ class Machine {
 
      *  the machine. */
     int convert(int c) {
-        for (int r = _rotorSlots.length - 1; r >= 0; r -= 1) {
-            if (r == _rotorSlots.length - 1) {
-                _rotorSlots[r].advance();
-            } else if (_rotorSlots[r].rotates() && _rotorSlots[r + 1].atNotch()) {
-                _rotorSlots[r].advance();
-                _rotorSlots[r+1].advance();
+            boolean[] willAdvance = new boolean[_rotorSlots.length];
+            for (int r = 0; r < _rotorSlots.length; r += 1) {
+                if (r == _rotorSlots.length - 1) {
+                    willAdvance[r] = true;
+                } else if (_rotorSlots[r].rotates() && _rotorSlots[r + 1].atNotch()) {
+                    willAdvance[r] = willAdvance[r + 1] = true;
+                }
             }
-        }
+            for (int r = 0; r < _rotorSlots.length; r += 1) {
+                if (willAdvance[r]) {
+                    _rotorSlots[r].advance();
+                }
+            }
+
+//        for (int r = _rotorSlots.length - 1; r >= 0; r -= 1) {
+//            if (r == _rotorSlots.length - 1) {
+//                _rotorSlots[r].advance();
+//            } else if (_rotorSlots[r].rotates() && _rotorSlots[r + 1].atNotch()) {
+//                _rotorSlots[r].advance();
+//                _rotorSlots[r+1].advance();
+//            }
+//        }
 
         int newc =_plugboard.permute(c);
         for (int r = _rotorSlots.length - 1; r >= 0; r -= 1) {
