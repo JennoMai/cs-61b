@@ -78,7 +78,7 @@ class Machine {
 
     void setRings(String setting) {
         if (setting.length() >= _rotorSlots.length || setting.length() < _rotorSlots.length - 1) {
-            throw error("Misformatted rotor settings.");
+            throw error("Misformatted ring settings.");
         }
         for (int i = 0; i < setting.length(); i += 1) {
             _rotorSlots[i + 1].setRing(setting.charAt(i));
