@@ -187,6 +187,7 @@ public final class Main {
                 setRotors = true;
             } else if (next.charAt(0) != '(' && !setRotors) {
                 M.setRotors(next);
+                setRotors = true;
             } else {
                 throw error("Incorrect settings format.");
             }
