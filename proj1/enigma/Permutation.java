@@ -17,6 +17,7 @@ class Permutation {
      *  Whitespace is ignored. */
     Permutation(String cycles, Alphabet alphabet) {
         _alphabet = alphabet;
+        _cycles = cycles;
         _usedChars = new boolean[_alphabet.size()];
         for (int i = 0; i < _alphabet.size(); i += 1) {
             _map.add(i, _alphabet.toChar(i));
@@ -115,10 +116,13 @@ class Permutation {
         return true;
     }
 
+    String cycles() { return _cycles; }
+
     /** Alphabet of this permutation. */
     private Alphabet _alphabet;
 
     /** For each letter in _alphabet at index i, _map contains its permutation at the same index i. */
     private ArrayList<Character> _map = new ArrayList<>();
     private boolean[] _usedChars;
+    private String _cycles;
 }

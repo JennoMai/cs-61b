@@ -15,6 +15,7 @@ class Rotor {
         _name = name;
         _permutation = perm;
         _setting = 0;
+        _ring = 0;
     }
 
     /** Return my name. */
@@ -62,21 +63,29 @@ class Rotor {
         _setting = _permutation.alphabet().toInt(cposn);
     }
 
+    void setRing(char crposn) {
+        _ring = _permutation.alphabet().toInt(crposn);
+    }
+
+    int getRing() {
+        return _ring;
+    }
+
     /** Return the conversion of P (an integer in the range 0..size()-1)
      *  according to my permutation. Where P is the signal entering the rotor. */
     int convertForward(int p) {
-        int contact = p + _setting;
+        int contact = p + _setting - _ring;
         int translation = _permutation.permute(contact);
-        int exit = translation - _setting;
+        int exit = translation - _setting + _ring;
         return _permutation.wrap(exit);
     }
 
     /** Return the conversion of E (an integer in the range 0..size()-1)
      *  according to the inverse of my permutation. */
     int convertBackward(int e) {
-        int contact = e + _setting;
+        int contact = e + _setting - _ring;
         int translation = _permutation.invert(contact);
-        int exit = translation - _setting;
+        int exit = translation - _setting + _ring;
         return _permutation.wrap(exit);
     }
 
@@ -102,5 +111,6 @@ class Rotor {
     private Permutation _permutation;
 
     private int _setting;
+    private  int _ring;
 
 }

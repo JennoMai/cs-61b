@@ -179,6 +179,8 @@ public final class Main {
         M.insertRotors(rotors);
 
         boolean setRotors = false;
+        M.setRings("AAAA");
+        boolean setRings = false;
         String cycles = "";
         while (sScanner.hasNext()) {
             String next = sScanner.next();
@@ -188,6 +190,9 @@ public final class Main {
             } else if (next.charAt(0) != '(' && !setRotors) {
                 M.setRotors(next);
                 setRotors = true;
+            } else if (next.charAt(0) != '(' && setRotors && !setRings) {
+                M.setRings(next);
+                setRings = true;
             } else {
                 throw error("Incorrect settings format.");
             }
