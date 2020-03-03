@@ -37,8 +37,15 @@ class MovingRotor extends Rotor {
      *  to advance. */
     boolean atNotch() {
         for (int i = 0; i < _notches.length(); i += 1) {
-            if (setting() == alphabet().toInt(_notches.charAt(i))) {
-                return true;
+            int notch = alphabet().toInt(_notches.charAt(i));
+            if (notch >= 0) {
+                if (setting() == notch) {
+                    return true;
+                }
+            } else {
+                if (setting() == alphabet().size() + notch) {
+                    return true;
+                }
             }
         }
         return false;
