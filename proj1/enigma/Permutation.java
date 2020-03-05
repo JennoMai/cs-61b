@@ -28,7 +28,7 @@ class Permutation {
             if (currentChar == '(') {
                 last = i + 1;
             } else if (currentChar == ')') {
-                if (i - last == 1) {
+                if (i - last == 0) {
                     throw error("() is not a valid cycle.");
                 }
                 addCycle(cycles.substring(last, i));

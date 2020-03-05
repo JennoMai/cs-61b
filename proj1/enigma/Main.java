@@ -86,7 +86,7 @@ public final class Main {
 
         while (_input.hasNext()) {
             if (_input.hasNext("\\*")) {
-                String asterisk = _input.next();
+                String tempAsterisk = _input.next();
                 String setUpLine = _input.nextLine();
                 if (setUpLine.isEmpty()) {
                     setUpLine = _input.nextLine();
@@ -106,6 +106,9 @@ public final class Main {
                 }
                 printMessageLine(outmsg);
                 System.out.println();
+                if (_input.hasNext("\\*")) {
+                    System.out.println();
+                }
             }
 //            printMessageLine(outmsg);
 //            System.out.println();
