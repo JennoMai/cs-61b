@@ -86,11 +86,12 @@ public final class Main {
 
         while (_input.hasNext()) {
             if (_input.hasNext("\\*")) {
-                String tempAsterisk = _input.next();
                 String setUpLine = _input.nextLine();
-                if (setUpLine.isEmpty()) {
+                while (setUpLine.isEmpty()) {
+                    System.out.println();
                     setUpLine = _input.nextLine();
                 }
+                setUpLine = setUpLine.replace('*', ' ');
                 hasSetting = true;
                 setUp(machine, setUpLine);
             }
@@ -106,9 +107,6 @@ public final class Main {
                 }
                 printMessageLine(outmsg);
                 System.out.println();
-                if (_input.hasNext("\\*")) {
-                    System.out.println();
-                }
             }
 //            printMessageLine(outmsg);
 //            System.out.println();
