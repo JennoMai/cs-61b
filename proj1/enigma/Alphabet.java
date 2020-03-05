@@ -65,7 +65,5 @@ class Alphabet {
         return -1;
     }
 
-    String allChars() { return _chars; }
-
     private String _chars;
 }
