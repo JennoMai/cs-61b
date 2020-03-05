@@ -179,7 +179,7 @@ public final class Main {
         M.insertRotors(rotors);
 
         boolean setRotors = false;
-        M.setRings("AAAA");
+        M.setRings();
         boolean setRings = false;
         String cycles = "";
         while (sScanner.hasNext()) {
