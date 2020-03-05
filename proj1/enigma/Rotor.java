@@ -63,12 +63,10 @@ class Rotor {
         _setting = _permutation.alphabet().toInt(cposn);
     }
 
+    void setRing(int posn) {_ring = posn; }
+
     void setRing(char crposn) {
         _ring = _permutation.alphabet().toInt(crposn);
-    }
-
-    int getRing() {
-        return _ring;
     }
 
     /** Return the conversion of P (an integer in the range 0..size()-1)

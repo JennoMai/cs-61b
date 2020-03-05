@@ -78,7 +78,7 @@ class Machine {
 
     void setRings() {
         for (int i = 0; i < _rotorSlots.length - 1; i += 1) {
-            _rotorSlots[i + 1].setRing('A');
+            _rotorSlots[i + 1].setRing(0);
         }
     }
 
