@@ -58,14 +58,18 @@ class Rotor {
         _setting = _permutation.alphabet().toInt(cposn);
     }
 
-    void setRing(int posn) { _ring = posn; }
+    /** Set _ring to POSN. */
+    void setRing(int posn) {
+        _ring = posn;
+    }
 
+    /** Set _ring to character CRPOSN. */
     void setRing(char crposn) {
         _ring = _permutation.alphabet().toInt(crposn);
     }
 
     /** Return the conversion of P (an integer in the range 0..size()-1)
-     *  according to my permutation. Where P is the signal entering the rotor. */
+     *  according to my permutation. P is the signal entering the rotor. */
     int convertForward(int p) {
         int contact = p + _setting - _ring;
         int translation = _permutation.permute(contact);

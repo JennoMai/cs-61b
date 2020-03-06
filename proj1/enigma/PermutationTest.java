@@ -56,7 +56,9 @@ public class PermutationTest {
         perm = new Permutation("(ACDE) (BKF) (ZROTGHNM)", UPPER);
         checkPerm("test1", UPPER_STRING, "CKDEABHNIJFLZMTPQOSGUVWXYR");
 
-        perm = new Permutation("(A) (B) (C) (D) (E) (F) (G) (H) (I) (J) (K) (L) (M) (N) (O) (P) (Q) (R) (S) (T) (U) (V) (W) (X) (Y) (Z)", UPPER);
+        perm = new Permutation("(A) (B) (C) (D) (E) (F) (G)" +
+                                "(H) (I) (J) (K) (L) (M) (N) (O) (P)" +
+                                "(Q) (R) (S) (T) (U) (V) (W) (X) (Y) (Z)", UPPER);
         checkPerm("expIdentity", UPPER_STRING, UPPER_STRING);
     }
 

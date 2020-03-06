@@ -109,7 +109,8 @@ class Machine {
         for (int r = 0; r < _rotorSlots.length; r += 1) {
             if (r == _rotorSlots.length - 1) {
                 willAdvance[r] = true;
-            } else if (_rotorSlots[r].rotates() && _rotorSlots[r + 1].atNotch()) {
+            } else if (_rotorSlots[r].rotates()
+                       && _rotorSlots[r + 1].atNotch()) {
                 willAdvance[r] = willAdvance[r + 1] = true;
             }
         }
