@@ -60,27 +60,15 @@ public class PermutationTest {
         checkPerm("expIdentity", UPPER_STRING, UPPER_STRING);
     }
 
-    @Test
+    @Test(expected = EnigmaException.class)
     public void errorTestRepeat() {
-        boolean thrown = false;
-        try {
-            perm = new Permutation("(ABCDBE)", UPPER);
-        } catch (Exception e) {
-            thrown = true;
-        }
-        assertTrue(thrown);
+        perm = new Permutation("(ABCDBE)", UPPER);
     }
 
-    @Test
+    @Test(expected = EnigmaException.class)
     public void errorTestNotContains() {
-        boolean thrown = false;
         Alphabet a = new Alphabet("A");
-        try {
-            perm = new Permutation("(ABCD)", a);
-        } catch (Exception e) {
-            thrown = true;
-        }
-        assertTrue(thrown);
+        perm = new Permutation("(ABCD)", a);
     }
 
 }

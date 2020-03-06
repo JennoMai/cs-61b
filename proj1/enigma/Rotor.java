@@ -28,11 +28,6 @@ class Rotor {
         return _permutation.alphabet();
     }
 
-    /** Return my permutation. */
-    Permutation permutation() {
-        return _permutation;
-    }
-
     /** Return the size of my alphabet. */
     int size() {
         return _permutation.size();
@@ -63,7 +58,7 @@ class Rotor {
         _setting = _permutation.alphabet().toInt(cposn);
     }
 
-    void setRing(int posn) {_ring = posn; }
+    void setRing(int posn) { _ring = posn; }
 
     void setRing(char crposn) {
         _ring = _permutation.alphabet().toInt(crposn);
@@ -108,7 +103,10 @@ class Rotor {
     /** The permutation implemented by this rotor in its 0 position. */
     private Permutation _permutation;
 
+    /** My setting. */
     private int _setting;
+
+    /** My ring setting. */
     private  int _ring;
 
 }

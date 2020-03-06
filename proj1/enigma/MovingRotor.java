@@ -20,7 +20,9 @@ class MovingRotor extends Rotor {
 
     @Override
     /** Return true iff I have a ratchet and can move. */
-    boolean rotates() { return true; }
+    boolean rotates() {
+        return true;
+    }
 
     @Override
     /** Advance me one position, if possible. By default, does nothing. */
@@ -51,6 +53,7 @@ class MovingRotor extends Rotor {
         return false;
     }
 
+    /** A list of the rotor's notches. */
     private String _notches;
 
 }

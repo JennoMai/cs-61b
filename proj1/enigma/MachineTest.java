@@ -14,11 +14,16 @@ public class MachineTest {
     private ArrayList<Rotor> cNAVALA = new ArrayList<>();
 
     private void setUp() {
-        cNAVALA.add(new MovingRotor("I", new Permutation(NAVALA.get("I"), UPPER), ""));
-        cNAVALA.add(new MovingRotor("IV", new Permutation(NAVALA.get("IV"), UPPER), "J"));
-        cNAVALA.add(new MovingRotor("III", new Permutation(NAVALA.get("III"), UPPER), "V"));
-        cNAVALA.add(new FixedRotor("Beta", new Permutation(NAVALA.get("Beta"), UPPER)));
-        cNAVALA.add(new Reflector("B", new Permutation(NAVALA.get("B"), UPPER)));
+        cNAVALA.add(new MovingRotor("I",
+                    new Permutation(NAVALA.get("I"), UPPER), ""));
+        cNAVALA.add(new MovingRotor("IV",
+                    new Permutation(NAVALA.get("IV"), UPPER), "J"));
+        cNAVALA.add(new MovingRotor("III",
+                    new Permutation(NAVALA.get("III"), UPPER), "V"));
+        cNAVALA.add(new FixedRotor("Beta",
+                    new Permutation(NAVALA.get("Beta"), UPPER)));
+        cNAVALA.add(new Reflector("B",
+                    new Permutation(NAVALA.get("B"), UPPER)));
     }
 
     @Test

@@ -4,12 +4,10 @@ import java.io.File;
 import java.io.IOException;
 import java.io.PrintStream;
 
-import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.NoSuchElementException;
 import java.util.Scanner;
-import java.util.regex.Pattern;
 
 import static enigma.EnigmaException.*;
 
@@ -108,8 +106,6 @@ public final class Main {
                 printMessageLine(outmsg);
                 System.out.println();
             }
-//            printMessageLine(outmsg);
-//            System.out.println();
         }
     }
 

@@ -12,8 +12,8 @@ class Alphabet {
     /** A new alphabet containing CHARS.  Character number #k has index
      *  K (numbering from 0). No character may be duplicated. */
     Alphabet(String chars) {
-        if (chars.contains("(") || chars.contains(")") || chars.contains(" ") || chars.contains("*")) {
-            throw error("Blanks, parentheses, and asterisks not permitted in alphabet.");
+        if (chars.contains("(") || chars.contains(")") || chars.contains("*")) {
+            throw error("Parentheses and asterisks not permitted in alphabet.");
         }
         Map<Character, Integer> map = new HashMap<>();
         char[] string2chars = chars.toCharArray();
@@ -65,5 +65,6 @@ class Alphabet {
         return -1;
     }
 
+    /** All chars represented by the alphabet. */
     private String _chars;
 }

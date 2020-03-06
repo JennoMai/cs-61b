@@ -44,18 +44,18 @@ class Machine {
                         throw error("Last rotor must be a reflector!");
                     } else if (i != 0 && rotor.reflecting()) {
                         throw error("Only the last rotor can be a reflector!");
-                    } else if (i < _rotorSlots.length - _movingRotors &&
-                                rotor.rotates()) {
+                    } else if (i < _rotorSlots.length - _movingRotors
+                               && rotor.rotates()) {
                         throw error("Moving rotor placed in non-moving slot.");
-                    } else if (i >= _rotorSlots.length - _movingRotors &&
-                                !rotor.rotates()) {
+                    } else if (i >= _rotorSlots.length - _movingRotors
+                               && !rotor.rotates()) {
                         throw error("Non-moving rotor placed in moving slot.");
                     }
 
                     if (!usedRotors.containsKey(rotor)) {
                         usedRotors.put(rotor, 1);
                     } else {
-                        throw error("Rotors may not be repeated in one machine.");
+                        throw error("Duplicate rotor used.");
                     }
 
                     _rotorSlots[i] = rotor;
@@ -68,7 +68,8 @@ class Machine {
      *  numRotors()-1 characters in my alphabet. The first letter refers
      *  to the leftmost rotor setting (not counting the reflector).  */
     void setRotors(String setting) {
-        if (setting.length() >= _rotorSlots.length || setting.length() < _rotorSlots.length - 1) {
+        if (setting.length() >= _rotorSlots.length
+            || setting.length() < _rotorSlots.length - 1) {
             throw error("Misformatted rotor settings.");
         }
         for (int i = 0; i < setting.length(); i += 1) {
@@ -76,14 +77,17 @@ class Machine {
         }
     }
 
+    /** Sets all rotors to their default ring setting. */
     void setRings() {
         for (int i = 0; i < _rotorSlots.length - 1; i += 1) {
             _rotorSlots[i + 1].setRing(0);
         }
     }
 
+    /** Sets all rotors' ring settings according to SETTING. */
     void setRings(String setting) {
-        if (setting.length() >= _rotorSlots.length || setting.length() < _rotorSlots.length - 1) {
+        if (setting.length() >= _rotorSlots.length
+            || setting.length() < _rotorSlots.length - 1) {
             throw error("Misformatted ring settings.");
         }
         for (int i = 0; i < setting.length(); i += 1) {
@@ -101,30 +105,21 @@ class Machine {
 
      *  the machine. */
     int convert(int c) {
-            boolean[] willAdvance = new boolean[_rotorSlots.length];
-            for (int r = 0; r < _rotorSlots.length; r += 1) {
-                if (r == _rotorSlots.length - 1) {
-                    willAdvance[r] = true;
-                } else if (_rotorSlots[r].rotates() && _rotorSlots[r + 1].atNotch()) {
-                    willAdvance[r] = willAdvance[r + 1] = true;
-                }
+        boolean[] willAdvance = new boolean[_rotorSlots.length];
+        for (int r = 0; r < _rotorSlots.length; r += 1) {
+            if (r == _rotorSlots.length - 1) {
+                willAdvance[r] = true;
+            } else if (_rotorSlots[r].rotates() && _rotorSlots[r + 1].atNotch()) {
+                willAdvance[r] = willAdvance[r + 1] = true;
             }
-            for (int r = 0; r < _rotorSlots.length; r += 1) {
-                if (willAdvance[r]) {
-                    _rotorSlots[r].advance();
-                }
+        }
+        for (int r = 0; r < _rotorSlots.length; r += 1) {
+            if (willAdvance[r]) {
+                _rotorSlots[r].advance();
             }
+        }
 
-//        for (int r = _rotorSlots.length - 1; r >= 0; r -= 1) {
-//            if (r == _rotorSlots.length - 1) {
-//                _rotorSlots[r].advance();
-//            } else if (_rotorSlots[r].rotates() && _rotorSlots[r + 1].atNotch()) {
-//                _rotorSlots[r].advance();
-//                _rotorSlots[r+1].advance();
-//            }
-//        }
-
-        int newc =_plugboard.permute(c);
+        int newc = _plugboard.permute(c);
         for (int r = _rotorSlots.length - 1; r >= 0; r -= 1) {
             newc = _rotorSlots[r].convertForward(newc);
         }
@@ -155,9 +150,16 @@ class Machine {
     /** Common alphabet of my rotors. */
     private final Alphabet _alphabet;
 
+    /** A collection of all rotors that may be slotted into the machine. */
     private Collection<Rotor> _availableRotors;
+
+    /** The spaces in the machine that may contain rotors. */
     private Rotor[] _rotorSlots;
+
+    /** The number of moving rotors. */
     private int _movingRotors;
+
+    /** The machine's plugboard. */
     private Permutation _plugboard;
 
 }

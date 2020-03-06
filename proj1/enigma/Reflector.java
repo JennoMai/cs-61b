@@ -18,7 +18,9 @@ class Reflector extends FixedRotor {
 
     @Override
     /** Return true iff I reflect. */
-    boolean reflecting() { return true; }
+    boolean reflecting() {
+        return true;
+    }
 
     @Override
     void set(int posn) {

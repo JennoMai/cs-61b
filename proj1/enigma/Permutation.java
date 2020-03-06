@@ -39,7 +39,7 @@ class Permutation {
     /** Add the cycle c0->c1->...->cm->c0 to the permutation, where CYCLE is
      *  c0c1...cm.
      *
-     *  _alphabet containing [A, B, C, D, E, F, G] maps to [C, D, E, F, G, B, A]*/
+     *  _alphabet containing [A, B, C, D, E] maps to [B, C, D, E, A]*/
     private void addCycle(String cycle) {
         int length = cycle.length();
         for (int i = 0; i < length; i += 1) {
@@ -58,7 +58,7 @@ class Permutation {
             if (i == length - 1) {
                 _map.set(aIndex, cycle.charAt(0));
             } else {
-                _map.set(aIndex, cycle.charAt(i+1));
+                _map.set(aIndex, cycle.charAt(i + 1));
             }
         }
     }
@@ -121,7 +121,9 @@ class Permutation {
     /** Alphabet of this permutation. */
     private Alphabet _alphabet;
 
-    /** For each letter in _alphabet at index i, _map contains its permutation at the same index i. */
+    /** The characters that each letter in _alphabet map to. */
     private ArrayList<Character> _map = new ArrayList<>();
+
+    /** A boolean array representing whether a char maps to a different char. */
     private boolean[] _usedChars;
 }
