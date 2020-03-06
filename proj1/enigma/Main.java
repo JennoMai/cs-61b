@@ -171,6 +171,9 @@ public final class Main {
         String[] rotors = new String[M.numRotors()];
         for (int i = 0; i < M.numRotors(); i += 1) {
             String rotorName = sScanner.next();
+            if (rotorName.isEmpty()) {
+                throw error("Not enough rotors specified.");
+            }
             rotors[i] = rotorName;
         }
         M.insertRotors(rotors);

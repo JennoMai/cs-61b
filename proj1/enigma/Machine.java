@@ -38,6 +38,7 @@ class Machine {
     void insertRotors(String[] rotors) {
         HashMap<Rotor, Integer> usedRotors = new HashMap<>();
         for (int i = 0; i < rotors.length; i += 1) {
+            boolean found = false;
             for (Rotor rotor : _availableRotors) {
                 if (rotor.name().equals(rotors[i])) {
                     if (i == 0 && !rotor.reflecting()) {
@@ -52,14 +53,17 @@ class Machine {
                         throw error("Non-moving rotor placed in moving slot.");
                     }
 
-                    if (!usedRotors.containsKey(rotor)) {
-                        usedRotors.put(rotor, 1);
-                    } else {
+                    if (usedRotors.containsKey(rotor)) {
                         throw error("Duplicate rotor used.");
                     }
 
+                    usedRotors.put(rotor, 1);
                     _rotorSlots[i] = rotor;
+                    found = true;
                 }
+            }
+            if (!found) {
+                throw error("Rotor not found.");
             }
         }
     }
