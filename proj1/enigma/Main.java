@@ -152,8 +152,14 @@ public final class Main {
                 String notches = settings.substring(1);
                 return new MovingRotor(name, perm, notches);
             } else if (settings.charAt(0) == 'N') {
+                if (settings.length() > 1) {
+                    throw error("bad rotor description");
+                }
                 return new FixedRotor(name, perm);
             } else if (settings.charAt(0) == 'R') {
+                if (settings.length() > 1) {
+                    throw error("bad rotor description");
+                }
                 return new Reflector(name, perm);
             } else {
                 throw error("bad rotor type specification");
