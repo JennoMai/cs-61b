@@ -107,6 +107,10 @@ public final class Main {
                 System.out.println();
             }
         }
+        while (_input.hasNextLine()) {
+            _input.nextLine();
+            System.out.println();
+        }
     }
 
     /** Return an Enigma machine configured from the contents of configuration
