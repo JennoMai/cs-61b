@@ -10,6 +10,12 @@ public class BitExerciseTest {
     public void testLastBit() {
         int four = BitExercise.lastBit(100);
         assertEquals(4, four);
+
+        int sixteen = BitExercise.lastBit(28);
+        assertEquals(4, sixteen);
+
+        int twozerofoureight = BitExercise.lastBit(3208);
+        assertEquals(8, twozerofoureight);
     }
 
     @Test

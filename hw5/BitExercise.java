@@ -1,5 +1,5 @@
 /** A collection of bit twiddling exercises.
- *  @author
+ *  @author Jenny Mei
  */
 
 public class BitExercise {
@@ -11,15 +11,21 @@ public class BitExercise {
     * should return 4, which in binary is 0b100.
     */
     public static int lastBit(int x) {
-        return 0; //TODO: Your code here
-    }
+        System.out.println("Input is: " + Integer.toBinaryString(x));
+        int complement = ~x + 0b1;
+        System.out.println("Complement is: " + Integer.toBinaryString(complement));
+        int result = complement & x;
+        System.out.println("Result is: " + Integer.toBinaryString(result));
+        System.out.println("----------------------------------------------");
+        return result;
+        }
 
     /** Fill in the function below so that it returns 
     * True iff x is a power of two, otherwise False.
     * For example: 2, 32, and 8192 are powers of two.
     */
     public static boolean powerOfTwo(int x) {
-        return false; //TODO: Your code here
+        return lastBit(x) == x; //TODO: Your code here
     }
     
     /** Fill in the function below so that it returns 
@@ -28,7 +34,6 @@ public class BitExercise {
     * For example, absolute(1) should return 1 and 
     * absolute(-1) should return 1.
     */
-    public static int absolute(int x) {
-        return 0; //TODO: your code here
+    public static int absolute(int x) { return 0;
     } 
 }
