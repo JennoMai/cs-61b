@@ -25,7 +25,14 @@ public class Nybbles {
         if (k < 0 || k >= _n) {
             throw new IndexOutOfBoundsException();
         } else {
-            return 0; // REPLACE WITH SOLUTION
+            int num = k / 8;
+            int nybble = k % 8;
+            System.out.println(Integer.toBinaryString(_data[num]));
+            int left = _data[num] << (4 * (7 - nybble));
+            System.out.println(Integer.toBinaryString(left));
+            int right = left >> 28;
+            System.out.println(Integer.toBinaryString(right));
+            return right;
         }
     }
 
@@ -37,7 +44,15 @@ public class Nybbles {
         } else if (val < (-MAX_VALUE - 1) || val > MAX_VALUE) {
             throw new IllegalArgumentException();
         } else {
-            _data[0] = 0; // REPLACE WITH SOLUTION
+            int num = k / 8;
+            int nybble = k % 8;
+            if (val >= 0) {
+                _data[num] = _data[num] + val * (int) Math.pow(16, nybble); // REPLACE WITH SOLUTION
+            } else {
+                int newnum = (val + 1) * (int) Math.pow(16, nybble) - 1;
+                _data[num] = _data[num] | 15 * (int) Math.pow(16, nybble);
+                _data[num] = _data[num] & newnum;
+            }
         }
     }
 
