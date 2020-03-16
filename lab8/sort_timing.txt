@@ -1,20 +1,20 @@
 Q: Is one sorting algorithm always faster than another?
-A:
+A: When array sizes are small, the times can vary significantly, and each algorithm has occasional spikes in runtime. However, CountingSorter seems to consistently have extremely fast runtimes. As array size increases, general trends start to emerge in speed, with BubbleSorter being the slowest and CountingSorter the fastest.
 
 Q: Above we said that BubbleSort, WipingBubbleSort, and InsertionSort each had the same Theta(N^2) asymptotic time complexity. How can you explain the differences in the plots for these three algorithms?
-A:
+A: The three algorithms will follow the same general trend of growth as N increases infinitely; when N is still small, coefficients and sums to their time complexity will still have noticeable effect on the shape of their time complexity curve.
 
 Q: What information can we gain from empirical analysis of algorithms which might not be as noticeable in asymptotical bounds?
-A:
+A: We can learn which algorithms are faster given different types and sizes of data sets.
 
 Q: For any given sorting algorithm, does increasing the array size always mean the sorting takes longer?
-A:
+A: Sorting generally takes longer as size increases, although CountingSorter doesn't appear to grow noticeably.
 
 Q: How does changing nrepeats change the plot?
-A:
+A: The plot becomes smoother, with less major spikes in time.
 
 Q: Is your plot the exact same as your partner's plot, even with the same values of ntrials, by, and nrepeats?
-A:
+A: No, it is not.
 
 Q: Optional: Look at the source code for BubbleSorter to WipingBubbleSorter. After looking at the plots, can you intuitively explain why WipingBubbleSorter is usually 2x as fast as BubbleSorter? (Hint: Consider the immobility of some elements when the swapping passes are single directional (i.e. only going forward), and how this "Wiping" strategy helps deal with that issue.) Can you come up with an example that shows the difference in runtime?
 A:

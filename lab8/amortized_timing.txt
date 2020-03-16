@@ -1,17 +1,17 @@
 Q: Is one GrowList implementation always better than the others?
-A:
+A: Yes, JavaGrowList appears to be consistently faster than the others.
 
 Q: Why is the runtime for N insertions into a geometrically resizing list a Theta(N) operation?
-A:
+A: The time taken to double an array of size S and move its elements is proportional to 2S; meanwhile, inserting terms takes constant time Theta(1). Hence, the fastest growing aspect of the operation is the time taken to resize the list, which will be proportional to Theta(N).
 
 Q: Why is the runtime for N insertions into a arithmetically resizing list a Theta(N^2) operation?
-A:
+A: The list must duplicate itself every time a term is added; if inserting a term takes constant time Theta(1), the number of operations will follow the sequence 1 + 2 + ... + N. This sums up to Theta(N^2) time.
 
 Q: How does the runtime per operation for the ArithGrowList compare to that of GeomGrowList and JavaGrowList? Specifically look at the non-accumulated plots and desribe the trends for how long each operation takes as a function of how many elements have already been inserted in the list.
-A:
+A: The runtime of ArithGrowList spikes regularly and each operation appears to take more time, scaling in a linear fashion. In comparison, GeomGrowList and JavaGrowList spike much less frequently and seem to take nearly constant time.
 
 Q: When are there spikes in the per operation runtime graphs for each of the implementations? Do these make sense to you? Hint: some of these should and others might not. Empirical runtime can be quite messy and depends on machine specifics which will be revealed in other subsequent classes like CS61C.
-A:
+A: For JavaGrowList, the spikes seem to follow a geometric pattern, becoming spaced further and further apart as size increases. This is likely due to it employing some kind of geometric resizing method. Similarly, GeomGrowList has more spikes when array sizes are small gradually loses them as N grows greater than 150. ArithGrowList has regular spikes, likely due to the regularity of its resizing operations.
 
 Q: Optional: Try changing the code for GeomGrowList to resize by a different factor. How does this effect the theoretical asymptotic runtime? How does this effect the plotted runtime?
 A:
