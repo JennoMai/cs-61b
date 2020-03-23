@@ -81,7 +81,7 @@ public class BSTStringSet implements StringSet, Iterable<String>, SortedStringSe
         }
 
         private boolean findNode(String s) {
-            if (this.s == s) {
+            if (this.s.compareTo(s) == 0) {
                 return true;
             } else if (s.compareTo(this.s) < 0) {
                 if (left == null) {

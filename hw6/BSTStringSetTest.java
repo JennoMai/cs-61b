@@ -12,12 +12,12 @@ public class BSTStringSetTest  {
 
     @Test
     public void testBST() {
-        StringUtils.setSeed(2);
+        StringUtils.setSeed(20);
         ArrayList<String> allStrings = new ArrayList<>();
 
         BSTStringSet set = new BSTStringSet();
-        for (int i = 0; i < 15; i += 1) {
-            String newString = StringUtils.randomString(4);
+        for (int i = 0; i < 500000; i += 1) {
+            String newString = StringUtils.randomString(100);
             set.put(newString);
             allStrings.add(newString);
         }
