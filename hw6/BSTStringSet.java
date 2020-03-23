@@ -183,6 +183,8 @@ public class BSTStringSet implements StringSet, Iterable<String>, SortedStringSe
             while (node != null) {
                 if (node.s.compareTo(min) >= 0 && node.s.compareTo(max) <= 0) {
                     _toDo.push(node);
+                } else {
+                    addTree(node.right);
                 }
                 node = node.left;
             }
