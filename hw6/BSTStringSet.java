@@ -26,17 +26,26 @@ public class BSTStringSet implements StringSet, Iterable<String>, SortedStringSe
 
     @Override
     public boolean contains(String s) {
+        if (_root == null && s == null) {
+            return true;
+        } else if (_root == null) {
+            return false;
+        }
         return _root.findNode(s); // FIXME: PART A
     }
 
     @Override
     public List<String> asList() {
-        BSTIterator iter = new BSTIterator(_root);
-        ArrayList<String> strings = new ArrayList<>();
-        while (iter.hasNext()) {
-            strings.add(iter.next());
+        if (_root == null) {
+            return new ArrayList<>();
+        } else {
+            BSTIterator iter = new BSTIterator(_root);
+            ArrayList<String> strings = new ArrayList<>();
+            while (iter.hasNext()) {
+                strings.add(iter.next());
+            }
+            return strings;
         }
-        return strings;
     }
 
     /** Represents a single Node of the tree. */
