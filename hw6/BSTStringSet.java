@@ -144,7 +144,7 @@ public class BSTStringSet implements StringSet, Iterable<String>, SortedStringSe
         }
     }
 
-    private static class BSTRangeIterator extends BSTIterator {
+    private static class BSTRangeIterator implements Iterator<String> {
         /** Stack of nodes to be delivered.  The values to be delivered
          *  are (a) the label of the top of the stack, then (b)
          *  the labels of the right child of the top of the stack inorder,
@@ -157,7 +157,7 @@ public class BSTStringSet implements StringSet, Iterable<String>, SortedStringSe
 
         /** A new iterator over the labels in NODE. */
         BSTRangeIterator(Node node, String l, String h) {
-            super(node);
+            addTree(node);
             min = l;
             max = h;
         }
@@ -171,6 +171,11 @@ public class BSTStringSet implements StringSet, Iterable<String>, SortedStringSe
             Node node = _toDo.pop();
             addTree(node.right);
             return node.s;
+        }
+
+        @Override
+        public boolean hasNext() {
+            return !_toDo.empty();
         }
 
         /** Add the relevant subtrees of the tree rooted at NODE. */
