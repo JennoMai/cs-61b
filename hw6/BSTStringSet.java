@@ -157,9 +157,9 @@ public class BSTStringSet implements StringSet, Iterable<String>, SortedStringSe
 
         /** A new iterator over the labels in NODE. */
         BSTRangeIterator(Node node, String l, String h) {
-            addTree(node);
             min = l;
             max = h;
+            addTree(node);
         }
 
         @Override

@@ -55,6 +55,14 @@ public class BSTStringSetRangeTest {
         assertEquals(WORDS2, found);
     }
 
+    @Test
+    public void testRange() {
+        Iterator<String> iter = _S.iterator(_low, _high);
+        while (iter.hasNext()) {
+            System.out.println(iter.next());
+        }
+    }
+
     /** ARGS = [ random seed, size of WORDS1, low bound, high bound ]. */
     public static void main(String[] args) {
         long seed = Long.parseLong(args[0]);
