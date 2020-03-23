@@ -10,7 +10,7 @@ import static loa.Square.sq;
 import static loa.Move.mv;
 
 /** Tests of the Board class API.
- *  @author
+ *  @author Jenny Mei
  */
 public class BoardTest {
 
@@ -67,7 +67,9 @@ public class BoardTest {
     /** Test display */
     @Test
     public void toStringTest() {
-        assertEquals(BOARD1_STRING, new Board(BOARD1, BP).toString());
+        String resultOfToString = new Board(BOARD1, BP).toString().replaceAll("\\r\\n", "\n");
+        resultOfToString = resultOfToString.replaceAll("\\r", "\n");
+        assertEquals(BOARD1_STRING, resultOfToString);
     }
 
     /** Test legal moves. */
@@ -124,5 +126,8 @@ public class BoardTest {
         assertEquals("Check move count for board 1 after move + retraction",
                      0, b1.movesMade());
     }
+
+    @Test
+    public void
 
 }
