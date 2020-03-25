@@ -2,10 +2,12 @@
  * University of California.  All rights reserved. */
 package loa;
 
+import java.util.List;
+
 import static loa.Piece.*;
 
 /** An automated Player.
- *  @author
+ *  @author Jenny Mei
  */
 class MachinePlayer extends Player {
 
@@ -72,18 +74,81 @@ class MachinePlayer extends Player {
     private int findMove(Board board, int depth, boolean saveMove,
                          int sense, int alpha, int beta) {
         // FIXME
-        if (saveMove) {
-            _foundMove = null; // FIXME
+        int value = estimateBoardValue(board);
+        if (depth == 0 || (sense == 1 && value > beta) || (sense == -1 && value < alpha)) {
+            return value;
         }
-        return 0; // FIXME
+
+        int response;
+        Move bestMove = null;
+        value = -getWinningValue();
+        for (Move move : board.legalMoves()) {
+            board.makeMove(move);
+            Board testBoard = new Board(board);
+            response = findMove(testBoard, depth - 1, false, sense, alpha, beta);
+            if (sense == 1 && response > value) {
+                bestMove = move;
+                value = response;
+                alpha = Math.max(alpha, response);
+
+            } else if (sense == -1 && response < value) {
+                bestMove = move;
+                value = response;
+                beta = Math.min(beta, response);
+            }
+
+            if (beta <= alpha) {
+                break;
+            }
+            board.retract();
+        }
+
+        if (saveMove) {
+            _foundMove = bestMove; // FIXME
+        }
+        return value; // FIXME
     }
 
     /** Return a search depth for the current position. */
     private int chooseDepth() {
-        return 1;  // FIXME
+        int moves = getBoard().movesMade();
+        if (moves < 10) {
+            return 3;
+        } else {
+            return (moves / 10) * 4;
+        }
     }
 
     // FIXME: Other methods, variables here.
+    private int estimateBoardValue(Board board) {
+        if (board.winner() == side()) {
+            return getWinningValue();
+        } else if (board.winner() == side().opposite()) {
+            return -getWinningValue();
+        }
+        List<Integer> myRegions = board.getRegionSizes(side());
+        List<Integer> oppRegions = board.getRegionSizes(side().opposite());
+        int myRegionDiff = myRegions.get(0) - myRegions.get(1);
+        int oppRegionDiff = oppRegions.get(0) - oppRegions.get(1);
+        int biggestRegionDiff = myRegions.get(0) - oppRegions.get(0);
+        int myPieces = 0;
+        for (int i : myRegions) {
+            myPieces += i;
+        }
+        int oppPieces = 0;
+        for (int i :oppRegions) {
+            oppPieces += i;
+        }
+        return myRegionDiff - oppRegionDiff + biggestRegionDiff - 2*myPieces + 2*oppPieces;
+    }
+
+    private int getWinningValue() {
+        if (side() == WP) {
+            return WINNING_VALUE;
+        } else {
+            return -WINNING_VALUE;
+        }
+    }
 
     /** Used to convey moves discovered by findMove. */
     private Move _foundMove;

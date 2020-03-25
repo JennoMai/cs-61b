@@ -2,7 +2,11 @@
  * University of California.  All rights reserved. */
 package loa;
 
+import com.sun.codemodel.internal.JCatchBlock;
 import org.junit.Test;
+
+import java.util.List;
+
 import static org.junit.Assert.*;
 
 import static loa.Piece.*;
@@ -101,7 +105,8 @@ public class BoardTest {
         Board b3 = new Board(BOARD3, BP);
         assertTrue("Board 3 white contiguous?", b3.piecesContiguous(WP));
         assertTrue("Board 3 black contiguous?", b3.piecesContiguous(WP));
-        assertTrue("Board 3 game over", b2.gameOver());
+        assertTrue("Board 3 game over", b3.gameOver());
+        assertEquals(WP, b3.winner());
     }
 
     @Test
@@ -142,5 +147,29 @@ public class BoardTest {
         assertEquals(9, b.numContig(sq(1, 3), new boolean[8][8], BP));
         assertEquals(6, b.numContig(sq(1, 4), new boolean[8][8], WP));
         assertEquals(0, b.numContig(sq(1, 4), new boolean[8][8], BP));
+    }
+
+    @Test
+    public void testMoves() {
+        Board b1 = new Board();
+
+        b1.makeMove(mv("e1-e3"));
+        assertEquals(BP, b1.get(sq(4, 2)));
+
+        try {
+            b1.makeMove(mv("e3-e5"));
+            assertTrue("Illegal move made.", false);
+        } catch (AssertionError error) {
+            assertTrue(true);
+        }
+    }
+
+    @Test
+    public void testLegalMoves() {
+        Board b1 = new Board(BOARD1, BP);
+        List<Move> moveList = b1.legalMoves();
+        for (Move m : moveList) {
+            assertTrue(b1.isLegal(m));
+        }
     }
 }

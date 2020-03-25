@@ -2,6 +2,8 @@
  * University of California.  All rights reserved. */
 package loa;
 
+import com.sun.xml.internal.xsom.impl.scd.Iterators;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -72,9 +74,16 @@ class Board {
         if (board == this) {
             return;
         }
+
         for (int i = 0; i < board._board.length; i += 1) {
             _board[i] = board._board[i];
         }
+        _turn = board.turn();
+        for (Move m : board._moves) {
+            _moves.add(m);
+        }
+
+        //FIXME: Add subset & winner initialization if needed.
     }
 
     /** Return the contents of the square at SQ. */
@@ -111,12 +120,14 @@ class Board {
     void makeMove(Move move) {
         assert isLegal(move);
         if (_board[move.getTo().index()] == _turn.opposite()) {
-            move = move.captureMove();
+            _moves.add(move.captureMove());
+        } else {
+            _moves.add(move);
         }
-        _moves.add(move);
 
         set(move.getTo(), _board[move.getFrom().index()], _turn.opposite());
         _board[move.getFrom().index()] = EMP;
+        _subsetsInitialized = false;
     }
 
     /** Retract (unmake) one move, returning to the state immediately before
@@ -133,6 +144,7 @@ class Board {
         }
 
         _moves.remove(unmove);
+        _subsetsInitialized = false;
     }
 
     /** Return the Piece representing who is next to move. */
@@ -143,7 +155,8 @@ class Board {
     /** Return true iff FROM - TO is a legal move for the player currently on
      *  move. */
     boolean isLegal(Square from, Square to) {
-        if (!from.isValidMove(to)
+        if (to == null || from == null
+            || !from.isValidMove(to)
             || _board[from.index()] != _turn
             || blocked(from, to)) {
             return false;
@@ -193,7 +206,20 @@ class Board {
 
     /** Return a sequence of all legal moves from this position. */
     List<Move> legalMoves() {
-        return null;  // FIXME: I might not need this function?
+        ArrayList<Move> moveList = new ArrayList<>();
+        for (int row = 0; row < BOARD_SIZE; row += 1) {
+            for (int col = 0; col < BOARD_SIZE; col += 1) {
+                Square sq = sq(col, row);
+                for (int dir = 0; dir < 8; dir += 1) {
+                    for (int dis = 1; dis < 8; dis += 1) {
+                        if (isLegal(sq, sq.moveDest(dir, dis))) {
+                            moveList.add(Move.mv(sq, sq.moveDest(dir, dis)));
+                        }
+                    }
+                }
+            }
+        }
+        return moveList;
     }
 
     /** Return true iff the game is over (either player has all his
@@ -213,6 +239,8 @@ class Board {
         if (!_winnerKnown) {
             if (movesMade() >= _moveLimit) {
                 _winner = EMP;
+            } else if (piecesContiguous(WP) && piecesContiguous(BP)) {
+                _winner = turn().opposite();
             } else if (piecesContiguous(WP)) {
                 _winner = WP;
             } else if (piecesContiguous(BP)) {
