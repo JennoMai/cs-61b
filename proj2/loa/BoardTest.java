@@ -142,14 +142,6 @@ public class BoardTest {
     }
 
     @Test
-    public void testnumContig() {
-        Board b = new Board(BOARD2, BP);
-        assertEquals(9, b.numContig(sq(1, 3), new boolean[8][8], BP));
-        assertEquals(6, b.numContig(sq(1, 4), new boolean[8][8], WP));
-        assertEquals(0, b.numContig(sq(1, 4), new boolean[8][8], BP));
-    }
-
-    @Test
     public void testMoves() {
         Board b1 = new Board();
 

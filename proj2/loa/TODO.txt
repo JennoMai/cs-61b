@@ -1,0 +1,2 @@
+The AI is stupid right now.
+Consider: calculating distance between regions and trying to connect them. More regions = at least +1 distance (bad!)
