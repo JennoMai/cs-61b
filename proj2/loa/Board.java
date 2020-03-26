@@ -191,7 +191,7 @@ class Board {
 
     /** Returns the opposite direction of DIR. */
     private int oppositeDir(int dir) {
-        if (dir <= 4) {
+        if (dir < 4) {
             return dir + 4;
         } else {
             return dir - 4;

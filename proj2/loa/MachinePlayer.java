@@ -115,7 +115,7 @@ class MachinePlayer extends Player {
         if (moves < 10) {
             return 3;
         } else {
-            return (moves / 10) * 4;
+            return 4;
         }
     }
 
