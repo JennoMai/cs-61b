@@ -2,8 +2,6 @@
  * University of California.  All rights reserved. */
 package loa;
 
-import com.sun.xml.internal.xsom.impl.scd.Iterators;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -61,6 +59,10 @@ class Board {
                 _board[sq(col, row).index()] = contents[row][col];
             }
         }
+
+        _winner = null;
+        _winnerKnown = false;
+        _subsetsInitialized = false;
 
     }
 
@@ -144,6 +146,11 @@ class Board {
         }
 
         _moves.remove(unmove);
+
+        if (gameOver()) {
+            _winnerKnown = false;
+            _winner = null;
+        }
         _subsetsInitialized = false;
     }
 
@@ -182,11 +189,7 @@ class Board {
             back = back.moveDest(backdir, 1);
         }
 
-        if (count == distance) {
-            return true;
-        } else {
-            return false;
-        }
+        return count == distance;
     }
 
     /** Returns the opposite direction of DIR. */
@@ -334,6 +337,8 @@ class Board {
         if (_subsetsInitialized) {
             return;
         }
+        _whiteGroups.clear();
+        _blackGroups.clear();
         _whiteRegionSizes.clear();
         _blackRegionSizes.clear();
         // FIXME

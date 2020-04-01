@@ -2,7 +2,6 @@
  * University of California.  All rights reserved. */
 package loa;
 
-import com.sun.codemodel.internal.JCatchBlock;
 import org.junit.Test;
 
 import java.util.List;
