@@ -31,7 +31,6 @@ class MachinePlayer extends Player {
     @Override
     String getMove() {
         Move choice;
-
         assert side() == getGame().getBoard().turn();
         int depth;
         choice = searchForMove();
@@ -104,19 +103,14 @@ class MachinePlayer extends Player {
         }
 
         if (saveMove) {
-            _foundMove = bestMove; // FIXME
+            _foundMove = bestMove;
         }
-        return value; // FIXME
+        return value;
     }
 
     /** Return a search depth for the current position. */
     private int chooseDepth() {
-        int moves = getBoard().movesMade();
-        if (moves < 10) {
-            return 3;
-        } else {
-            return 4;
-        }
+        return 3;
     }
 
     // FIXME: Other methods, variables here.
@@ -128,8 +122,6 @@ class MachinePlayer extends Player {
         }
         List<Integer> myRegions = board.getRegionSizes(side());
         List<Integer> oppRegions = board.getRegionSizes(side().opposite());
-        int myRegionDiff = myRegions.get(0) - myRegions.get(1);
-        int oppRegionDiff = oppRegions.get(0) - oppRegions.get(1);
         int biggestRegionDiff = myRegions.get(0) - oppRegions.get(0);
         int myPieces = 0;
         for (int i : myRegions) {
@@ -139,7 +131,7 @@ class MachinePlayer extends Player {
         for (int i :oppRegions) {
             oppPieces += i;
         }
-        return myRegionDiff - oppRegionDiff + biggestRegionDiff - 2*myPieces + 2*oppPieces;
+        return biggestRegionDiff - 2 * myPieces + 2 * oppPieces;
     }
 
     private int getWinningValue() {

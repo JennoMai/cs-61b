@@ -2,8 +2,6 @@
  * University of California.  All rights reserved. */
 package loa;
 
-import com.sun.xml.internal.xsom.impl.scd.Iterators;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -61,6 +59,10 @@ class Board {
                 _board[sq(col, row).index()] = contents[row][col];
             }
         }
+
+        _winner = null;
+        _winnerKnown = false;
+        _subsetsInitialized = false;
 
     }
 
@@ -144,6 +146,11 @@ class Board {
         }
 
         _moves.remove(unmove);
+
+        if (gameOver()) {
+            _winnerKnown = false;
+            _winner = null;
+        }
         _subsetsInitialized = false;
     }
 
@@ -182,11 +189,7 @@ class Board {
             back = back.moveDest(backdir, 1);
         }
 
-        if (count == distance) {
-            return true;
-        } else {
-            return false;
-        }
+        return count == distance;
     }
 
     /** Returns the opposite direction of DIR. */
@@ -304,26 +307,29 @@ class Board {
         return false;
     }
 
-    /** Return the size of the as-yet unvisited cluster of squares
+    /** Return the as-yet unvisited cluster of squares
      *  containing P at and adjacent to SQ.  VISITED indicates squares that
      *  have already been processed or are in different clusters.  Update
      *  VISITED to reflect squares counted. */
-    int numContig(Square sq, boolean[][] visited, Piece p) {
-        int count = 0;
+    ArrayList squaresContig(Square sq, boolean[][] visited, Piece p) {
+        ArrayList<Square> group = new ArrayList<>();
         if (_board[sq.index()] == p && !visited[sq.row()][sq.col()]) {
             visited[sq.row()][sq.col()] = true;
-            count += 1;
+            group.add(sq);
         } else {
-            return 0;
+            return null;
         }
 
         Square[] adjacent = sq.adjacent();
         for (Square adj : adjacent) {
             if (_board[sq.index()] == p && !visited[adj.row()][adj.col()]) {
-                count += numContig(adj, visited, p);
+                ArrayList others = squaresContig(adj, visited, p);
+                if (others != null) {
+                    group.addAll(others);
+                }
             }
         }
-        return count;  // FIXME
+        return group;
     }
 
     /** Set the values of _whiteRegionSizes and _blackRegionSizes. */
@@ -331,6 +337,8 @@ class Board {
         if (_subsetsInitialized) {
             return;
         }
+        _whiteGroups.clear();
+        _blackGroups.clear();
         _whiteRegionSizes.clear();
         _blackRegionSizes.clear();
         // FIXME
@@ -343,9 +351,17 @@ class Board {
                 if (!visited[row][col]) {
                     Square sq = sq(col, row);
                     if (_board[sq.index()] == WP) {
-                        _whiteRegionSizes.add(numContig(sq, visited, WP));
+                        ArrayList group = squaresContig(sq, visited, WP);
+                        if (group != null) {
+                            _whiteRegionSizes.add(group.size());
+                            _whiteGroups.add(group);
+                        }
                     } else if (_board[sq.index()] == BP) {
-                        _blackRegionSizes.add(numContig(sq, visited, BP));
+                        ArrayList group = squaresContig(sq, visited, BP);
+                        if (group != null) {
+                            _blackRegionSizes.add(group.size());
+                            _blackGroups.add(group);
+                        }
                     }
                 }
             }
@@ -404,4 +420,8 @@ class Board {
     private final ArrayList<Integer>
         _whiteRegionSizes = new ArrayList<>(),
         _blackRegionSizes = new ArrayList<>();
+
+    private final ArrayList<List>
+        _whiteGroups = new ArrayList<>(),
+        _blackGroups = new ArrayList<>();
 }

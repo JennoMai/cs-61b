@@ -15,7 +15,7 @@ import static loa.Piece.*;
 import static loa.Square.sq;
 
 /** A widget that displays a Loa game.
- *  @author
+ *  @author Jenny Mei
  */
 class BoardWidget extends Pad {
 
@@ -90,26 +90,38 @@ class BoardWidget extends Pad {
     @Override
     public synchronized void paintComponent(Graphics2D g) {
         drawGrid(g);
+
+        if (selected != null) {
+            highlightSquare(g, selected);
+        }
+
         for (Square sq : Square.ALL_SQUARES) {
             drawPiece(g, sq);
         }
         // More? FIXME
     }
 
+    private void highlightSquare(Graphics2D g, Square s) {
+        g.setColor(new Color(113, 127, 159));
+        g.fillRect((s.col()) * SQUARE_SIDE + MARGIN + BORDER_WIDTH,
+                (SIZE - 1 - s.row()) * SQUARE_SIDE + MARGIN + BORDER_WIDTH,
+                SQUARE_SIDE, SQUARE_SIDE);
+    }
+
     /** Draw the contents of S on G. */
     private void drawPiece(Graphics2D g, Square s) {
         Piece p = _board.get(s);
         switch (p) {
-        case EMP:
-            return;
-        case WP:
-            g.setColor(WHITE_COLOR);
-            break;
-        case BP:
-            g.setColor(BLACK_COLOR);
-            break;
-        default:
-            assert false;
+            case EMP:
+                return;
+            case WP:
+                g.setColor(WHITE_COLOR);
+                break;
+            case BP:
+                g.setColor(BLACK_COLOR);
+                break;
+            default:
+                assert false;
         }
         g.fillOval(cx(s) + PIECE_OFFSET, cy(s) + PIECE_OFFSET,
                    PIECE_SIZE, PIECE_SIZE);
@@ -121,13 +133,27 @@ class BoardWidget extends Pad {
 
     /** Handle a mouse-button push on S. */
     private void mousePressed(Square s) {
-        // FIXME
+        if (!_acceptingMoves) {
+            return;
+        }
+        if (_board.get(s) == _board.turn() && selected == null) {
+            selected = s;
+        }
         repaint();
     }
 
     /** Handle a mouse-button release on S. */
     private void mouseReleased(Square s) {
-        // FIXME
+        if (!_acceptingMoves) {
+            return;
+        }
+        if (selected != null && s != selected && selected.isValidMove(s)) {
+            Move move = Move.mv(selected, s);
+            if (_board.isLegal(move)) {
+                _commands.offer(move.toString());
+            }
+            selected = null;
+        }
         repaint();
     }
 
@@ -140,14 +166,14 @@ class BoardWidget extends Pad {
             && x >= 0 && x < SIZE && y >= 0 && y < SIZE) {
             Square s = sq(x, y);
             switch (e.getID()) {
-            case MouseEvent.MOUSE_PRESSED:
-                mousePressed(s);
-                break;
-            case MouseEvent.MOUSE_RELEASED:
-                mouseReleased(s);
-                break;
-            default:
-                break;
+                case MouseEvent.MOUSE_PRESSED:
+                    mousePressed(s);
+                    break;
+                case MouseEvent.MOUSE_RELEASED:
+                    mouseReleased(s);
+                    break;
+                default:
+                    break;
             }
         }
     }
@@ -155,7 +181,6 @@ class BoardWidget extends Pad {
     /** Revise the displayed board according to BOARD. */
     synchronized void update(Board board) {
         _board.copyFrom(board);
-        // FIXME?
         repaint();
     }
 
@@ -164,6 +189,7 @@ class BoardWidget extends Pad {
      *  the board. */
     void setMoveCollection(boolean collecting) {
         _acceptingMoves = collecting;
+        selected = null;
         // FIXME?
         repaint();
     }
@@ -199,5 +225,8 @@ class BoardWidget extends Pad {
 
     /** True iff accepting moves from user. */
     private boolean _acceptingMoves;
+
+    /** Currently selected piece. */
+    private Square selected;
 
 }

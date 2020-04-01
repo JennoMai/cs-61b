@@ -19,7 +19,7 @@ import java.util.concurrent.ArrayBlockingQueue;
 import static loa.Piece.*;
 
 /** The GUI controller for a LOA board and buttons.
- *  @author
+ *  @author Jenny Mei
  */
 class GUI extends TopLevel implements View, Reporter {
 
@@ -39,8 +39,12 @@ class GUI extends TopLevel implements View, Reporter {
     GUI(String title) {
         super(title, true);
         addMenuButton("Game->New", this::newGame);
+        addMenuButton("Game->About", this::about);
+        addMenuButton("Game->Undo", this::undo);
         addMenuButton("Game->Quit", this::quit);
-        // FIXME: Other controls?
+        addMenuButton("Game->Help", this::help);
+        addMenuButton("Players->Toggle black AI", this::blackAI);
+        addMenuButton("Players->Toggle white AI", this::whiteAI);
 
         _widget = new BoardWidget(_pendingCommands);
         add(_widget,
@@ -62,6 +66,34 @@ class GUI extends TopLevel implements View, Reporter {
     /** Response to "New Game" button click. */
     private void newGame(String dummy) {
         _pendingCommands.offer("new");
+    }
+
+    private void blackAI(String dummy) {
+        if (manualBlack) {
+            _pendingCommands.offer("auto black");
+        } else {
+            _pendingCommands.offer("manual black");
+        }
+    }
+
+    private void whiteAI(String dummy) {
+        if (manualWhite) {
+            _pendingCommands.offer("auto white");
+        } else {
+            _pendingCommands.offer("manual white");
+        }
+    }
+
+    private void undo(String dummy) {
+        _pendingCommands.offer("undo");
+    }
+
+    private void about(String dummy) {
+        displayText("About Lines of Action", ABOUT_TEXT);
+    }
+
+    private void help(String dummy) {
+        displayText("How to Play", HELP_TEXT);
     }
 
     /** Return the next command from our widget, waiting for it as necessary.
@@ -93,9 +125,10 @@ class GUI extends TopLevel implements View, Reporter {
                      String.format("To move: %s", board.turn().fullName()));
         }
 
-        boolean manualWhite = controller.manualWhite(),
-            manualBlack = controller.manualBlack();
+        manualWhite = controller.manualWhite();
+        manualBlack = controller.manualBlack();
         // FIXME: More?
+
     }
 
     /** Display text in resource named TEXTRESOURCE in a new window titled
@@ -158,4 +191,6 @@ class GUI extends TopLevel implements View, Reporter {
     private ArrayBlockingQueue<String> _pendingCommands =
         new ArrayBlockingQueue<>(5);
 
+    private boolean manualWhite = false;
+    private boolean manualBlack = true;
 }

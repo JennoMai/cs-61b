@@ -99,42 +99,49 @@ class Game {
         Matcher command = COMMAND_PATN.matcher(line);
         if (command.matches()) {
             switch (command.group(1).toLowerCase()) {
-            case "#":
-                break;
-            case "new":
-                _board.clear();
-                _playing = true;
-                break;
-            case "dump":
-                System.out.printf("%s%n", _board);
-                break;
-            case "manual":
-                manualCommand(command.group(2).toLowerCase());
-                break;
-            case "auto":
-                autoCommand(command.group(2).toLowerCase());
-                break;
-            case "quit":
-                quit();
-                break;
-            case "seed":
-                seedCommand(command.group(2));
-                break;
-            case "set":
-                setCommand(command.group(2), command.group(3).toLowerCase(),
-                           command.group(4).toLowerCase());
-                break;
-            case "limit":
-                limitCommand(command.group(2));
-                break;
-            case "?": case "help":
-                help();
-                break;
-            default:
-                if (!processMove(line)) {
-                    error("unknown command: %s%n", line);
-                }
-                break;
+                case "#":
+                    break;
+                case "new":
+                    _board.clear();
+                    _playing = true;
+                    break;
+                case "dump":
+                    System.out.printf("%s%n", _board);
+                    break;
+                case "manual":
+                    manualCommand(command.group(2).toLowerCase());
+                    break;
+                case "auto":
+                    autoCommand(command.group(2).toLowerCase());
+                    break;
+                case "quit":
+                    quit();
+                    break;
+                case "seed":
+                    seedCommand(command.group(2));
+                    break;
+                case "set":
+                    setCommand(command.group(2), command.group(3).toLowerCase(),
+                               command.group(4).toLowerCase());
+                    break;
+                case "undo":
+                    if (_board.gameOver()) {
+                        _playing = true;
+                    }
+                    _board.retract();
+                    _board.retract();
+                    break;
+                case "limit":
+                    limitCommand(command.group(2));
+                    break;
+                case "?": case "help":
+                    help();
+                    break;
+                default:
+                    if (!processMove(line)) {
+                        error("unknown command: %s%n", line);
+                    }
+                    break;
             }
         }
     }
@@ -167,28 +174,28 @@ class Game {
     /** Set player PLAYER ("white" or "black") to be a manual player. */
     private void manualCommand(String player) {
         switch (player) {
-        case "white":
-            _white = _manualPlayerTemplate.create(WP, this);
-            break;
-        case "black":
-            _black = _manualPlayerTemplate.create(BP, this);
-            break;
-        default:
-            error("unknown player: %s%n", player);
+            case "white":
+                _white = _manualPlayerTemplate.create(WP, this);
+                break;
+            case "black":
+                _black = _manualPlayerTemplate.create(BP, this);
+                break;
+            default:
+                error("unknown player: %s%n", player);
         }
     }
 
     /** Set player PLAYER ("white" or "black") to be an automated player. */
     private void autoCommand(String player) {
         switch (player) {
-        case "white":
-            _white = _autoPlayerTemplate.create(WP, this);
-            break;
-        case "black":
-            _black = _autoPlayerTemplate.create(BP, this);
-            break;
-        default:
-            error("unknown player: %s%n", player);
+            case "white":
+                _white = _autoPlayerTemplate.create(WP, this);
+                break;
+            case "black":
+                _black = _autoPlayerTemplate.create(BP, this);
+                break;
+            default:
+                error("unknown player: %s%n", player);
         }
     }
 
@@ -260,14 +267,14 @@ class Game {
                 }
                 if (_playing) {
                     switch (_board.turn()) {
-                    case WP:
-                        next = _white.getMove();
-                        break;
-                    case BP:
-                        next = _black.getMove();
-                        break;
-                    default:
-                        throw new Error("Unreachable statement");
+                        case WP:
+                            next = _white.getMove();
+                            break;
+                        case BP:
+                            next = _black.getMove();
+                            break;
+                        default:
+                            throw new Error("Unreachable statement");
                     }
                 } else {
                     next = _nonplayer.getMove();
@@ -287,15 +294,15 @@ class Game {
      *  won. */
     private void announceWinner() {
         switch (_board.winner()) {
-        case BP:
-            _reporter.reportNote("Black wins.");
-            break;
-        case WP:
-            _reporter.reportNote("White wins.");
-            break;
-        default:
-            _reporter.reportNote("Tie game.");
-            break;
+            case BP:
+                _reporter.reportNote("Black wins.");
+                break;
+            case WP:
+                _reporter.reportNote("White wins.");
+                break;
+            default:
+                _reporter.reportNote("Tie game.");
+                break;
         }
     }
 
