@@ -137,7 +137,7 @@ class MachinePlayer extends Player {
         for (int i :oppRegions) {
             oppPieces += i;
         }
-        return oppRegions.size() - myRegions.size() - 2 * myPieces + 2 * oppPieces;
+        return oppRegions.size() - 2*myRegions.size() - 2 * myPieces + 2 * oppPieces;
     }
 
     /** Returns winning value of the side. */
