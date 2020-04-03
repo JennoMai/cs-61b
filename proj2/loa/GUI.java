@@ -55,7 +55,6 @@ class GUI extends TopLevel implements View, Reporter {
                  new LayoutSpec("x", 0, "y", 0,
                                 "height", 1,
                                 "width", 3));
-        // FIXME: Other components?
     }
 
     /** Response to "Quit" button click. */
@@ -68,6 +67,7 @@ class GUI extends TopLevel implements View, Reporter {
         _pendingCommands.offer("new");
     }
 
+    /** Toggles black AI */
     private void blackAI(String dummy) {
         if (manualBlack) {
             _pendingCommands.offer("auto black");
@@ -76,6 +76,7 @@ class GUI extends TopLevel implements View, Reporter {
         }
     }
 
+    /** Toggles white AI */
     private void whiteAI(String dummy) {
         if (manualWhite) {
             _pendingCommands.offer("auto white");
@@ -84,14 +85,17 @@ class GUI extends TopLevel implements View, Reporter {
         }
     }
 
+    /** Undo last move */
     private void undo(String dummy) {
         _pendingCommands.offer("undo");
     }
 
+    /** Shows about page */
     private void about(String dummy) {
         displayText("About Lines of Action", ABOUT_TEXT);
     }
 
+    /** Shows help page */
     private void help(String dummy) {
         displayText("How to Play", HELP_TEXT);
     }
@@ -127,8 +131,6 @@ class GUI extends TopLevel implements View, Reporter {
 
         manualWhite = controller.manualWhite();
         manualBlack = controller.manualBlack();
-        // FIXME: More?
-
     }
 
     /** Display text in resource named TEXTRESOURCE in a new window titled
@@ -191,6 +193,8 @@ class GUI extends TopLevel implements View, Reporter {
     private ArrayBlockingQueue<String> _pendingCommands =
         new ArrayBlockingQueue<>(5);
 
-    private boolean manualWhite = false;
-    private boolean manualBlack = true;
+    /** Whether a player is manual */
+    private boolean
+            manualWhite = false,
+            manualBlack = true;
 }

@@ -11,7 +11,6 @@ import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.event.MouseEvent;
 
-import static loa.Piece.*;
 import static loa.Square.sq;
 
 /** A widget that displays a Loa game.
@@ -32,7 +31,8 @@ class BoardWidget extends Pad {
         LIGHT_SQUARE_COLOR = new Color(1.0f, 0.805f, 0.617f),
         BORDER_COLOR = new Color(0.408f, 0.271f, 0.138f),
         GRID_LINE_COLOR = Color.black,
-        PIECE_BOUNDARY_COLOR = Color.black;
+        PIECE_BOUNDARY_COLOR = Color.black,
+        HIGHLIGHT_COLOR = new Color(113, 127, 159);
 
     /** Width of border around board (pixels). */
     static final int BORDER_WIDTH = 6;
@@ -98,11 +98,11 @@ class BoardWidget extends Pad {
         for (Square sq : Square.ALL_SQUARES) {
             drawPiece(g, sq);
         }
-        // More? FIXME
     }
 
+    /** Highlights the selected square.*/
     private void highlightSquare(Graphics2D g, Square s) {
-        g.setColor(new Color(113, 127, 159));
+        g.setColor(HIGHLIGHT_COLOR);
         g.fillRect((s.col()) * SQUARE_SIDE + MARGIN + BORDER_WIDTH,
                 (SIZE - 1 - s.row()) * SQUARE_SIDE + MARGIN + BORDER_WIDTH,
                 SQUARE_SIDE, SQUARE_SIDE);
@@ -112,16 +112,16 @@ class BoardWidget extends Pad {
     private void drawPiece(Graphics2D g, Square s) {
         Piece p = _board.get(s);
         switch (p) {
-            case EMP:
-                return;
-            case WP:
-                g.setColor(WHITE_COLOR);
-                break;
-            case BP:
-                g.setColor(BLACK_COLOR);
-                break;
-            default:
-                assert false;
+        case EMP:
+            return;
+        case WP:
+            g.setColor(WHITE_COLOR);
+            break;
+        case BP:
+            g.setColor(BLACK_COLOR);
+            break;
+        default:
+            assert false;
         }
         g.fillOval(cx(s) + PIECE_OFFSET, cy(s) + PIECE_OFFSET,
                    PIECE_SIZE, PIECE_SIZE);
@@ -166,14 +166,14 @@ class BoardWidget extends Pad {
             && x >= 0 && x < SIZE && y >= 0 && y < SIZE) {
             Square s = sq(x, y);
             switch (e.getID()) {
-                case MouseEvent.MOUSE_PRESSED:
-                    mousePressed(s);
-                    break;
-                case MouseEvent.MOUSE_RELEASED:
-                    mouseReleased(s);
-                    break;
-                default:
-                    break;
+            case MouseEvent.MOUSE_PRESSED:
+                mousePressed(s);
+                break;
+            case MouseEvent.MOUSE_RELEASED:
+                mouseReleased(s);
+                break;
+            default:
+                break;
             }
         }
     }
@@ -190,7 +190,6 @@ class BoardWidget extends Pad {
     void setMoveCollection(boolean collecting) {
         _acceptingMoves = collecting;
         selected = null;
-        // FIXME?
         repaint();
     }
 

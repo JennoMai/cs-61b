@@ -346,14 +346,15 @@ class Board {
             for (int col = 0; col < BOARD_SIZE; col += 1) {
                 if (!visited[row][col]) {
                     Square sq = sq(col, row);
+                    ArrayList<Square> group;
                     if (_board[sq.index()] == WP) {
-                        ArrayList<Square> group = squaresContig(sq, visited, WP);
+                        group = squaresContig(sq, visited, WP);
                         if (group != null) {
                             _whiteRegionSizes.add(group.size());
                             _whiteGroups.add(group);
                         }
                     } else if (_board[sq.index()] == BP) {
-                        ArrayList<Square> group = squaresContig(sq, visited, BP);
+                        group = squaresContig(sq, visited, BP);
                         if (group != null) {
                             _blackRegionSizes.add(group.size());
                             _blackGroups.add(group);

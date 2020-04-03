@@ -70,7 +70,8 @@ public class BoardTest {
     /** Test display */
     @Test
     public void toStringTest() {
-        String resultOfToString = new Board(BOARD1, BP).toString().replaceAll("\\r\\n", "\n");
+        String resultOfToString
+                = new Board(BOARD1, BP).toString().replaceAll("\\r\\n", "\n");
         resultOfToString = resultOfToString.replaceAll("\\r", "\n");
         assertEquals(BOARD1_STRING, resultOfToString);
     }

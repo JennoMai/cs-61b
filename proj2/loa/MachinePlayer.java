@@ -72,9 +72,9 @@ class MachinePlayer extends Player {
      *  on BOARD, does not set _foundMove. */
     private int findMove(Board board, int depth, boolean saveMove,
                          int sense, int alpha, int beta) {
-        // FIXME
         int value = estimateBoardValue(board);
-        if (depth == 0 || (sense == 1 && value > beta) || (sense == -1 && value < alpha)) {
+        if (depth == 0 || (sense == 1 && value > beta)
+                || (sense == -1 && value < alpha)) {
             return value;
         }
 
@@ -84,7 +84,8 @@ class MachinePlayer extends Player {
         for (Move move : board.legalMoves()) {
             board.makeMove(move);
             Board testBoard = new Board(board);
-            response = findMove(testBoard, depth - 1, false, sense, alpha, beta);
+            response = findMove(testBoard, depth - 1,
+                    false, sense, alpha, beta);
             if (sense == 1 && response > value) {
                 bestMove = move;
                 value = response;
@@ -113,7 +114,7 @@ class MachinePlayer extends Player {
         return 3;
     }
 
-    // FIXME: Other methods, variables here.
+    /** Estimates board value */
     private int estimateBoardValue(Board board) {
         if (board.winner() == side()) {
             return getWinningValue();
@@ -134,6 +135,7 @@ class MachinePlayer extends Player {
         return biggestRegionDiff - 2 * myPieces + 2 * oppPieces;
     }
 
+    /** Returns winning value of the side */
     private int getWinningValue() {
         if (side() == WP) {
             return WINNING_VALUE;
