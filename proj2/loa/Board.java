@@ -2,6 +2,8 @@
  * University of California.  All rights reserved. */
 package loa;
 
+import org.checkerframework.checker.units.qual.A;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -311,7 +313,7 @@ class Board {
      *  containing P at and adjacent to SQ.  VISITED indicates squares that
      *  have already been processed or are in different clusters.  Update
      *  VISITED to reflect squares counted. */
-    ArrayList squaresContig(Square sq, boolean[][] visited, Piece p) {
+    ArrayList<Square> squaresContig(Square sq, boolean[][] visited, Piece p) {
         ArrayList<Square> group = new ArrayList<>();
         if (_board[sq.index()] == p && !visited[sq.row()][sq.col()]) {
             visited[sq.row()][sq.col()] = true;
@@ -351,13 +353,13 @@ class Board {
                 if (!visited[row][col]) {
                     Square sq = sq(col, row);
                     if (_board[sq.index()] == WP) {
-                        ArrayList group = squaresContig(sq, visited, WP);
+                        ArrayList<Square> group = squaresContig(sq, visited, WP);
                         if (group != null) {
                             _whiteRegionSizes.add(group.size());
                             _whiteGroups.add(group);
                         }
                     } else if (_board[sq.index()] == BP) {
-                        ArrayList group = squaresContig(sq, visited, BP);
+                        ArrayList<Square> group = squaresContig(sq, visited, BP);
                         if (group != null) {
                             _blackRegionSizes.add(group.size());
                             _blackGroups.add(group);
