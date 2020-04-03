@@ -393,6 +393,17 @@ class Board {
         { EMP, BP,  BP,  BP,  BP,  BP,  BP,  EMP }
     };
 
+    static final Piece[][] TEST = {
+        { EMP, EMP, EMP, EMP, EMP, EMP, EMP, EMP },
+        { BP, EMP, EMP, EMP, EMP, EMP, EMP, EMP  },
+        { EMP, BP, BP, WP, EMP, EMP, EMP, EMP    },
+        { EMP, EMP, EMP, EMP, EMP, BP, WP, EMP   },
+        { EMP, EMP, EMP, EMP, EMP, BP, EMP, EMP  },
+        { EMP, EMP, BP, BP, EMP, EMP, EMP, EMP   },
+        { EMP, BP, EMP, EMP, EMP, EMP, WP, EMP   },
+        { EMP, EMP, EMP, BP, EMP, EMP, EMP, EMP  }
+    };
+
     /** Current contents of the board.  Square S is at _board[S.index()]. */
     private final Piece[] _board = new Piece[BOARD_SIZE  * BOARD_SIZE];
 
