@@ -2,8 +2,6 @@
  * University of California.  All rights reserved. */
 package loa;
 
-import org.checkerframework.checker.units.qual.A;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -86,8 +84,6 @@ class Board {
         for (Move m : board._moves) {
             _moves.add(m);
         }
-
-        //FIXME: Add subset & winner initialization if needed.
     }
 
     /** Return the contents of the square at SQ. */
@@ -343,9 +339,7 @@ class Board {
         _blackGroups.clear();
         _whiteRegionSizes.clear();
         _blackRegionSizes.clear();
-        // FIXME
 
-        //White region
         boolean[][] visited = new boolean[8][8];
 
         for (int row = 0; row < BOARD_SIZE; row += 1) {
@@ -385,8 +379,6 @@ class Board {
         }
     }
 
-    // FIXME: Other methods, variables?
-
     /** The standard initial configuration for Lines of Action (bottom row
      *  first). */
     static final Piece[][] INITIAL_PIECES = {
@@ -423,6 +415,7 @@ class Board {
         _whiteRegionSizes = new ArrayList<>(),
         _blackRegionSizes = new ArrayList<>();
 
+    /** Squares belonging to each group sorted into lists.*/
     private final ArrayList<List>
         _whiteGroups = new ArrayList<>(),
         _blackGroups = new ArrayList<>();
