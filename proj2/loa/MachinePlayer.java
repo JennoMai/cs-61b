@@ -88,12 +88,12 @@ class MachinePlayer extends Player {
             if (sense == 1 && response > value) {
                 bestMove = move;
                 value = response;
-                beta = Math.min(alpha, response);
+                alpha = Math.max(alpha, response);
 
             } else if (sense == -1 && response < value) {
                 bestMove = move;
                 value = response;
-                alpha = Math.max(beta, response);
+                beta = Math.min(beta, response);
             }
 
             if (beta <= alpha) {
