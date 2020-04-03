@@ -323,7 +323,7 @@ class Board {
         Square[] adjacent = sq.adjacent();
         for (Square adj : adjacent) {
             if (_board[sq.index()] == p && !visited[adj.row()][adj.col()]) {
-                ArrayList others = squaresContig(adj, visited, p);
+                ArrayList<Square> others = squaresContig(adj, visited, p);
                 if (others != null) {
                     group.addAll(others);
                 }
