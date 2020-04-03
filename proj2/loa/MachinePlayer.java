@@ -73,7 +73,7 @@ class MachinePlayer extends Player {
                          int sense, int alpha, int beta) {
         int value = estimateBoardValue(board);
         if (depth == 0 || (sense == 1 && value > beta)
-                || (sense == -1 && value < alpha)) {
+                || (sense == -1 && value < alpha) || Math.abs(value) == WINNING_VALUE) {
             return value;
         }
 
@@ -83,7 +83,7 @@ class MachinePlayer extends Player {
         for (Move move : board.legalMoves()) {
             board.makeMove(move);
             Board testBoard = new Board(board);
-            response = findMove(testBoard, depth - 1,
+            response = findMove(testBoard, Math.min(depth - 1, chooseDepth()),
                     false, sense, alpha, beta);
             if (sense == 1 && response > value) {
                 bestMove = move;

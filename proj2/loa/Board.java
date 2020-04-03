@@ -39,7 +39,8 @@ class Board {
 
     /** A new board in the standard initial position. */
     Board() {
-        this(INITIAL_PIECES, BP);
+        this(TEST, BP);
+//        this(INITIAL_PIECES, BP);
     }
 
     /** A Board whose initial contents and state are copied from
