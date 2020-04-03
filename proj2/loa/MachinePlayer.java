@@ -135,7 +135,7 @@ class MachinePlayer extends Player {
         return biggestRegionDiff - 2 * myPieces + 2 * oppPieces;
     }
 
-    /** Returns winning value of the side */
+    /** Returns winning value of the side. */
     private int getWinningValue() {
         if (side() == WP) {
             return WINNING_VALUE;
