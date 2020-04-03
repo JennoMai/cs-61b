@@ -129,7 +129,6 @@ class MachinePlayer extends Player {
         }
         List<Integer> myRegions = board.getRegionSizes(side());
         List<Integer> oppRegions = board.getRegionSizes(side().opposite());
-        int biggestRegionDiff = myRegions.get(0) - oppRegions.get(0);
         int myPieces = 0;
         for (int i : myRegions) {
             myPieces += i;
@@ -138,7 +137,7 @@ class MachinePlayer extends Player {
         for (int i :oppRegions) {
             oppPieces += i;
         }
-        return biggestRegionDiff - 2 * myPieces + 2 * oppPieces;
+        return oppRegions.size() - myRegions.size() - 2 * myPieces + 2 * oppPieces;
     }
 
     /** Returns winning value of the side. */
