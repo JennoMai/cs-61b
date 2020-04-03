@@ -32,7 +32,6 @@ class MachinePlayer extends Player {
     String getMove() {
         Move choice;
         assert side() == getGame().getBoard().turn();
-        int depth;
         choice = searchForMove();
         getGame().reportMove(choice);
         return choice.toString();
@@ -111,6 +110,13 @@ class MachinePlayer extends Player {
 
     /** Return a search depth for the current position. */
     private int chooseDepth() {
+        int pieces = 0;
+        for (int count : getBoard().getRegionSizes(side())) {
+            pieces += count;
+        }
+        if (pieces <= 3) {
+            return 5;
+        }
         return 3;
     }
 
