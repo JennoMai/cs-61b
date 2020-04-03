@@ -114,7 +114,7 @@ class MachinePlayer extends Player {
         return 3;
     }
 
-    /** Estimates board value */
+    /**Returns BOARD value. */
     private int estimateBoardValue(Board board) {
         if (board.winner() == side()) {
             return getWinningValue();

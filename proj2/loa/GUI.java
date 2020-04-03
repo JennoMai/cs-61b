@@ -67,7 +67,7 @@ class GUI extends TopLevel implements View, Reporter {
         _pendingCommands.offer("new");
     }
 
-    /** Toggles black AI */
+    /** Toggles black AI. */
     private void blackAI(String dummy) {
         if (manualBlack) {
             _pendingCommands.offer("auto black");
@@ -76,7 +76,7 @@ class GUI extends TopLevel implements View, Reporter {
         }
     }
 
-    /** Toggles white AI */
+    /** Toggles white AI. */
     private void whiteAI(String dummy) {
         if (manualWhite) {
             _pendingCommands.offer("auto white");
@@ -85,17 +85,17 @@ class GUI extends TopLevel implements View, Reporter {
         }
     }
 
-    /** Undo last move */
+    /** Undo last move. */
     private void undo(String dummy) {
         _pendingCommands.offer("undo");
     }
 
-    /** Shows about page */
+    /** Shows about page. */
     private void about(String dummy) {
         displayText("About Lines of Action", ABOUT_TEXT);
     }
 
-    /** Shows help page */
+    /** Shows help page. */
     private void help(String dummy) {
         displayText("How to Play", HELP_TEXT);
     }
@@ -193,7 +193,7 @@ class GUI extends TopLevel implements View, Reporter {
     private ArrayBlockingQueue<String> _pendingCommands =
         new ArrayBlockingQueue<>(5);
 
-    /** Whether a player is manual */
+    /** Whether a player is manual. */
     private boolean
             manualWhite = false,
             manualBlack = true;

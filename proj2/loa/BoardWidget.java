@@ -100,7 +100,7 @@ class BoardWidget extends Pad {
         }
     }
 
-    /** Highlights the selected square.*/
+    /** Highlights square S on G. */
     private void highlightSquare(Graphics2D g, Square s) {
         g.setColor(HIGHLIGHT_COLOR);
         g.fillRect((s.col()) * SQUARE_SIDE + MARGIN + BORDER_WIDTH,
