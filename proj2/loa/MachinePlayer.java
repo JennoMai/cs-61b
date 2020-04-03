@@ -115,7 +115,7 @@ class MachinePlayer extends Player {
             pieces += count;
         }
         if (pieces <= 3) {
-            return 10;
+            return 6;
         }
         return 3;
     }
