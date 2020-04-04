@@ -73,7 +73,8 @@ class MachinePlayer extends Player {
                          int sense, int alpha, int beta) {
         int value = estimateBoardValue(board);
         if (depth == 0 || (sense == 1 && value > beta)
-                || (sense == -1 && value < alpha) || Math.abs(value) == WINNING_VALUE) {
+                || (sense == -1 && value < alpha)
+                || Math.abs(value) == WINNING_VALUE) {
             return value;
         }
 
