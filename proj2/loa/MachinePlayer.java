@@ -122,22 +122,25 @@ class MachinePlayer extends Player {
 
     /**Returns BOARD value. */
     private int estimateBoardValue(Board board) {
-        if (board.winner() == side()) {
+        if (board.winner() == WP) {
             return getWinningValue();
-        } else if (board.winner() == side().opposite()) {
+        } else if (board.winner() == BP) {
             return -getWinningValue();
+        } else if (board.winner() == EMP) {
+            return 0;
         }
-        List<Integer> myRegions = board.getRegionSizes(side());
-        List<Integer> oppRegions = board.getRegionSizes(side().opposite());
-        int myPieces = 0;
-        for (int i : myRegions) {
-            myPieces += i;
+
+        List<Integer> wRegions = board.getRegionSizes(WP);
+        List<Integer> bRegions = board.getRegionSizes(BP);
+        int wPieces = 0;
+        for (int i : wRegions) {
+            wPieces += i;
         }
-        int oppPieces = 0;
-        for (int i :oppRegions) {
-            oppPieces += i;
+        int bPieces = 0;
+        for (int i : bRegions) {
+            bPieces += i;
         }
-        return oppRegions.size() - 2*myRegions.size() - 2 * myPieces + 2 * oppPieces;
+        return bRegions.size() - wRegions.size() - 2 * wPieces + 2 * bPieces;
     }
 
     /** Returns winning value of the side. */
