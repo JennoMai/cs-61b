@@ -1,0 +1,12 @@
+#*java -ea loa.Main
+manual white
+f1-f3
+c8-c6
+g1-g4
+d8-d6
+new
+dump
+auto white
+f1-f3
+auto black
+#*move/win
