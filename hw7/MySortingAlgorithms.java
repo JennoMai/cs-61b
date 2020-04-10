@@ -1,3 +1,4 @@
+import java.lang.reflect.Array;
 import java.util.Arrays;
 
 /**
@@ -42,7 +43,17 @@ public class MySortingAlgorithms {
     public static class InsertionSort implements SortingAlgorithm {
         @Override
         public void sort(int[] array, int k) {
-            // FIXME
+            for (int i = 0; i < k; i += 1) {
+                int j;
+                int x = array[i];
+                for (j = i - 1; j >= 0; j -= 1) {
+                    if (array[j] < x) {
+                        break;
+                    }
+                    array[j + 1] = array[j];
+                }
+                array[j + 1] = x;
+            }
         }
 
         @Override
@@ -60,7 +71,23 @@ public class MySortingAlgorithms {
     public static class SelectionSort implements SortingAlgorithm {
         @Override
         public void sort(int[] array, int k) {
-            // FIXME
+            int least;
+            int current = 0;
+            while (current < k) {
+                int replacedIndex = current;
+                least = array[current];
+                for (int i = current + 1; i < k; i += 1) {
+                    if (array[i] < least) {
+                        least = array[i];
+                        replacedIndex = i;
+                    }
+                }
+                if (replacedIndex != current) {
+                    array[replacedIndex] = array[current];
+                    array[current] = least;
+                }
+                current += 1;
+            }
         }
 
         @Override
@@ -78,6 +105,36 @@ public class MySortingAlgorithms {
         @Override
         public void sort(int[] array, int k) {
             // FIXME
+            if (k == 1) {
+                return;
+            }
+            int i = 0, j = 0;
+            int split = k/2;
+            int[] left = Arrays.copyOfRange(array, 0, split);
+            int[] right = Arrays.copyOfRange(array, split, k);
+            sort(left, split);
+            sort(right, k - split);
+            int current = 0;
+            while (i < left.length && j < right.length) {
+                if (left[i] <= right[j]) {
+                    array[current] = left[i];
+                    i += 1;
+                } else {
+                    array[current] = right[j];
+                    j += 1;
+                }
+                current += 1;
+            }
+            while (i < left.length) {
+                array[current] = left[i];
+                i += 1;
+                current += 1;
+            }
+            while (j < right.length) {
+                array[current] = right[j];
+                j += 1;
+                current += 1;
+            }
         }
 
         // may want to add additional methods
@@ -148,7 +205,36 @@ public class MySortingAlgorithms {
     public static class LSDSort implements SortingAlgorithm {
         @Override
         public void sort(int[] a, int k) {
-            // FIXME
+            int divisor = 1;
+            int max = 0;
+            for (int i = 0; i < k; i += 1) {
+                if (a[i] > max) {
+                    max = a[i];
+                }
+            }
+            while (Math.floorDiv(max, divisor) > 0) {
+                int[] count = new int[10];
+                Arrays.fill(count, 0);
+                for (int i = 0; i < k; i += 1) {
+                    count[Math.floorDiv(a[i], divisor) % 10] += 1;
+                }
+                for (int i = 1; i < 10; i += 1) {
+                    count[i] += count[i - 1];
+                }
+                int[] result = new int[k];
+                for (int i = k - 1; i >= 0; i -= 1) {
+                    int digit = Math.floorDiv(a[i], divisor) % 10;
+                    int endIndex = count[digit];
+                    result[endIndex - 1] = a[i];
+                    count[digit] -= 1;
+                }
+
+                for (int i = 0; i < k; i += 1) {
+                    a[i] = result[i];
+                }
+
+                divisor *= 10;
+            }
         }
 
         @Override
