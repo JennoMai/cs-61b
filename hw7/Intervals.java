@@ -12,6 +12,10 @@ public class Intervals {
      *  total length covered by the union of the intervals. */
     public static int coveredLength(List<int[]> intervals) {
         // REPLACE WITH APPROPRIATE STATEMENTS.
+        if (intervals.size() == 0) {
+            return 0;
+        }
+
         intervals.sort(Comparator.comparingInt(t -> t[0]));
 
         int length = intervals.get(0)[1] - intervals.get(0)[0];
