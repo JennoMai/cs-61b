@@ -11,7 +11,7 @@ public class Main {
     static final File CWD = new File(".");
 
     /** Main metadata folder. */
-    static final File CAPERS_FOLDER = new File("Capers"); // FIXME
+    static final File CAPERS_FOLDER = new File(CWD + "capers/"); // FIXME
 
     /**
      * Runs one of three commands:
@@ -93,7 +93,12 @@ public class Main {
      */
     public static void writeStory(String[] args) {
         validateNumArgs("story", args, 2);
-        File story = new File(".capers/story");
+        File story = new File(CAPERS_FOLDER + "story");
+        try {
+            story.createNewFile();
+        } catch (IOException e) {
+            return;
+        }
         String previous = Utils.readContentsAsString(story);
         Utils.writeContents(story, previous + args[1] + "\n");
         System.out.println(Utils.readContentsAsString(story));
