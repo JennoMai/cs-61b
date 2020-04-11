@@ -126,7 +126,7 @@ public class Main {
     public static void celebrateBirthday(String[] args) {
         validateNumArgs("birthday", args, 2);
         // FIXME
-        Dog dog = Dog.fromFile(".capers/" + args[1]);
+        Dog dog = Dog.fromFile(Dog.DOG_FOLDER + args[1]);
         dog.haveBirthday();
         dog.saveDog();
         System.out.println(dog.toString());
