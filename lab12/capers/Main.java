@@ -93,7 +93,7 @@ public class Main {
      */
     public static void writeStory(String[] args) {
         validateNumArgs("story", args, 2);
-        File story = new File(CAPERS_FOLDER + "story");
+        File story = new File(CAPERS_FOLDER + "/story");
         try {
             story.createNewFile();
         } catch (IOException e) {
@@ -126,10 +126,9 @@ public class Main {
     public static void celebrateBirthday(String[] args) {
         validateNumArgs("birthday", args, 2);
         // FIXME
-        Dog dog = Dog.fromFile(Dog.DOG_FOLDER + args[1]);
+        Dog dog = Dog.fromFile(args[1]);
         dog.haveBirthday();
         dog.saveDog();
-        System.out.println(dog.toString());
     }
 
     /**
