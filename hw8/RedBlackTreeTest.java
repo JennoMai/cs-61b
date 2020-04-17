@@ -16,5 +16,11 @@ public class RedBlackTreeTest {
         System.out.println(node.item);
         System.out.println(node.left.item);
         System.out.println(node.right.item);
+
+        t.insert(5);
+        t.insert(4);
+        t.insert(8);
+        t.insert(12);
+        t.insert(9);
     }
 }
