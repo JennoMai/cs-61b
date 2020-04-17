@@ -51,26 +51,6 @@ public class RedBlackTree<T extends Comparable<T>> {
 
         RBTreeNode<T> newRoot =  node.left;
 
-        if (node != root) {
-            RBTreeNode<T> parent = root;
-            while (parent.left != node || parent.right != node) {
-                if (parent == null) {
-                    return node;
-                }
-                if (node.item.compareTo(parent.item) < 0 && parent.left != null) {
-                    parent = parent.left;
-                } else if (node.item.compareTo(parent.item) > 0 && parent.left != null) {
-                    parent = parent.right;
-                }
-            }
-
-            if (parent != null && parent.left == node) {
-                parent.left = newRoot;
-            } else if (parent != null && parent.right == node){
-                parent.right = newRoot;
-            }
-        }
-
         node.left = newRoot.right;
         newRoot.right = node;
         newRoot.isBlack = node.isBlack;
@@ -93,26 +73,6 @@ public class RedBlackTree<T extends Comparable<T>> {
         }
 
         RBTreeNode<T> newRoot =  node.right;
-
-        if (node != root) {
-            RBTreeNode<T> parent = root;
-            while (parent.left != node || parent.right != node) {
-                if (parent == null) {
-                    return node;
-                }
-                if (node.item.compareTo(parent.item) < 0 && parent.left != null) {
-                    parent = parent.left;
-                } else if (node.item.compareTo(parent.item) > 0 && parent.left != null) {
-                    parent = parent.right;
-                }
-            }
-
-            if (parent.left == node) {
-                parent.left = newRoot;
-            } else {
-                parent.right = newRoot;
-            }
-        }
 
         node.right = newRoot.left;
         newRoot.left = node;
