@@ -7,20 +7,27 @@ import java.util.HashSet;
 
 import static gitlet.Utils.*;
 
-/** This class stores information about the state of a project. */
+/** This class stores information about the state of a project.
+ * @author Jenny Mei
+ */
 public class Commit implements Serializable {
 
+    /** Creates an initial empty commit with no files. */
+    Commit() {
+        this(new HashSet<String>(), "initial commit", Instant.EPOCH);
+    }
+
     /** Creates a Commit containing the Blobs mapped to by blobs. */
-    Commit(HashSet<String> blobs, String msg) {
+    Commit(HashSet<String> blobs, String msg, Instant timestamp) {
         BLOBS.addAll(blobs);
         message = msg;
-        TIMESTAMP = Instant.now();
+        TIMESTAMP = timestamp;
         COMMIT_ID = commit_ID();
     }
 
     /** Returns the unique ID associated with this commit. */
     public String commit_ID() {
-        return sha1(getTime() + "GITLET_COMMIT");
+        return sha1(getTime() + BLOBS.toString() + "GITLET_COMMIT");
     }
 
     /** Returns a string representing the time of this commit. */
@@ -46,4 +53,6 @@ public class Commit implements Serializable {
     private final Instant TIMESTAMP;
     /** A unique String ID representing this commit. */
     private final String COMMIT_ID;
+    /** The file separator character. */
+    private final String s = File.separator;
 }

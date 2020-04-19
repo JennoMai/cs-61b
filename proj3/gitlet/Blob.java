@@ -30,11 +30,24 @@ public class Blob implements Serializable {
         writeContents(CURRENT_FILE, (Object) FILE_CONTENTS);
     }
 
+    /** Returns true if the contents of this blob match other, the given byte array. */
+    public boolean equalsContents(byte[] other) {
+        return FILE_CONTENTS.equals(other);
+    }
+
+    /** Returns true if the contents of CURRENT_FILE have changed. */
+    public boolean contentsChanged() {
+        byte[] contents = readContents(CURRENT_FILE);
+        return FILE_CONTENTS.equals(contents);
+    }
+
     /** The file address corresponding to this blob. */
     private final File CURRENT_FILE;
     /** The contents of the file corresponding to this blob, represented as a byte array. */
     private final byte[] FILE_CONTENTS;
     /** A unique string ID representing this blob. */
     private final String BLOB_ID;
+    /** The file separator character. */
+    private final String s = File.separator;
 
 }
