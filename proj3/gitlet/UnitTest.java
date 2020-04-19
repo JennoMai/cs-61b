@@ -19,22 +19,34 @@ public class UnitTest {
         System.exit(textui.runClasses(UnitTest.class));
     }
 
+    /** Recursively deletes fucking everything. */
+    public static void DELETE_EVERYTHING(File file) {
+        if (file.exists()) {
+            if (file.isDirectory() && file.list().length != 0) {
+                String[] files = file.list();
+                for (String temp : files) {
+                    DELETE_EVERYTHING(new File(file, temp));
+                }
+            }
+            file.delete();
+        } else {
+            return;
+        }
+    }
+
     /** A dummy test to avoid complaint. */
     @Test
     public void testInit() throws IOException {
-        File repo = new File(CWD + s + ".gitlet");
-        if (repo.exists()) {
-            repo.delete();
-            assertFalse(repo.exists());
-        }
+        File repo = new File(CWD, ".gitlet");
+        DELETE_EVERYTHING(repo);
         Main.main("init");
         assertTrue(repo.exists());
     }
 
     /** The current working directory. */
-    public final String CWD = System.getProperty("user.dir");
+    public static final String CWD = System.getProperty("user.dir");
     /** System-independent file separator. */
-    public final String s = File.separator;
+    public static final String s = File.separator;
 
 }
 

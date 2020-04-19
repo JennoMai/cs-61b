@@ -1,0 +1,20 @@
+
+    /** Creates a reference to the pre-existing repository at path.
+     *  Sets branch to master. */
+    Repository(String path) {
+        CWD = path;
+        GITLET = new File(CWD, ".gitlet");
+        OBJECTS = new File(GITLET, "objects");
+        COMMITS = new File(GITLET, "commits");
+        BRANCHES = new File(GITLET, "branches");
+        MASTER = _currBranch = new BranchFile(BRANCHES, "master");
+
+        if (!GITLET.exists()) {
+            throw new GitletException("A Gitlet repository has not been "
+            + "initialized at " + path);
+        }
+
+        if (!_currBranch.exists()) {
+            throw new GitletException("The specified branch does not exist.");
+        }
+    }

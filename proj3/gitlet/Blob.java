@@ -48,6 +48,6 @@ public class Blob implements Serializable {
     /** A unique string ID representing this blob. */
     private final String BLOB_ID;
     /** The file separator character. */
-    private final String s = File.separator;
+    private static final String S = File.separator;
 
 }

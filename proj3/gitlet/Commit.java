@@ -55,5 +55,5 @@ public class Commit implements Serializable {
     /** A unique String ID representing this commit. */
     private final String COMMIT_ID;
     /** The file separator character. */
-    private final String s = File.separator;
+    private static final String S = File.separator;
 }

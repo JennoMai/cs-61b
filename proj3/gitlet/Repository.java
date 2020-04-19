@@ -2,69 +2,56 @@ package gitlet;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.Serializable;
+
 import static gitlet.Utils.*;
 
 /** Instances of this class track and manage commits, branching, and merging.
  *  @author Jenny Mei
  */
-public class Repository {
+public class Repository implements Serializable {
 
     /** Initializes a new Gitlet repository in the working directory. */
     Repository() throws IOException {
         CWD = System.getProperty("user.dir");
-        GITLET = CWD + S + ".gitlet";
-        File dir = new File(GITLET);
-        if (dir.exists()) {
+        GITLET = new File(CWD, ".gitlet");
+        OBJECTS = new File(GITLET, "objects");
+        COMMITS = new File(GITLET, "commits");
+        BRANCHES = new File(GITLET, "branches");
+        MASTER = _currBranch = new BranchFile(BRANCHES, "master");
+
+        if (GITLET.exists()) {
             throw new GitletException("A Gitlet version-control system " +
                 "already exists in the current directory.");
         }
-        dir.mkdir();
 
-        BRANCHES = GITLET + S + "branches";
-        File branches = new File(BRANCHES);
-        branches.mkdir();
+        GITLET.mkdir();
+        BRANCHES.mkdir();
+        OBJECTS.mkdir();
+        COMMITS.mkdir();
 
-        OBJECTS = GITLET + S + "objects";
-        File objects = new File(OBJECTS);
-        objects.mkdir();
-
-        _currBranch = MASTER = BRANCHES + S + "master";
         branch("master");
+
         Commit initial = new Commit();
-        writeContents(new File(MASTER), initial.commit_ID());
+        File commitFile = new CommitFile(COMMITS, initial.commit_ID());
+        commitFile.createNewFile();
+        writeContents(MASTER, initial.commit_ID());
+        writeObject(commitFile, initial);
+
+        saveSettings();
     }
 
-    /** Creates a reference to the pre-existing repository at path.
-     *  Sets branch to master by default. */
-    Repository(String path) {
-        this(path, "master");
-    }
-
-    /** Creates a reference to the pre-existing repository at path.
-     *  Sets branch to the specified branch. */
-    Repository(String path, String branch) {
-        CWD = System.getProperty("user.dir");
-        GITLET = CWD + S + ".gitlet";
-        BRANCHES = GITLET + S + "branches";
-        OBJECTS = GITLET + S + "objects";
-        MASTER = BRANCHES + S + "master";
-        _currBranch = BRANCHES + S + branch;
-
-        File dir = new File(path);
-        if (!dir.exists()) {
-            throw new GitletException("A Gitlet repository has not been "
-            + "initialized at " + path);
+    private void saveSettings() throws IOException {
+        File repo = new File(GITLET, "repo");
+        if (!repo.exists()) {
+            repo.createNewFile();
         }
-
-        File currBranch = new File(_currBranch);
-        if (!currBranch.exists()) {
-            throw new GitletException("The specified branch does not exist.");
-        }
+        writeObject(repo, this);
     }
 
     /** Creates a branch in the commit tree under the folder .gitlet/branches. */
     public void branch(String name) throws IOException {
-        File newBranch = new File(BRANCHES + S + name);
+        BranchFile newBranch = new BranchFile(BRANCHES, name);
         if (newBranch.exists()) {
             throw new GitletException("A branch with that name already exists.");
         }
@@ -73,32 +60,36 @@ public class Repository {
     }
 
     public void switchBranch(String name) {
-        _currBranch = name;
+        _currBranch = new BranchFile(BRANCHES, name);
     }
 
-    /** Returns the commit ID of the head of the specified path.
-     *  @param branch The file path to the desired path. */
-    private String getHeadID(String branch) {
-        return readContentsAsString(new File(branch));
+    /** Returns the commit ID of the head of the specified branch. */
+    private String getHeadID(File branch) {
+        if (branch.getClass() != BranchFile.class) {
+            throw error("The specified file is not a branch.");
+        }
+        return readContentsAsString(branch);
     }
 
     /** The path of the current working directory. */
     private final String CWD;
-    /** The path of the .gitlet folder. */
-    private final String GITLET;
-    /** The path to the master branch file containing the latest head. */
-    private final String MASTER;
-    /** The path of the .gitlet/branches folder.
+    /** The .gitlet folder. */
+    private final File GITLET;
+
+    /** The .gitlet/branches folder.
      *  Contains files representing branches of the same name.
      *  Files hold the SHA-1 ID of their last commit. */
-    private final String BRANCHES;
-    /** The path of the .gitlet/objects folder.
+    private final File BRANCHES;
+    /** The .gitlet/commits folder. Contains serialized commits. */
+    private final File COMMITS;
+    /** The .gitlet/objects folder.
      *  Contains serialized files representing blobs with SHA-1 ID names. */
-    private final String OBJECTS;
-    /** A system-independent file separator character. */
-    private final String S = File.separator;
+    private final File OBJECTS;
 
-    /** The path to the current branch, a file containing
+    /** The master branch file containing the latest head. */
+    private final BranchFile MASTER;
+
+    /** The current branch, a file containing
      *  the commit ID of its head. */
-    private String _currBranch;
+    private BranchFile _currBranch;
 }
