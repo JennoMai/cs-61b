@@ -9,6 +9,12 @@ public class Main {
      *  <COMMAND> <OPERAND> .... */
     public static void main(String... args) {
         // FILL THIS IN
+        switch (args[0]) {
+        case ("init"):
+            new Repository();
+            break;
+        default:
+            System.out.println(args[0] + " NOT IMPLEMENTED YET.");
+        }
     }
-
 }

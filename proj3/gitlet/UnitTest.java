@@ -2,6 +2,9 @@ package gitlet;
 
 import ucb.junit.textui;
 import org.junit.Test;
+
+import java.io.File;
+
 import static org.junit.Assert.*;
 
 /** The suite of all JUnit tests for the gitlet package.
@@ -17,9 +20,15 @@ public class UnitTest {
 
     /** A dummy test to avoid complaint. */
     @Test
-    public void placeholderTest() {
-        Repository r = new Repository();
+    public void testInit() {
+        File repo = new File()
+        Main.main("init");
     }
+
+    /** The current working directory. */
+    public final String CWD = System.getProperty("user.dir");
+    /** System-independent file separator. */
+    public final String s = File.separator;
 
 }
 

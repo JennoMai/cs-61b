@@ -2,6 +2,7 @@ package gitlet;
 
 import java.io.File;
 import java.io.Serializable;
+import java.util.HashMap;
 import java.util.Map;
 
 /** This class tracks and manages commits, branching, and merging.
@@ -26,7 +27,7 @@ public class Repository implements Serializable {
 
     private Commit head;
     private boolean detached;
-    private Map<String, Branch> branches;
+    private HashMap<String, Branch> branches = new HashMap<>();
     private final String CWD;
 
     String s = File.separator;
