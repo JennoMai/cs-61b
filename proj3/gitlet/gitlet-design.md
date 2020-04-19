@@ -10,17 +10,18 @@
 *This class stores the content of files.*
 #### Fields
 - `private final File CURRENT_FILE`: The file corresponding to this blob.
-- `private final int BLOB_ID`: A unique integer ID representing this blob.
+- `private final byte[] FILE_CONTENTS`: A byte array representing the contents of CURRENT_FILE.
+- `private final String BLOB_ID`: A unique SHA-1 ID representing this blob.
 
 
 ### Commit
 *This class stores information about the state of a project.*
 #### Fields
 - `private String message`: The log message associated with this commit.
-- `private final Map<Integer, Blob> BLOBS`: A map of blobs referenced by this commit.
+- `private final HashSet<String> BLOBS`: A map of blobs referenced by this commit.
 - `private final Commit PARENT`: The parent of this commit.
-- `private final long TIMESTAMP`: An integer representing the commit time in Unix time.
-- `private final int COMMIT_ID`: A unique integer ID representing this commit.
+- `private final Instant TIMESTAMP`: A `Instant` representing the commit time in Unix time.
+- `private final String COMMIT_ID`: A unique String ID representing this commit.
 
 
 ### Branch
@@ -43,11 +44,11 @@
 
 ### Blob Methods
 - `Blob(String filePath)`: A constructor for the Blob class. Creates a `File` object, stored in `CURRENT_FILE`, of the file indicated by `filePath`.
-- `hashcode()`: Returns a unique hashcode for this Blob using SHA-1.
+- `blob_ID()`: Returns a unique ID for this Blob using SHA-1.
 
 ### Commit Methods
-- `Commit(Map<Integer, Blob> blobs)`: Creates a `Commit` containing the `Blob`s mapped to by `blobs`.
-- `hashcode()`: Returns a unique hashcode for this `Commit` using SHA-1.
+- `Commit(Hashset<String> blobs, String msg)`: Creates a `Commit` containing the `Blob`s mapped to by `blobs`.
+- `commit_ID()`: Returns a unique ID for this `Commit` using SHA-1.
 - `editMessage(String message)`: Changes the message for this `Commit`.
 
 ### Branch Methods
