@@ -4,6 +4,7 @@ import ucb.junit.textui;
 import org.junit.Test;
 
 import java.io.File;
+import java.io.IOException;
 
 import static org.junit.Assert.*;
 
@@ -20,9 +21,14 @@ public class UnitTest {
 
     /** A dummy test to avoid complaint. */
     @Test
-    public void testInit() {
-        File repo = new File()
+    public void testInit() throws IOException {
+        File repo = new File(CWD + s + ".gitlet");
+        if (repo.exists()) {
+            repo.delete();
+            assertFalse(repo.exists());
+        }
         Main.main("init");
+        assertTrue(repo.exists());
     }
 
     /** The current working directory. */

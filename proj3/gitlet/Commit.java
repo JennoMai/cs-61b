@@ -14,11 +14,12 @@ public class Commit implements Serializable {
 
     /** Creates an initial empty commit with no files. */
     Commit() {
-        this(new HashSet<String>(), "initial commit", Instant.EPOCH);
+        this(null, new HashSet<String>(), "initial commit", Instant.EPOCH);
     }
 
-    /** Creates a Commit containing the Blobs mapped to by blobs. */
-    Commit(HashSet<String> blobs, String msg, Instant timestamp) {
+    /** Creates a Commit containing the Blobs mapped to by blobs,
+     *  succeeding the specified parent commit. */
+    Commit(Commit parent, HashSet<String> blobs, String msg, Instant timestamp) {
         BLOBS.addAll(blobs);
         message = msg;
         TIMESTAMP = timestamp;

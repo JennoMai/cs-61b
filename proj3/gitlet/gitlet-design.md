@@ -24,13 +24,6 @@
 - `private final String COMMIT_ID`: A unique String ID representing this commit.
 
 
-### Branch
-*This class represents a branch in the commit tree.*
-#### Fields
-- `private String name`: The name of this branch.
-- `private Commit end`: A pointer to the most recent commit in the branch; the commit at the end of the branch. 
-
-
 ### Repository
 *This class tracks and manages commits, branching, and merging.*
 #### Fields
