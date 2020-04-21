@@ -15,6 +15,7 @@ public class Repository implements Serializable {
     Repository() throws IOException {
         CWD = System.getProperty("user.dir");
         GITLET = new File(CWD, ".gitlet");
+        STAGING = new File(GITLET, "staging");
         OBJECTS = new File(GITLET, "objects");
         COMMITS = new File(GITLET, "commits");
         BRANCHES = new File(GITLET, "branches");
@@ -26,6 +27,7 @@ public class Repository implements Serializable {
         }
 
         GITLET.mkdir();
+        STAGING.mkdir();
         BRANCHES.mkdir();
         OBJECTS.mkdir();
         COMMITS.mkdir();
@@ -49,6 +51,11 @@ public class Repository implements Serializable {
         writeObject(repo, this);
     }
 
+    private Commit getHeadCommit() {
+        String commitID = readContentsAsString(_currBranch);
+        return readObject(new File(COMMITS, commitID), Commit.class);
+    }
+
     /** Creates a branch in the commit tree under the folder .gitlet/branches. */
     public void branch(String name) throws IOException {
         BranchFile newBranch = new BranchFile(BRANCHES, name);
@@ -59,8 +66,33 @@ public class Repository implements Serializable {
         writeContents(newBranch, getHeadID(_currBranch));
     }
 
+    /** Switches the current active branch to a branch with specified name. */
     public void switchBranch(String name) {
         _currBranch = new BranchFile(BRANCHES, name);
+    }
+
+    /** Stages the specified file for addition, making a blob of that instance
+     *  and adding it to .gitlet/staging. */
+    public void stage(File file) throws IOException {
+        if (!file.exists()) {
+            throw new GitletException("File does not exist.");
+        }
+
+        Blob fileInstance = new Blob(file);
+        if (getHeadCommit().hasBlob(fileInstance.blob_ID())) {
+            System.out.println("No changes were made to this file." +
+            "File not staged.");
+            return;
+        }
+
+        File blobFile = new File(STAGING, fileInstance.blob_ID());
+        file.createNewFile();
+        writeObject(blobFile, fileInstance);
+    }
+
+    /** Stages the specified file for addition using the file path. */
+    public void stage(String file) throws IOException {
+        stage(new File(CWD, file));
     }
 
     /** Returns the commit ID of the head of the specified branch. */
@@ -75,6 +107,8 @@ public class Repository implements Serializable {
     private final String CWD;
     /** The .gitlet folder. */
     private final File GITLET;
+    /** The staging area folder, .gitlet/staging. */
+    private final File STAGING;
 
     /** The .gitlet/branches folder.
      *  Contains files representing branches of the same name.

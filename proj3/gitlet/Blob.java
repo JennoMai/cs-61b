@@ -14,8 +14,8 @@ public class Blob implements Serializable {
 
     /** A constructor for the Blob class.
      * Creates a File object, stored in CURRENT_FILE, of the file indicated by filePath.*/
-    Blob(String filePath) {
-        CURRENT_FILE = new File(filePath);
+    Blob(File file) {
+        CURRENT_FILE = file;
         FILE_CONTENTS = readContents(CURRENT_FILE);
         BLOB_ID = blob_ID();
     }

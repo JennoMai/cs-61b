@@ -46,6 +46,11 @@ public class Commit implements Serializable {
         message = msg;
     }
 
+    /** Checks if this commit contains the specified blob. */
+    public boolean hasBlob(String ID) {
+        return BLOBS.contains(ID);
+    }
+
     /** The log message associated with this commit. */
     private String message;
     /** A map to BLOB_IDs referenced by this commit. */
