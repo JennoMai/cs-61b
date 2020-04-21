@@ -26,7 +26,7 @@ import java.util.HashSet;
  * expression implementations, it's just something we've chosen to add. '\d' is,
  * however, standard and that should work as you've learned from lecture.
  *
- * @author
+ * @author Jenny Mei
  *
  *
  * */
@@ -69,7 +69,6 @@ public class NFA {
 
 
     /** The internal States in an NFA. */
-    // TODO: Read this inner class, then you may delete this comment
     private class State {
 
         /**
@@ -102,7 +101,18 @@ public class NFA {
          * return an empty Set. */
         public Set<State> successors(char c) {
             // TODO: Implement this method
-            return new HashSet<State>();
+            Set<State> states = new HashSet<>();
+            if (!_edges.containsKey(c)) {
+                return new HashSet<>();
+            } else if (c == EPSILON) {
+                states.addAll(_edges.get(c));
+                for (State neighbor : _edges.get(c)) {
+                    states.addAll(neighbor.successors(EPSILON));
+                }
+            } else {
+                states.addAll(_edges.get(c));
+            }
+            return states;
         }
 
         /**
@@ -360,7 +370,25 @@ public class NFA {
      * @return whether or not the string S is accepted by this NFA. */
     public boolean matches(String s) {
         // TODO: write the matching algorithm
-        return true;
+        Set<State> initialStates = new HashSet<>();
+        initialStates.add(_startState);
+        initialStates.addAll(_startState.successors(EPSILON));
+        Set<State> processedStates = new HashSet<>();
+        for (int i = 0; i < s.length(); i += 1) {
+            Character c = s.charAt(i);
+            for (State state : initialStates) {
+                processedStates.addAll(state.successors(c));
+            }
+            initialStates.clear();
+            for (State state : processedStates) {
+                initialStates.add(state);
+                initialStates.addAll(state.successors(EPSILON));
+            }
+
+            processedStates.clear();
+        }
+
+        return initialStates.contains(_acceptState);
     }
 
     /** Returns the pattern used to make this NFA. */
